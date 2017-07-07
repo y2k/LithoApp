@@ -3,6 +3,7 @@ package y2k.example.litho
 import android.os.AsyncTask
 import android.os.Handler
 import android.os.Looper
+import java.net.URL
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.experimental.*
@@ -10,6 +11,11 @@ import kotlin.coroutines.experimental.*
 /**
  * Created by y2k on 07/07/2017.
  **/
+
+object Net {
+
+    suspend fun readText(url: URL): String = task { url.readText() }
+}
 
 private val htmlRegex = Regex("&#(\\d+);")
 

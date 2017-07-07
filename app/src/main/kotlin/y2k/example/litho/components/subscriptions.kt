@@ -9,10 +9,10 @@ import com.facebook.litho.widget.Recycler
 import com.facebook.litho.widget.RecyclerBinder
 import com.facebook.litho.widget.Text
 import com.facebook.yoga.YogaEdge
-import y2k.example.litho.Loader
 import y2k.example.litho.RssSubscription
 import y2k.example.litho.Subscriptions
 import y2k.example.litho.launch
+import y2k.example.litho.Loader as L
 
 /**
  * Created by y2k on 06/07/2017.
@@ -29,11 +29,11 @@ class MainComponentSpec {
         }
 
         @OnCreateInitialState @JvmStatic
-        fun createInitialState(c: ComponentContext, state: StateValue<Subscriptions>) {
-            launch {
-                state.set(emptyList())
-                MainComponent.reloadAsync(c, Loader.getSubscriptions())
-            }
+        fun createInitialState(c: ComponentContext, state: StateValue<Subscriptions>) = launch {
+            state.set(emptyList())
+
+            L.getSubscriptions()
+                .let { MainComponent.reload(c, it) }
         }
 
         @OnCreateLayout @JvmStatic

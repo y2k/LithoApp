@@ -37,15 +37,11 @@ object Parser {
 
 object Loader {
 
-    suspend fun getSubscriptions(): Subscriptions = task {
-        URL("https://blog.jetbrains.com/")
-            .readText()
+    suspend fun getSubscriptions(): Subscriptions =
+        Net.readText(URL("https://blog.jetbrains.com/"))
             .let(Parser::parserSubscriptions)
-    }
 
-    suspend fun getEntities(url: String): Entities = task {
-        URL(url)
-            .readText()
+    suspend fun getEntities(url: String): Entities =
+        Net.readText(URL(url))
             .let(Parser::parseEntities)
-    }
 }
