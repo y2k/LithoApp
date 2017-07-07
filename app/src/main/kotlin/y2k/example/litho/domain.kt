@@ -32,6 +32,7 @@ object Parser {
                     url = it.absUrl("href"),
                     image = "TODO")
             }
+            .map { it.copy(title = it.title.replace(" Blog", "")) }
 }
 
 object Loader {
