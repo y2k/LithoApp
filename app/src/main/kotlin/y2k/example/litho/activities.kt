@@ -7,6 +7,7 @@ import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.litho.ComponentContext
 import com.facebook.litho.LithoView
 import com.facebook.soloader.SoLoader
+import y2k.example.litho.components.MainComponent
 
 /**
  * Created by y2k on 07/07/2017.

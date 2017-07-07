@@ -1,93 +1,50 @@
 package y2k.example.litho
 
-import android.graphics.Color
-import android.widget.Toast
-import com.facebook.litho.*
-import com.facebook.litho.annotations.*
-import com.facebook.litho.widget.Progress
-import com.facebook.litho.widget.Recycler
-import com.facebook.litho.widget.RecyclerBinder
-import com.facebook.litho.widget.Text
-import com.facebook.yoga.YogaEdge
+import org.jsoup.Jsoup
+import java.net.URL
 
 /**
- * Created by y2k on 06/07/2017.
+ * Created by y2k on 07/07/2017.
  **/
 
-@LayoutSpec
-class MainComponentSpec {
+typealias Entities = List<Entity>
+typealias Subscriptions = List<RssSubscription>
+data class Entity(val title: String, val description: String)
+data class RssSubscription(val title: String, val url: String, val image: String)
 
-    companion object {
+object Parser {
 
-        @OnUpdateState @JvmStatic
-        fun reload(state: StateValue<Subscriptions>, @Param newState: Subscriptions) {
-            state.set(newState)
-        }
-
-        @OnCreateInitialState @JvmStatic
-        fun createInitialState(c: ComponentContext, state: StateValue<Subscriptions>) {
-            launch {
-                state.set(emptyList())
-                MainComponent.reloadAsync(c, Loader.getSubscriptions())
+    fun parseEntities(rss: String): Entities =
+        Jsoup.parse(rss)
+            .select("item")
+            .map {
+                Entity(
+                    it.select("title").text(),
+                    it.select("description").text().unescapeHtml())
             }
-        }
 
-        @OnCreateLayout @JvmStatic
-        fun onCreateLayout(c: ComponentContext, @State state: Subscriptions): ComponentLayout {
-            return when (state.isEmpty()) {
-                true ->
-                    Column.create(c)
-                        .paddingDip(YogaEdge.ALL, 16)
-                        .backgroundColor(Color.WHITE)
-                        .child(Progress.create(c)
-                            .color(Color.GRAY))
-                        .build()
-                false -> {
-                    val recyclerBinder = RecyclerBinder(c)
-                    state.forEachIndexed { i, x ->
-                        recyclerBinder.insertItemAt(i, ItemComponent.create(c)
-                            .item(x)
-                            .build())
-                    }
-
-                    return Recycler.create(c)
-                        .binder(recyclerBinder)
-                        .buildWithLayout()
-                }
+    fun parserSubscriptions(html: String): Subscriptions =
+        Jsoup.parse(html)
+            .select("ul#menu-jetbrains-product-blogs a")
+            .map {
+                RssSubscription(
+                    title = it.text(),
+                    url = it.absUrl("href"),
+                    image = "TODO")
             }
-        }
-    }
 }
 
-@LayoutSpec
-class ItemComponentSpec {
+object Loader {
 
-    companion object {
+    suspend fun getSubscriptions(): Subscriptions = task {
+        URL("https://blog.jetbrains.com/")
+            .readText()
+            .let(Parser::parserSubscriptions)
+    }
 
-        @JvmStatic @OnCreateLayout
-        fun onCreateLayout(c: ComponentContext, @Prop item: RssSubscription): ComponentLayout {
-            return Column.create(c)
-                .paddingDip(YogaEdge.ALL, 16)
-                .backgroundColor(Color.WHITE)
-                .child(Text.create(c)
-                    .text(item.title)
-                    .textSizeSp(35f))
-//                .child(FrescoImage.create(c)
-//                    .controller(Fresco.newDraweeControllerBuilder()
-//                        .setUri("http://img1.joyreactor.cc/pics/post/-3936507.jpeg")
-//                        .build())
-//                    .aspectRatio(1f)
-//                    .buildWithLayout())
-                .child(Text.create(c)
-                    .text(item.url)
-                    .textSizeSp(20f))
-                .clickHandler(ItemComponent.onItemClicked(c, item))
-                .build()
-        }
-
-        @OnEvent(ClickEvent::class) @JvmStatic
-        fun onItemClicked(c: ComponentContext, @Param item: RssSubscription) {
-            Toast.makeText(c, "Clicked ($item)", Toast.LENGTH_SHORT).show()
-        }
+    suspend fun getEntities(url: String): Entities = task {
+        URL(url)
+            .readText()
+            .let(Parser::parseEntities)
     }
 }
