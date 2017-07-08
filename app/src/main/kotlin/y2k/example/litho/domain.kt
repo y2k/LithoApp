@@ -10,8 +10,9 @@ import java.net.URL
 
 typealias Entities = List<Entity>
 typealias Subscriptions = List<RssSubscription>
-data class Entity(val title: String, val description: String, val url: URL)
+data class Entity(val title: String, val description: String, val url: URL, val image: Image?)
 data class RssSubscription(val title: String, val url: URL, val image: String) : Serializable
+data class Image(val url: URL, val width: Int, val height: Int)
 
 object Parser {
 
@@ -19,10 +20,18 @@ object Parser {
         Jsoup.parse(rss)
             .select("item")
             .map {
+                val desc = it.select("description").text().unescapeHtml()
+
+                val content = it.text()
+                val image = "<img src=\"([^\"]+)\" alt=\"[^\"]+\" width=\"(\\d+)\" height=\"(\\d+)".toRegex()
+                    .find(content)?.groupValues
+                    ?.let { Image(URL(it[1]), it[2].toInt(), it[3].toInt()) }
+
                 Entity(
-                    it.select("title").text(),
-                    it.select("description").text().unescapeHtml(),
-                    it.select("link").first().nextSibling().toString().let(::URL))
+                    title = it.select("title").text(),
+                    description = desc,
+                    url = it.select("link").first().nextSibling().toString().let(::URL),
+                    image = image)
             }
 
     fun parserSubscriptions(html: String): Subscriptions =
