@@ -1,6 +1,7 @@
 package y2k.example.litho
 
 import org.jsoup.Jsoup
+import java.io.Serializable
 import java.net.URL
 
 /**
@@ -10,7 +11,7 @@ import java.net.URL
 typealias Entities = List<Entity>
 typealias Subscriptions = List<RssSubscription>
 data class Entity(val title: String, val description: String)
-data class RssSubscription(val title: String, val url: String, val image: String)
+data class RssSubscription(val title: String, val url: String, val image: String) : Serializable
 
 object Parser {
 

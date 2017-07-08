@@ -1,7 +1,7 @@
 package y2k.example.litho.components
 
+import android.content.Intent
 import android.graphics.Color
-import android.widget.Toast
 import com.facebook.litho.*
 import com.facebook.litho.annotations.*
 import com.facebook.litho.widget.Progress
@@ -9,6 +9,7 @@ import com.facebook.litho.widget.Recycler
 import com.facebook.litho.widget.RecyclerBinder
 import com.facebook.litho.widget.Text
 import com.facebook.yoga.YogaEdge
+import y2k.example.litho.EntitiesActivity
 import y2k.example.litho.RssSubscription
 import y2k.example.litho.Subscriptions
 import y2k.example.litho.launch
@@ -91,7 +92,9 @@ class ItemComponentSpec {
 
         @OnEvent(ClickEvent::class) @JvmStatic
         fun onItemClicked(c: ComponentContext, @Param item: RssSubscription) {
-            Toast.makeText(c, "Clicked ($item)", Toast.LENGTH_SHORT).show()
+            Intent(c, EntitiesActivity::class.java)
+                .putExtra("data", item)
+                .let { c.startActivity(it) }
         }
     }
 }
