@@ -1,0 +1,666 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+     xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+>
+
+    <channel>
+        <title>.NET Tools Blog</title>
+        <atom:link href="https://blog.jetbrains.com/dotnet/feed/" rel="self" type="application/rss+xml"/>
+        <link>https://blog.jetbrains.com/dotnet</link>
+        <description>JetBrains tools for .NET developers and Visual Studio users</description>
+        <lastBuildDate>Thu, 29 Jun 2017 16:06:13 +0000</lastBuildDate>
+        <language>en-US</language>
+        <sy:updatePeriod>hourly</sy:updatePeriod>
+        <sy:updateFrequency>1</sy:updateFrequency>
+        <generator>https://wordpress.org/?v=4.4.10</generator>
+        <item>
+            <title>Rider EAP 24 includes performance fixes, F# Interactive</title>
+            <link>https://blog.jetbrains.com/dotnet/2017/06/29/rider-eap-24-includes-performance-fixes-f-interactive/
+            </link>
+            <comments>
+                https://blog.jetbrains.com/dotnet/2017/06/29/rider-eap-24-includes-performance-fixes-f-interactive/#comments
+            </comments>
+            <pubDate>Thu, 29 Jun 2017 16:06:13 +0000</pubDate>
+            <dc:creator><![CDATA[Jura Gorohovsky]]></dc:creator>
+            <category><![CDATA[How-To's]]></category>
+            <category><![CDATA[ASP.NET]]></category>
+            <category><![CDATA[code analysis and quick-fixes]]></category>
+            <category><![CDATA[EAP]]></category>
+            <category><![CDATA[F#]]></category>
+            <category><![CDATA[Rider]]></category>
+            <category><![CDATA[Unity]]></category>
+
+            <guid isPermaLink="false">http://blog.jetbrains.com/dotnet/?p=15527</guid>
+            <description><![CDATA[<p>We have a new Rider EAP build for you today. Highlights of this build include performance and memory consumption fixes, Unity support improvements, and F# Interactive, accompanied by a few dozens of bug fixes. Performance fixes Last week, we were &#8230; <a href="https://blog.jetbrains.com/dotnet/2017/06/29/rider-eap-24-includes-performance-fixes-f-interactive/">Continue reading <span class="meta-nav">&#8594;</span></a></p>
+<p>The post <a rel="nofollow" href="https://blog.jetbrains.com/dotnet/2017/06/29/rider-eap-24-includes-performance-fixes-f-interactive/">Rider EAP 24 includes performance fixes, F# Interactive</a> appeared first on <a rel="nofollow" href="https://blog.jetbrains.com/dotnet">.NET Tools Blog</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<p>We have a <strong><a href="https://www.jetbrains.com/rider/download/">new Rider EAP build</a></strong> for you today. Highlights of this build include performance and memory consumption fixes, Unity support improvements, and <em>F# Interactive</em>, accompanied by a few <a href="https://youtrack.jetbrains.com/issues/RIDER?q=%23Resolved%20Fixed%20in%20Release:%20%7BEAP%2024%7D">dozens of bug fixes</a>.</p>
+<p><span id="more-15527"></span></p>
+<h2>Performance fixes</h2>
+<p>Last week, we were put to shame due to a performance impact that Rider was incurring on <a href="https://github.com/ravendb/ravendb">RavenDB</a> development:</p>
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">My requirement for IDE in 2017,  don&#39;t make me wait. <a href="https://twitter.com/VisualStudio">@VisualStudio</a> and <a href="https://twitter.com/JetBrainsRider">@JetBrainsRider</a> both get into 30+ sec wait on regular basis, very sad</p>
+<p>&mdash; ayende (@ayende) <a href="https://twitter.com/ayende/status/877374152545628162">June 21, 2017</a></p></blockquote>
+<p><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<p>Investigating the report revealed <a href="https://youtrack.jetbrains.com/issues?q=links:%20rider-7288">a set of problems</a>, and although we&#8217;re unable to fix all of them right away, we did get rid of some:</p>
+<ul>
+<li>We modified the caching workflow so that files that are not part of a solution aren&#8217;t processed multiple times.</li>
+<li>We fixed a memory problem whereby the file structure model would be stored in memory even without opening the <em>Structure</em> view. This should help tone down memory consumption when opening large files in the editor.</li>
+<li>We optimized handling of external file changes, such as those that occur when you switch to a different Git branch.</li>
+<li>We made the Unity plugin behave, and it should no longer track file changes in projects that have nothing to do with Unity (on larger solutions, this alone is expected to cut loading times down by 5-10 seconds.)
+</ul>
+<p>The fixes should hopefully make development in Rider a smoother experience on larger solutions, especially those containing large volumes of JavaScript or TypeScript code.</p>
+<p>The RavenDB case helped reveal more problems that will take more time to get addressed, which means we&#8217;ll be planning some architectural changes in ReSharper and Rider for further releases later this year.</p>
+<h2>F# Interactive</h2>
+<p>You can now use the <em>F# Interactive</em> tool window for F# scripting: both without ever leaving the console and by throwing selected lines or selections from the text editor. There&#8217;s a separate keyboard shortcut to send to <em>F# Interactive</em>, and the action is also available in Rider&#8217;s mainstream <kbd>Alt+Enter</kbd> menu:<br />
+<img src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/fsharp_interactive_and_editor.png" alt="F# Interactive window and editor actions" width="701" height="495" class="alignnone size-full wp-image-15543" /></p>
+<h2>Unity support changes</h2>
+<p>First off, there&#8217;s something that we had done for EAP 23 but didn&#8217;t have a chance to talk about. We have recently refactored two separate Rider plugins for Unity into one plugin that:</p>
+<ol>
+<li>Is bundled with Rider;</li>
+<li>Installs a Unity Editor extension once you open a Unity solution in Rider.</li>
+</ol>
+<p>In other Unity news, when opening a Unity solution, you will be prompted to disable Rider&#8217;s auto-save feature to prevent frequent recompilation, and Rider will in fact make these configuration changes for you:<br />
+<img src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/unity_autosave_disabled-1.png" alt="Unity plugin helps disable auto-save in Rider" width="360" height="133" class="alignnone size-full wp-image-15539" /></p>
+<h2>More improvements</h2>
+<ul>
+<li>In the <strong>application menu</strong>, we have merged <em>File > Open</em> with <em>File > Recent Projects</em> for a single list that works whether or not you have a history of opening the solution that you&#8217;re currently looking for.<br />
+<img src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/rider_open_recent.png" alt="File | Open includes recent solutions" width="495" height="303" class="alignnone size-full wp-image-15547" />
+</li>
+<li><strong>Web.config and app.config</strong> received improved support with validation and completion for tags and attributes, as well as automatic insertion of required config sections.<br />
+<img src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/web.config_preview.png" alt="Required items auto-inserted in web.config" width="648" height="265" data-gif-src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/web.config.gif">
+</li>
+</ul>
+<h2>Download and try</h2>
+<p><strong>Please <a href="https://www.jetbrains.com/rider/download/">download the latest Rider EAP build</a></strong> and give it a try. Do submit any exceptions that you encounter: it&#8217;s essential for us to have a profile of current exceptions before we switch to production builds as we wrap up for the release.</p>
+<p>The post <a rel="nofollow" href="https://blog.jetbrains.com/dotnet/2017/06/29/rider-eap-24-includes-performance-fixes-f-interactive/">Rider EAP 24 includes performance fixes, F# Interactive</a> appeared first on <a rel="nofollow" href="https://blog.jetbrains.com/dotnet">.NET Tools Blog</a>.</p>
+]]></content:encoded>
+            <wfw:commentRss>
+                https://blog.jetbrains.com/dotnet/2017/06/29/rider-eap-24-includes-performance-fixes-f-interactive/feed/
+            </wfw:commentRss>
+            <slash:comments>10</slash:comments>
+        </item>
+        <item>
+            <title>Rider EAP 23: .NET Core debugger is back, Code Cleanup, and more</title>
+            <link>https://blog.jetbrains.com/dotnet/2017/06/16/rider-eap-23-net-core-debugger-back-code-cleanup/</link>
+            <comments>
+                https://blog.jetbrains.com/dotnet/2017/06/16/rider-eap-23-net-core-debugger-back-code-cleanup/#comments
+            </comments>
+            <pubDate>Fri, 16 Jun 2017 18:56:08 +0000</pubDate>
+            <dc:creator><![CDATA[Jura Gorohovsky]]></dc:creator>
+            <category><![CDATA[How-To's]]></category>
+            <category><![CDATA[.NET Core]]></category>
+            <category><![CDATA[ASP.NET]]></category>
+            <category><![CDATA[C#]]></category>
+            <category><![CDATA[code analysis and quick-fixes]]></category>
+            <category><![CDATA[code style]]></category>
+            <category><![CDATA[debugger]]></category>
+            <category><![CDATA[EAP]]></category>
+            <category><![CDATA[F#]]></category>
+            <category><![CDATA[Rider]]></category>
+            <category><![CDATA[unit testing]]></category>
+            <category><![CDATA[VB.NET]]></category>
+
+            <guid isPermaLink="false">http://blog.jetbrains.com/dotnet/?p=15449</guid>
+            <description><![CDATA[<p>There&#8217;s a new Rider EAP build available for download, and it&#8217;s full of changes, large and small, including Code Cleanup, new project and solution settings, VB.NET project templates, F# unit testing, an updated console, per-framework Solution Wide Analysis results, as &#8230; <a href="https://blog.jetbrains.com/dotnet/2017/06/16/rider-eap-23-net-core-debugger-back-code-cleanup/">Continue reading <span class="meta-nav">&#8594;</span></a></p>
+<p>The post <a rel="nofollow" href="https://blog.jetbrains.com/dotnet/2017/06/16/rider-eap-23-net-core-debugger-back-code-cleanup/">Rider EAP 23: .NET Core debugger is back, Code Cleanup, and more</a> appeared first on <a rel="nofollow" href="https://blog.jetbrains.com/dotnet">.NET Tools Blog</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<p>There&#8217;s a <strong><a href="https://www.jetbrains.com/rider/download/">new Rider EAP build</a></strong> available for download, and it&#8217;s full of changes, large and small, including Code Cleanup, new project and solution settings, VB.NET project templates, F# unit testing, an updated console, per-framework Solution Wide Analysis results, as well as <a href="https://youtrack.jetbrains.com/issues/RIDER?q=%23Resolved%20Fixed%20in%20Release:%20%7BEAP%2023%7D">hundreds of bug fixes</a>.</p>
+<p>However, one thing clearly stands out:</p>
+<h2>.NET Core debugger is back on Mac and Linux</h2>
+<p>Back in February, we were forced to temporarily disable .NET Core debugging due to a licensing issue (for a recap, <a href="https://blog.jetbrains.com/dotnet/2017/02/15/rider-eap-17-nuget-unit-testing-build-debugging/">here&#8217;s what happened</a>). Restoring the functionality on Windows was fairly straightforward (it only <a href="https://blog.jetbrains.com/dotnet/2017/02/23/rider-eap-18-coreclr-debugging-back-windows/">took us one week</a>); Mac and Linux, not so much.</p>
+<p>Finally, following a few months of reading, writing and debugging code, scratching heads, testing and fixing, we&#8217;re ready to roll it out: you can debug .NET Core on OS X and Linux again.</p>
+<p><img class="alignnone size-full wp-image-15470" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/net_core_debugging_mac.png" alt=".NET Core debugging on Mac and Linux is back" width="760" height="535" /><br />
+<span id="more-15449"></span><br />
+What else to say? Thanks for bearing with us.</p>
+<p>In related news, Rider can now use MSBuild shipped with .NET Core SDK. In practical terms, what it means is that you no longer need Visual Studio on Windows or Mono on Mac/Linux to open and build .NET Core projects with Rider.</p>
+<p>Rider has received <strong>more debugger improvements</strong> in this build, such as the following:</p>
+<ul>
+<li>.NET Core debugger&#8217;s <em>Console</em> view is working again on Windows, Mac, and Linux, including input/output redirection.</li>
+<li>There&#8217;s now a <em>Results</em> view in <em>Variables</em> for enumerables where items are enumerated and shown as a list.</li>
+<li>Backing fields are no longer shown as duplicate items in the <em>Variables</em> tab.</li>
+<li>30+ more <a href="https://youtrack.jetbrains.com/issues/RIDER?q=%23Resolved%20Fixed%20in%20Release:%20%7BEAP%2023%7D%20Subsystem:%20Debug%20">debugger fixes</a>, including an annoying issue resolving breakpoints to symbol documents (<a href="https://youtrack.jetbrains.com/issue/RIDER-6330">RIDER-6330</a>).</li>
+</ul>
+<h2>Code Cleanup</h2>
+<p>Rider thrives on making <a href="https://www.jetbrains.com/resharper/">ReSharper</a> features available on the IntelliJ platform. However, some ReSharper features (especially if they involve custom UI) require substantial porting effort, and <a href="https://www.jetbrains.com/help/resharper/Code_Cleanup__Index.html">Code Cleanup</a> is certainly one of these. However, in this EAP, we&#8217;re finally introducing the initial implementation of Rider&#8217;s own Code Cleanup:<br />
+<img class="alignnone size-full wp-image-15455" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/code_cleanup.png" alt="Code Cleanup" width="478" height="287" /></p>
+<p>Depending on the selected cleanup profile and your preferences, applying Code Cleanup on a file or a wider scope will simply reformat your code, or additionally apply code style rules and remove code redundancies: the list of actions that Code Cleanup supports is <a href="https://www.jetbrains.com/help/resharper/Code_Cleanup__Index.html#tasks">really long</a>.</p>
+<p>As of this EAP, Rider&#8217;s Code Cleanup doesn&#8217;t let you customize profiles (this is work in progress) but if your solution contains saved ReSharper settings, Rider will respect them and expose cleanup profiles that are defined in them.</p>
+<h2>F# unit testing and more improvements</h2>
+<p>Rider&#8217;s F# plugin has received a few notable improvements that make use of the underlying ReSharper infrastructure.</p>
+<p>You can now <strong>run and debug NUnit or xUnit unit tests</strong>. Tests and test fixtures are discovered, highlighted in the editor, and are available to run, debug or add to sessions via the <strong><kbd>Alt+Enter</kbd></strong> menu. If necessary, you can run tests written in C#, VB.NET and F# in the same test session.<br />
+<img class="alignnone size-full wp-image-15506" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/fsharp_tests.png" alt="Rider discovers and runs F# unit tests" width="766" height="326" /></p>
+<p>Rider&#8217;s <em>Extend Selection</em> and <em>Shrink Selection</em> are now available in F# code, letting you successively select expanding logical blocks of code, and vice versa.</p>
+<p>Finally, Rider learns to take F# code into account when it looks up your solution for to-do items and displays them in the <em>TODO</em> view:<br />
+<img class="alignnone size-full wp-image-15507" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/fsharp_todo.png" alt="To-do Explorer supports F#" width="766" height="338" /></p>
+<h2>Target frameworks in Solution-Wide Analysis</h2>
+<p>Rider&#8217;s Solution-Wide Analysis has been extended to understand target frameworks. If your solution contains code targeting multiple frameworks (such as .NET Core and .NET Framework, or multiple versions of .NET Framework), the <em>Errors in Solution</em> tool window will let you filter errors by framework, or, if you choose to show errors that affect all frameworks, you can see which target frameworks are affected by each particular error.<br />
+<img class="alignnone size-full wp-image-15485" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/swa_frameworks.png" alt="Target frameworks in the Errors in Solution view" width="776" height="320" /></p>
+<p>You don&#8217;t always want to display target frameworks under all error items, and you can toggle this presentation with the <em>Show Frameworks in Tree</em> toggle button in the toolbar.</p>
+<h2>Projects and settings</h2>
+<p>We have reworked the <em>Project Properties</em> window to make it accommodate more project configuration items and have a saner UI:<br />
+<img class="alignnone size-full wp-image-15456" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/project_properties.png" alt="Project Properties window" width="616" height="528" /></p>
+<p>On a related note, there&#8217;s now a <em>Solution Properties</em> window that lists and lets you manage debug/release build configurations available on solution level and and per-project:<br />
+<img class="alignnone size-full wp-image-15475" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/solution_properties.png" alt="Solution Properties window" width="652" height="389" /></p>
+<p>Rider allows creating quite an array of various .NET project types, but prior to this build, the list didn&#8217;t include any <strong>VB.NET project templates</strong>. This is now fixed as class library and console application templates are available for VB.NET:<br />
+<img class="alignnone size-full wp-image-15460" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/vb_projects.png" alt="VB.NET project templates" width="792" height="435" /></p>
+<p>We are putting considerable effort into clearly notifying you about any required toolsets, SDKs and other components that Rider needs to operate correctly. In this EAP, we have introduced a set of diagnostic notifications that Rider shows when it fails to load projects in your solutions:<br />
+<img class="alignnone size-full wp-image-15480" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/notifications.png" alt="Notifications on project load failure" width="678" height="300" /></p>
+<h2>Web.config and MSBuild files</h2>
+<p>This EAP improves support for <strong>web.config</strong> (and whatever.config) files: we have brought a set of Rider&#8217;s XML features to <em>.config</em> files, such as typing assistance, tag and attribute completion, navigation to namespaces, code formatting, and XML structure view in the editor:<br />
+<img class="alignnone size-full wp-image-15461" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/web.config.png" alt="IntelliSense in web.config" width="796" height="422" /></p>
+<p>On a related note, a built-in XML schema for <strong>MSBuild files</strong> (<em>.csproj</em>, <em>.targets</em> etc.) improves XML validation and enables smart code completion.</p>
+<h2>Reworked console</h2>
+<p>The console that Rider shows in the <em>Run</em> tool window has been reworked, which hopefully removes a series of annoying bugs such as weird characters on executing <code>Console.ReadLine()</code>, broken <code>Console.ReadKey()</code>, and incorrect cursor behavior.<br />
+<img class="alignnone size-full wp-image-15500" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/rider_terminal.gif" alt="New Rider console" width="647" height="266" /></p>
+<h2>More improvements</h2>
+<ul>
+<li><em>Search Everywhere</em> now understands <strong>combo searches</strong> that are separated by dot (in addition to whitespace separators):<br />
+<img class="alignnone size-full wp-image-15463" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/search_everywhere.png" alt="Search Everywhere supports dot delimiters" width="620" height="346" /></li>
+<li>The <em>Refactor</em> submenu in context menus now properly displays <strong>ReSharper refactorings</strong> where applicable. This also makes refactorings available in the <em>Structure</em> view:<br />
+<img class="alignnone size-full wp-image-15503" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/structure_refactorings-1.png" alt="Refactorings in Structure view" width="776" height="429" /></li>
+<li>Various fixes in <strong>code highlighting</strong>: no more empty tooltips; less literal highlighter blinking; better highlighting across color schemes; no more duplicating <em>Colors &amp; Fonts</em> settings pages for web languages.</li>
+<li>We finally stopped showing IDE theme samples written in Java when you launch Rider for the first time <img src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></li>
+</ul>
+<h2>The obligatory closing paragraph</h2>
+<p><strong><a href="https://www.jetbrains.com/rider/download/">Get the latest Rider EAP build</a></strong> and try it out. Please reach out to us if you face any critical issues.</p>
+<p>The post <a rel="nofollow" href="https://blog.jetbrains.com/dotnet/2017/06/16/rider-eap-23-net-core-debugger-back-code-cleanup/">Rider EAP 23: .NET Core debugger is back, Code Cleanup, and more</a> appeared first on <a rel="nofollow" href="https://blog.jetbrains.com/dotnet">.NET Tools Blog</a>.</p>
+]]></content:encoded>
+            <wfw:commentRss>
+                https://blog.jetbrains.com/dotnet/2017/06/16/rider-eap-23-net-core-debugger-back-code-cleanup/feed/
+            </wfw:commentRss>
+            <slash:comments>21</slash:comments>
+        </item>
+        <item>
+            <title>Installation issues? Get ReSharper Ultimate 2017.1.3</title>
+            <link>https://blog.jetbrains.com/dotnet/2017/06/14/installation-issues-get-resharper-ultimate-2017-1-3/
+            </link>
+            <comments>
+                https://blog.jetbrains.com/dotnet/2017/06/14/installation-issues-get-resharper-ultimate-2017-1-3/#comments
+            </comments>
+            <pubDate>Wed, 14 Jun 2017 18:50:41 +0000</pubDate>
+            <dc:creator><![CDATA[Jura Gorohovsky]]></dc:creator>
+            <category><![CDATA[How-To's]]></category>
+            <category><![CDATA[ReSharper]]></category>
+            <category><![CDATA[ReSharper 2017.1]]></category>
+            <category><![CDATA[ReSharper Ultimate]]></category>
+
+            <guid isPermaLink="false">http://blog.jetbrains.com/dotnet/?p=15440</guid>
+            <description><![CDATA[<p>Are you having issues installing ReSharper in the last few days? Does the ReSharper installer complain that it doesn&#8217;t find any zones exactly matching 15.something? If this is what you&#8217;re seeing, then get ReSharper Ultimate 2017.1.3. Looks like that the &#8230; <a href="https://blog.jetbrains.com/dotnet/2017/06/14/installation-issues-get-resharper-ultimate-2017-1-3/">Continue reading <span class="meta-nav">&#8594;</span></a></p>
+<p>The post <a rel="nofollow" href="https://blog.jetbrains.com/dotnet/2017/06/14/installation-issues-get-resharper-ultimate-2017-1-3/">Installation issues? Get ReSharper Ultimate 2017.1.3</a> appeared first on <a rel="nofollow" href="https://blog.jetbrains.com/dotnet">.NET Tools Blog</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<p>Are you having issues installing ReSharper in the last few days? Does the ReSharper installer complain that it <em>doesn&#8217;t find any zones exactly matching 15.something</em>?</p>
+<p><img src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/resharper_installer_no_zones_exactly_matching.png" alt="ReSharper installer error" width="623" height="281" class="alignnone size-full wp-image-15441" /></p>
+<p>If this is what you&#8217;re seeing, then <strong><a href="https://www.jetbrains.com/resharper/download/">get ReSharper Ultimate 2017.1.3</a></strong>. Looks like that the latest Visual Studio 2017 Preview (15.3) has changed its internal versioning, which affected stable Visual Studio versions installed on the same machine, which ReSharper had no way of being aware of. With this ReSharper update, the problem should be gone.</p>
+<p>Other than a fix to the installer issues, there&#8217;s essentially nothing else in this update: if you have not installed and are not planning to install a Visual Studio 2017 Preview build, then you can safely skip this ReSharper update.</p>
+<p><em>Note to ReSharper 2017.2 EAP users</em>: the latest <a href="https://www.jetbrains.com/resharper/eap/">ReSharper Ultimate 2017.2 EAP build</a> released last week already contains the necessary fixes.</p>
+<p>The post <a rel="nofollow" href="https://blog.jetbrains.com/dotnet/2017/06/14/installation-issues-get-resharper-ultimate-2017-1-3/">Installation issues? Get ReSharper Ultimate 2017.1.3</a> appeared first on <a rel="nofollow" href="https://blog.jetbrains.com/dotnet">.NET Tools Blog</a>.</p>
+]]></content:encoded>
+            <wfw:commentRss>
+                https://blog.jetbrains.com/dotnet/2017/06/14/installation-issues-get-resharper-ultimate-2017-1-3/feed/
+            </wfw:commentRss>
+            <slash:comments>4</slash:comments>
+        </item>
+        <item>
+            <title>ReSharper Ultimate 2017.2 EAP: What&#8217;s new in build 1?</title>
+            <link>https://blog.jetbrains.com/dotnet/2017/06/07/resharper-ultimate-2017-2-eap-whats-new-build-1/</link>
+            <comments>
+                https://blog.jetbrains.com/dotnet/2017/06/07/resharper-ultimate-2017-2-eap-whats-new-build-1/#comments
+            </comments>
+            <pubDate>Wed, 07 Jun 2017 13:52:07 +0000</pubDate>
+            <dc:creator><![CDATA[Maarten Balliauw]]></dc:creator>
+            <category><![CDATA[How-To's]]></category>
+            <category><![CDATA[angularjs]]></category>
+            <category><![CDATA[C#]]></category>
+            <category><![CDATA[EAP]]></category>
+            <category><![CDATA[ReSharper]]></category>
+            <category><![CDATA[ReSharper 2017.2]]></category>
+            <category><![CDATA[ReSharper C++]]></category>
+            <category><![CDATA[ReSharper Ultimate]]></category>
+            <category><![CDATA[TypeScript]]></category>
+
+            <guid isPermaLink="false">http://blog.jetbrains.com/dotnet/?p=15380</guid>
+            <description><![CDATA[<p>Last week, we announced the ReSharper Ultimate 2017.2 EAP (Early Access Program) is now available. If you downloaded it already, you may have discovered some of the new features and enhancements made in ReSharper and ReSharper C++. If not, no worries! In &#8230; <a href="https://blog.jetbrains.com/dotnet/2017/06/07/resharper-ultimate-2017-2-eap-whats-new-build-1/">Continue reading <span class="meta-nav">&#8594;</span></a></p>
+<p>The post <a rel="nofollow" href="https://blog.jetbrains.com/dotnet/2017/06/07/resharper-ultimate-2017-2-eap-whats-new-build-1/">ReSharper Ultimate 2017.2 EAP: What&#8217;s new in build 1?</a> appeared first on <a rel="nofollow" href="https://blog.jetbrains.com/dotnet">.NET Tools Blog</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<p><a href="https://www.jetbrains.com/resharper/eap/"><img class="alignright" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/logo.png" alt="ReSharper Ultimate 2017.2 EAP" width="200" height="200" /></a>Last week, we announced the <a href="https://www.jetbrains.com/resharper/eap/">ReSharper Ultimate 2017.2 EAP (Early Access Program)</a> is now available. If you downloaded it already, you may have discovered some of the new features and enhancements made in ReSharper and ReSharper C++.</p>
+<p>If not, no worries! In this post, we&#8217;ll look at what the first ReSharper Ultimate 2017.2 EAP build brings to the table.</p>
+<p><span id="more-15380"></span></p>
+<h2>Support for default literal &#8211; C# 7.1</h2>
+<p>It&#8217;s been only a few months since C# 7 was released, and now <a href="https://github.com/dotnet/csharplang/tree/master/proposals/csharp-7.1">C# 7.1 is around the corner</a>. It comes with a new <code>default</code> literal, <code>async</code> main tuple projection initializers and pattern matching with generics. In this EAP, ReSharper adds support for the first one in that list: support for the <code>default</code> literal.</p>
+<p>In C#, we have been able to use <code>default(T)</code> when we did not know whether <code>T</code> would be a value type or reference type. Using <code>default(T)</code> would return <code>null</code> for reference types, or a zero-initialized value for value types. It&#8217;s pretty tedious to write though, as <code>T</code> could be a very long class name.</p>
+<p>With C# 7.1, we now have a <code>default</code> literal that can be used instead and infers the type based on the context in which it&#8217;s used. It can be used in most places where we would normally use <code>null</code>, as it will work perfectly for both value and reference types.</p>
+<p>ReSharper recognizes the <code>default</code> literal syntax and provides an inspection when <code>default(T)</code> is being used. A quick-fix allows us to remove the redundant type specification:</p>
+<p><img class="alignnone size-full wp-image-15384" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/default-literal-preview.png" alt="C# 7.1 default literal support in ReSharper" width="600" height="238" data-gif-src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/default-literal.gif" /></p>
+<h2>Code completion, typing assists and code generation</h2>
+<p>We&#8217;ve made some changes to code completion. The look and feel of the UI was changed with a new scrollbar and new icons for completion filters where we can show or hide certain categories of results from code completion, such as namespaces, classes, interfaces, methods, templates and many more.</p>
+<p><img class="alignnone size-full wp-image-15388" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/code-completion-ui-preview.png" alt="New code completion UI with category filtering" width="700" height="313" data-gif-src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/code-completion-ui.gif" /></p>
+<p>A new typing assist helps adding <code>NotNull</code> and <code>CanBeNull</code> annotations. When writing a method signature or member declaration, typing a <code>!</code> or <code>?</code> directly after the type name we will add <code>NotNull</code> or <code>CanBeNull</code>:</p>
+<p><img class="alignnone size-full wp-image-15390" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/typing-assist-annotations-preview.png" alt="Typing assist for CanBeNull and NotNull annotations" width="400" height="82" data-gif-src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/typing-assist-annotations.gif" /></p>
+<p>When typing <code>{</code> after <code>=&gt;</code> in an expression bodied member, ReSharper will convert it into a block body:</p>
+<p><img class="alignnone size-full wp-image-15397" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/typing-assist-expression-block-preview.png" alt="New typing assist converts expression bodied member to block body" width="450" height="82" data-gif-src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/typing-assist-expression-block.gif" /></p>
+<p>A new option was added to make properties mutable when implementing an interface with get-only properties. For example in the following case where <code>IPerson</code> has a get-only <code>Name</code>, we can tick &#8220;Make properties mutable&#8221; when implementing missing members (<strong><kbd>Alt+Insert</kbd></strong>).</p>
+<p><img class="alignnone size-full wp-image-15399" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/generate-make-properties-mutable.png" alt="Make properties mutable" width="550" height="455" /></p>
+<p>The &#8220;Introduce auto-property from parameter&#8221; quick-fix already allowed us to introduce a get-only auto-property with options such as adding a private setter or making it a public mutable property. When the parameter was already used in code, the &#8220;Initialize auto-property from parameter&#8221; context action now also provides additional options:</p>
+<p><img class="alignnone size-full wp-image-15400" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/introduce-auto-property.png" alt="Options for introduce auto-property context action" width="700" height="245" /></p>
+<h2>Language injections</h2>
+<p>ReSharper can treat particular string literal contents as a piece of code written in one of the supported programming languages: C# or ECMAScript regular expressions, CSS, HTML, JSON or JavaScript. With ReSharper Ultimate 2017.2, we&#8217;re adding support for injected path references and injected XML.</p>
+<p>For example, we can mark a string as being injected XML and immediately get syntax highlighting inside that string literal! ReSharper&#8217;s context actions are also available in this string, so we can change text to CDATA or convert our injected XML to LINQ to SQL:</p>
+<p><img class="alignnone size-full wp-image-15402" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/language-injection-xml-preview.png" alt="Language injections support XML and file path in string literals" width="700" height="300" data-gif-src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/language-injection-xml.gif" /></p>
+<h2>New navigation actions</h2>
+<p>Using the <em>Navigate To</em> menu (<strong><kbd>Alt+Backquote</kbd></strong>), we can navigate to various items, depending on context. For example we can navigate to declaration, implementation, related files, &#8230; ReSharper Ultimate 2017.2 adds a new navigation: <em>navigate to file nearby</em>.</p>
+<p>Navigate to file nearby displays project structure around our current file: the project is shown, we can see folders and files at the same directory level our current file is located at, and we can easily jump to these files or create a new one:</p>
+<p><img class="alignnone size-full wp-image-15405" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/navigate-file-nearby-preview.png" alt="Navigate to file nearby" width="700" height="310" data-gif-src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/navigate-file-nearby.gif" /></p>
+<p>When using <em>Search Everywhere</em> (<strong><kbd>Ctrl+T</kbd></strong>), <em>Go to text</em> is now integrated. This means that we can search for any text in our solution and navigate to, for example, a Markdown file based on a simple text search. After typing (part of) the text to search, we can use the arrow keys to navigate through the list of results.</p>
+<p><img class="alignnone size-full wp-image-15406" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/search-everywhere-go-to-text.png" alt="Search Everywhere includes Go to Text" width="718" height="215" /></p>
+<p>We made some other navigation improvements as well, such as the ability to change a file&#8217;s target framework identifier in <em>Go to related files</em>, editing project item properties and asynchronous refresh in <em>Find Results</em>.</p>
+<h2>New refactoring and initial support for TypeScript 2.3</h2>
+<p>A new TypeScript refactoring was added: &#8220;Introduce/inline type alias&#8221;. In the following example, let&#8217;s inline <code>NameOrResolver</code> in the <code>getName()</code> function arguments.</p>
+<p><img class="alignnone size-full wp-image-15409" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/inline-type-alias-preview.png" alt="TypeScript - Inline type alias" width="700" height="210" data-gif-src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/inline-type-alias.gif" /></p>
+<p>We&#8217;ve started adding support for <a href="https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-3.html">TypeScript 2.3</a>. While we don&#8217;t yet support contextual <code>this</code> for object literals or the <code>--strict</code> option, ReSharper does add support for <a href="https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-3.html#async-iteration">async iterators</a>, optional generics and overload resolution for stateless JSX components.</p>
+<p>Async iterators are pretty nice. For example, we can write an array of promises and then run a <code>for await</code> which will iterate over that array, awaiting each value. Other things can happen on the main thread during such iteration. Also note that <code>asyncIterator.next()</code> isn&#8217;t called for the next item until our current iteration is complete &#8211; ensuring we&#8217;ll get items in order, iterations won&#8217;t overlap and when we break or return in our loop, remaining promises are not executed.</p><pre class="crayon-plain-tag">async function asyncIteratorExample() {
+    const fetchPromises = [
+        fetch('file1.txt'),
+        fetch('file2.txt'),
+        fetch('file3.txt'),
+        fetch('file4.txt')
+    ];
+
+    // Regular iterator - will log a promise
+    for (const item of fetchPromises) {
+        console.log(item);
+    }
+
+    // Async iterator - will log response
+    for await (const item of fetchPromises) {
+        console.log(item);
+    }
+}</pre><p>Do check the <a href="https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-3.html">TypeScript 2.3 release notes</a> for additional examples!</p>
+<h2>Angular improvements and Angular 4 support</h2>
+<p>ReSharper now supports Angular input/output aliases and attribute directives. Angular2 components added via NPM are now supported as well. As an example, here&#8217;s an application using <a href="https://www.npmjs.com/package/ionic-angular">ionic-angular</a>. We can make use of the button component (using the <code>ion-button</code> directive). ReSharper provides code completion, we can see quick documentation info and even navigate to the component declaration.</p>
+<p><img class="alignnone size-full wp-image-15416" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/angular4-support-preview.png" alt="Support Angular2 components in HTML" width="800" height="500" data-gif-src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/angular4-support.gif" /></p>
+<p>Note that <em>Support Angular markup in HTML pages</em> must be configured in the ReSharper options under <strong>HTML | Editor</strong> for this to work.</p>
+<p>For Angular 4, ReSharper 2017.2 adds support for <code>; else</code> in <code>*ngIf</code>, and variable assignments (like <code>people as person</code>) in both <code>*ngIf</code> and <code>*ngFor</code>.</p>
+<h2>ReSharper C++</h2>
+<p>In this first ReSharper Ultimate 2017.2 EAP build, ReSharper C++ introduces support for extended friend declarations from C++11, selection statements with initializer from C++17, and more language features. We&#8217;ve added <a href="http://en.cppreference.com/w/cpp/language/sfinae">SFINAE support</a> for expressions (&#8220;Substitution Failure Is Not An Error&#8221;), as well as support for floating-point and string user-defined literals.</p>
+<p>We&#8217;re looking forward to any feedback you may have on the latest builds of ReSharper, ReSharper C++, dotCover, dotTrace, dotMemory, dotPeek, as well as various command-line packages included in this EAP.</p>
+<p><strong><a href="https://www.jetbrains.com/resharper/eap/">Download ReSharper Ultimate 2017.2 EAP</a></strong>, and give it a try!</p>
+<p>The post <a rel="nofollow" href="https://blog.jetbrains.com/dotnet/2017/06/07/resharper-ultimate-2017-2-eap-whats-new-build-1/">ReSharper Ultimate 2017.2 EAP: What&#8217;s new in build 1?</a> appeared first on <a rel="nofollow" href="https://blog.jetbrains.com/dotnet">.NET Tools Blog</a>.</p>
+]]></content:encoded>
+            <wfw:commentRss>
+                https://blog.jetbrains.com/dotnet/2017/06/07/resharper-ultimate-2017-2-eap-whats-new-build-1/feed/
+            </wfw:commentRss>
+            <slash:comments>8</slash:comments>
+        </item>
+        <item>
+            <title>ReSharper Ultimate 2017.2 EAP kicks off</title>
+            <link>https://blog.jetbrains.com/dotnet/2017/06/01/resharper-ultimate-2017-2-eap-kicks-off/</link>
+            <comments>https://blog.jetbrains.com/dotnet/2017/06/01/resharper-ultimate-2017-2-eap-kicks-off/#comments
+            </comments>
+            <pubDate>Thu, 01 Jun 2017 18:47:45 +0000</pubDate>
+            <dc:creator><![CDATA[Jura Gorohovsky]]></dc:creator>
+            <category><![CDATA[How-To's]]></category>
+            <category><![CDATA[angularjs]]></category>
+            <category><![CDATA[C#]]></category>
+            <category><![CDATA[EAP]]></category>
+            <category><![CDATA[ReSharper]]></category>
+            <category><![CDATA[ReSharper 2017.2]]></category>
+            <category><![CDATA[ReSharper C++]]></category>
+            <category><![CDATA[ReSharper Ultimate]]></category>
+            <category><![CDATA[TypeScript]]></category>
+
+            <guid isPermaLink="false">http://blog.jetbrains.com/dotnet/?p=15370</guid>
+            <description><![CDATA[<p>ReSharper Ultimate 2017.2 Early Access Program is now underway: you are welcome to download and install the latest builds of ReSharper, ReSharper&#160;C++, dotCover, dotTrace, dotMemory, dotPeek, as well as various command-line packages that we provide. So far, version 2017.2 mostly &#8230; <a href="https://blog.jetbrains.com/dotnet/2017/06/01/resharper-ultimate-2017-2-eap-kicks-off/">Continue reading <span class="meta-nav">&#8594;</span></a></p>
+<p>The post <a rel="nofollow" href="https://blog.jetbrains.com/dotnet/2017/06/01/resharper-ultimate-2017-2-eap-kicks-off/">ReSharper Ultimate 2017.2 EAP kicks off</a> appeared first on <a rel="nofollow" href="https://blog.jetbrains.com/dotnet">.NET Tools Blog</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<p><a href="https://www.jetbrains.com/resharper/eap/">ReSharper Ultimate 2017.2 Early Access Program</a> is now underway: you are welcome to download and install the latest builds of ReSharper, ReSharper&nbsp;C++, dotCover, dotTrace, dotMemory, dotPeek, as well as various command-line packages that we provide.</p>
+<p>So far, version 2017.2 mostly incorporates changes to ReSharper and ReSharper&nbsp;C++. For example, the new ReSharper starts to support <strong>C# 7.1, TypeScript 2.3 and Angular&nbsp;4</strong>, has its code completion optimized, offers various navigation improvements, and adds more language injections. ReSharper&nbsp;C++ 2017.2 introduces support for extended friend declarations from C++11, selection statements with initializer from C++17, and more language features.</p>
+<p>Please <strong><a href="https://www.jetbrains.com/resharper/eap/">download ReSharper Ultimate 2017.2 EAP</a></strong>, read a quick summary of changes, and expect us to elaborate on the improvements in coming weeks.</p>
+<p>The post <a rel="nofollow" href="https://blog.jetbrains.com/dotnet/2017/06/01/resharper-ultimate-2017-2-eap-kicks-off/">ReSharper Ultimate 2017.2 EAP kicks off</a> appeared first on <a rel="nofollow" href="https://blog.jetbrains.com/dotnet">.NET Tools Blog</a>.</p>
+]]></content:encoded>
+            <wfw:commentRss>https://blog.jetbrains.com/dotnet/2017/06/01/resharper-ultimate-2017-2-eap-kicks-off/feed/
+            </wfw:commentRss>
+            <slash:comments>2</slash:comments>
+        </item>
+        <item>
+            <title>Incremental build in Rider</title>
+            <link>https://blog.jetbrains.com/dotnet/2017/05/24/incremental-build-rider/</link>
+            <comments>https://blog.jetbrains.com/dotnet/2017/05/24/incremental-build-rider/#comments</comments>
+            <pubDate>Wed, 24 May 2017 17:16:00 +0000</pubDate>
+            <dc:creator><![CDATA[Maarten Balliauw]]></dc:creator>
+            <category><![CDATA[How-To's]]></category>
+            <category><![CDATA[EAP]]></category>
+            <category><![CDATA[msbuild]]></category>
+            <category><![CDATA[ReSharper Build]]></category>
+            <category><![CDATA[Rider]]></category>
+
+            <guid isPermaLink="false">http://blog.jetbrains.com/dotnet/?p=14841</guid>
+            <description><![CDATA[<p>In my opinion, the best features are just a checkbox that enables powerful scenarios. Rider has features like this, and one of them is called incremental build. Behold! Incremental build reduces the time needed to build a solution by only building projects &#8230; <a href="https://blog.jetbrains.com/dotnet/2017/05/24/incremental-build-rider/">Continue reading <span class="meta-nav">&#8594;</span></a></p>
+<p>The post <a rel="nofollow" href="https://blog.jetbrains.com/dotnet/2017/05/24/incremental-build-rider/">Incremental build in Rider</a> appeared first on <a rel="nofollow" href="https://blog.jetbrains.com/dotnet">.NET Tools Blog</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<p>In my opinion, the best features are just a checkbox that enables powerful scenarios. <strong><a href="https://www.jetbrains.com/rider/download/">Rider</a></strong> has features like this, and one of them is called <strong>incremental build</strong>. Behold!</p>
+<p><img class="alignnone size-full wp-image-15364" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/05/incremental-build-checkbox.png" alt="Rider incremental build" width="500" height="44" /></p>
+<p>Incremental build <strong>reduces the time needed to build a solution</strong> by only building projects that need updating. This helps us stay &#8220;in the zone&#8221;: the quicker we can rebuild a solution, the quicker we get compilation feedback, the quicker we can run unit tests, the sooner we can move on to working and improving our code.</p>
+<p>We&#8217;ve seen the checkbox, now let&#8217;s look behind the curtains and find out how incremental build works!</p>
+<p><span id="more-14841"></span></p>
+<h2>How does incremental build work?</h2>
+<p>Rider&#8217;s incremental build is the same as <a href="https://www.jetbrains.com/help/resharper/Building_Solution.html">ReSharper Build</a>. It manages the build process in the IDE, and decides if an individual project needs to be built, or not. The fastest way of making sure builds run faster, is not building at all. Very often, only one or two projects we&#8217;ve just made changes in needs to be rebuilt, instead of the entire 20-project solution.</p>
+<p>Incremental build does not replace MSBuild (or XBuild) &#8211; it simply decides on which projects will have to build and which ones are up to date. Incremental build still calls into MSBuild to perform the actual work. This means we&#8217;ll get the same warnings and errors we know and love:</p>
+<p><img class="alignnone wp-image-14849" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/03/built-tool-window.png" alt="Build tool window" width="800" height="190" /></p>
+<p>So how does it work? Why wouldn&#8217;t it be enough to just use <a href="https://msdn.microsoft.com/en-us/library/ms171483.aspx">MSBuild support for incremental builds</a>? Good question! MSBuild compares the timestamps of inputs and outputs of a build target, and skips running the target if it&#8217;s still up to date. So far so good, except that MSBuild still has to be invoked on all projects to decide whether to build or do nothing.</p>
+<p>Rider <strong>monitors timestamps</strong> and continuously tracks inputs and outputs to tasks, targets and projects, as well as changes happening on the file system. When we start a build in the IDE, it already knows which projects are still up to date and which have changes. Incremental build can then immediately decide whether to run MSBuild or skip a particular project.</p>
+<p>Next to monitoring freshness, Rider&#8217;s incremental build also <strong>checks the public API surface</strong> of a project for changes. When a project is edited and rebuilt, MSBuild typically also rebuilds all projects that reference this project. This is a great thing if we are changing the name or the number of parameters passed to a public method or if we&#8217;re adding new types, but it has no value if we&#8217;re just changing some internal business logic.</p>
+<p>Right after compiling a project, incremental build will scan the compiled output assembly. If its public API did not change, Rider knows it does not have to rebuild any of the referencing projects and can safely skip them. If a class, interface or method is not required to be <code>public</code>, making it <code>internal</code> will reduce the public API surface. This will even further reduce unnecessary builds.</p>
+<p>So by using intelligent timestamping and monitoring as well as tracking the public API surface of our assemblies, Rider&#8217;s incremental build can reliably skip compilation for projects that do not need compilation, resulting in a much faster build process.</p>
+<h2>Configuring incremental build</h2>
+<p>As mentioned before, incremental build is &#8220;just a checkbox&#8221;. Rider comes with incremental build enabled by default. In the settings under <strong>Build, Execution, Deployment | Toolset and Build</strong>, we can choose to change this. Enabling it will make use of incremental build&#8217;s smart heuristics while disabling it will fall back to just using MSBuild (or XBuild) all the way.</p>
+<p><img class="alignnone size-full wp-image-15365" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/05/configure-resharper-build.png" alt="Enable incremental build to speed up build time" width="760" height="427" /></p>
+<p>Of course, incremental build also has to know which toolset to use. Under <strong>Build, Execution, Deployment | Toolset and build</strong>, we can configure which version of MSBuild or XBuild should be used by Rider. We can pick one of the toolsets that were found in our system, or provide the full path to a custom one.</p>
+<p><img class="alignnone size-full wp-image-15366" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/05/configure-msbuild.png" alt="Configure MSBuild toolset to be used" width="760" height="427" /></p>
+<h2>Are there any limitations?</h2>
+<p>Rider incremental build supports most .NET project types and languages that are MSBuild-based (C#, VB.NET, F#, C++). Yes, that also means .NET Core projects are supported. There are a few technical limitations though:</p>
+<ul>
+<li>Non-MSBuild projects are not supported. For example, folder-based Web Site projects or WinJS projects are not supported. When any of these project types is found in a solution, Rider will fall back to the default build process.</li>
+<li>Custom build steps are not supported. Typically, custom build steps contain various commands like executing command line tools, copying files, &#8230; Incremental build can not track the custom build task logic nor their input and output.</li>
+</ul>
+<p>When in the flow, nobody wants to be interrupted or have excuses for <a href="https://www.xkcd.com/303/">slacking due to slow compilation</a>. Rider&#8217;s incremental build will greatly speed up the build process, making sure we can stay in the flow.</p>
+<p><strong><a href="https://www.jetbrains.com/rider/download/">Download the latest Rider EAP build</a></strong> and try out incremental build! We&#8217;d love to hear your thoughts and feedback!</p>
+<p>The post <a rel="nofollow" href="https://blog.jetbrains.com/dotnet/2017/05/24/incremental-build-rider/">Incremental build in Rider</a> appeared first on <a rel="nofollow" href="https://blog.jetbrains.com/dotnet">.NET Tools Blog</a>.</p>
+]]></content:encoded>
+            <wfw:commentRss>https://blog.jetbrains.com/dotnet/2017/05/24/incremental-build-rider/feed/</wfw:commentRss>
+            <slash:comments>10</slash:comments>
+        </item>
+        <item>
+            <title>Rider EAP 22: Xamarin iOS, unit testing improvements, compound run configurations and more</title>
+            <link>
+                https://blog.jetbrains.com/dotnet/2017/05/18/rider-eap-22-xamarin-ios-unit-testing-improvements-compound-run-configurations/
+            </link>
+            <comments>
+                https://blog.jetbrains.com/dotnet/2017/05/18/rider-eap-22-xamarin-ios-unit-testing-improvements-compound-run-configurations/#comments
+            </comments>
+            <pubDate>Thu, 18 May 2017 16:53:54 +0000</pubDate>
+            <dc:creator><![CDATA[Maarten Balliauw]]></dc:creator>
+            <category><![CDATA[How-To's]]></category>
+            <category><![CDATA[code analysis and quick-fixes]]></category>
+            <category><![CDATA[debugger]]></category>
+            <category><![CDATA[EAP]]></category>
+            <category><![CDATA[NuGet]]></category>
+            <category><![CDATA[Rider]]></category>
+            <category><![CDATA[unit testing]]></category>
+            <category><![CDATA[Xamarin]]></category>
+
+            <guid isPermaLink="false">http://blog.jetbrains.com/dotnet/?p=15324</guid>
+            <description><![CDATA[<p>Good news, everyone! A new Rider EAP build is now available for download! As always, a fresh EAP means we&#8217;ve been fixing a number of bugs, improved existing features and added some new ones. Rider EAP 22 comes with: Xamarin Mac &#8230; <a href="https://blog.jetbrains.com/dotnet/2017/05/18/rider-eap-22-xamarin-ios-unit-testing-improvements-compound-run-configurations/">Continue reading <span class="meta-nav">&#8594;</span></a></p>
+<p>The post <a rel="nofollow" href="https://blog.jetbrains.com/dotnet/2017/05/18/rider-eap-22-xamarin-ios-unit-testing-improvements-compound-run-configurations/">Rider EAP 22: Xamarin iOS, unit testing improvements, compound run configurations and more</a> appeared first on <a rel="nofollow" href="https://blog.jetbrains.com/dotnet">.NET Tools Blog</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<p>Good news, everyone! A new <strong><a href="https://www.jetbrains.com/rider/download">Rider EAP build is now available for download!</a></strong></p>
+<p><a href="https://www.jetbrains.com/rider/download"><img class="alignnone size-full wp-image-14905" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/04/rider-eap-20-splash.png" alt="JetBrains Rider EAP 20" width="639" height="398" /></a></p>
+<p>As always, a fresh EAP means we&#8217;ve been <a href="https://youtrack.jetbrains.com/issues/RIDER?q=%23Resolved%20Fixed%20in%20Release:%20%7BEAP%2022%7D">fixing a number of bugs</a>, improved existing features and added some new ones. Rider EAP 22 comes with:</p>
+<ul>
+<li><strong>Xamarin Mac and iOS support</strong> lets us work on our code and run/debug our projects on emulators and real devices.</li>
+<li><strong>Unit testing improvements</strong> with new toolbars, context actions and more.</li>
+<li>Our NuGet client now has a <strong>UI to manage NuGet package sources</strong> and shows the effective NuGet configuration in use.</li>
+<li>The debugger can now attach to compound configurations to <strong>debug two or more projects at the same time</strong>.</li>
+<li>Additional settings for code inspections were added.</li>
+<li>There&#8217;s now a <strong>Favorites</strong> tool window showing favorites, bookmarks and breakpoints.</li>
+<li>The productivity guide helps you <strong>become a Rider keyboard ninja</strong>!</li>
+</ul>
+<p>Let&#8217;s take a look.</p>
+<p><span id="more-15324"></span></p>
+<h2>Xamarin Mac and iOS support</h2>
+<p>In Rider EAP 20 we added <a href="https://blog.jetbrains.com/dotnet/2017/04/14/rider-eap-20-xamarin-android-node-js-net-core-improvements/">Xamarin Android support for Rider</a>, and now we&#8217;re adding Xamarin Mac and iOS support. If the required Xamarin SDK&#8217;s are installed, Rider supports creating new and working with existing projects. Project templates are available, too:</p>
+<p><img class="alignnone size-full wp-image-15328" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/05/project-templates-for-mac.png" alt="Rider project templates for Xamarin mobile apps" width="700" height="490" /></p>
+<p>Just as with any other C#, VB.NET or F# project, Rider provides rich code editing features, navigation, code inspections and quick-fixes and refactorings for Xamarin projects. And of course, we can run/debug our code, too. We can run on a real device or connect to an emulator.</p>
+<p><img class="alignnone size-full wp-image-15338" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/05/run-xamarin-mac.png" alt="Run Xamarin Mac project" width="800" height="583" /></p>
+<p>From the <strong>Tools | iOS | Xamarin Mac Agent</strong> menu, we can configure remote Mac agents on which we can run and debug our code.</p>
+<p><img class="alignnone size-full wp-image-15340" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/05/xamarin-mac-remote-agent.png" alt="Configure Xamarin Mac remote agent" width="314" height="238" /></p>
+<h2>Unit testing improvements</h2>
+<p>Rider comes with a unit test runner that helps us run and debug unit tests written using NUnit, xUnit.net, Jasmine and QUnit.</p>
+<p>In this latest Rider EAP, we&#8217;ve updated the test runner tool window and now support various context actions to run and debug tests and <strong>manage test sessions from the editor</strong>:</p>
+<p><img class="alignnone size-full wp-image-15330" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/05/unit-test-context-menu.png" alt="Unit test runner context actions" width="800" height="600" /></p>
+<p>The test results tool window&#8217;s toolbars have received a makeover, providing an easy way to <strong>filter tests by status</strong>. We can show/hide successful tests, failed tests, ignored tests, helping us structure our work. And when tests are inconclusive, Rider will help us figure out why. The test output position can also be changed &#8211; either at the right or at the bottom of the tool window.</p>
+<p><img class="alignnone size-full wp-image-15331" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/05/test-tool-window.png" alt="Rider unit test tool window with filters in toolbar" width="800" height="285" /></p>
+<p>Test sessions are also stored as a run/debug configuration. This makes it easy to <strong>re-run a given test session</strong> at a later point in time &#8211; and gives us some options such as specifying which projects to build before running tests and for which platform.</p>
+<p><img class="alignnone size-full wp-image-15332" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/05/run-configuration-for-tests.png" alt="Run/debug configuration for tests" width="700" height="250" /></p>
+<h2>NuGet</h2>
+<p>Many development teams are using their private NuGet repository, such as <a href="https://confluence.jetbrains.com/display/TCD10/NuGet">TeamCity&#8217;s NuGet server</a>, to distribute packages to a known set of developers. Rider&#8217;s built-in NuGet client makes it easy to make use of those repositories: <strong>package sources can now be managed via the UI</strong>.</p>
+<p>From the NuGet tool window, we can add or edit package sources in the NuGet configuration files that are applicable to the current project.</p>
+<p><img class="alignnone size-full wp-image-15335" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/05/edit-nuget-package-sources-ui.png" alt="Edit NuGet package sources from the UI" width="800" height="300" /></p>
+<p>While NuGet comes with a default NuGet configuration on our system, we can also add <a href="https://blog.maartenballiauw.be/post/2014/03/11/nuget-configuration-file-inheritance-is-awesome.html">solution-specific NuGet configuration files</a> to change NuGet&#8217;s behavior in some cases. For example we could configure where a solution&#8217;s NuGet packages should be (re)stored locally. When multiple NuGet configuration files apply to the project, Rider shows us the <em>effective NuGet.config</em> so we can easily see which package sources and other settings apply, either as a list or via a text-based summary:</p>
+<p><img class="alignnone size-full wp-image-15336" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/05/effective-nuget-config.png" alt="Effective NuGet configuration" width="800" height="300" /></p>
+<p>Of course we can still edit NuGet.config files manually. And when we make a mistake, Rider won&#8217;t just crash on us like other IDE&#8217;s might do. Instead, it will diagnose the issue and tell us what is wrong:</p>
+<p><img class="alignnone size-full wp-image-15344" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/05/nuget-goes-south.png" alt="Rider NuGet.config diagnostics" width="800" height="383" /></p>
+<h2>Debugging for compound run/debug configurations</h2>
+<p>Many times, applications we are building are not just one project. An example could be a front-end application that talks to a back-end REST API. In order to run this type of application on a development machine, Rider has always supported <em>Compound</em> run configurations &#8211; a type of <a href="https://www.jetbrains.com/rider/documentation/rider_survival_guide.html#running-and-debugging-a-project">run configuration</a> that launches two (or more) other run configurations:</p>
+<p><img class="alignnone size-full wp-image-15341" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/05/compound-run-configuration.png" alt="Compound run configuration - debug two projects at the same time" width="500" height="300" /></p>
+<p>Until now, Rider only allowed attaching the debugger to one of these projects. With Rider EAP 22, we&#8217;re adding support to attach the debugger to all projects from the compound run/debug configuration &#8211; essentially letting us debug multiple projects simultaneously!</p>
+<p>For example we can place a breakpoint in our front-end, then step into the back-end in one go:</p>
+<p><img class="alignnone size-full wp-image-15343" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/05/compound-debug-preview.png" alt="Compound debugging in action" width="800" height="500" data-gif-src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/05/compound-debug.gif" /></p>
+<h2>Settings for code inspections</h2>
+<p>Code inspection settings (<strong>File | Settings</strong> or <strong><kbd>Ctrl+Alt+S</kbd></strong>, under <strong>Editor</strong>) have been split into two pages:</p>
+<ul>
+<li><strong>Inspection Settings</strong> lets us enable/disable code analysis as a whole and comes with several toggles to configure highlighting, solution-wide analysis and value analysis.</li>
+<li><strong>Inspection Severity</strong> contains all different code inspections where we can enable/disable certain inspections and set their severity.</li>
+</ul>
+<h2>Productivity guide, favorites, and more</h2>
+<p>How do we know which features we&#8217;re using the most? Does Rider&#8217;s automation really save us time during development? One way to find out is the productivity guide. Under <strong>Help | Productivity Guide</strong>, Rider shows usage statistics for its various features. Next to just showing stats, it also displays additional information about the feature (such as what it does and a keyboard shortcut):</p>
+<p><img class="alignnone size-full wp-image-15346" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/05/productivity-guide.png" alt="Rider productivity guide" width="495" height="397" /></p>
+<p>Next to making keyboard shortcuts visible for tool windows (tip: use <strong><kbd>Alt+#</kbd></strong> &#8211; the number is displayed in the UI), we&#8217;ve added a new tool window: <strong>Favorites</strong>. It shows us a list of favorite project items, bookmarks and breakpoints. From this window, we can quickly navigate to things that are of interest. Bookmarks can be toggled using <strong><kbd>Ctrl+K, K</kbd></strong>. Breakpoints using <strong><kbd>F9</kbd></strong>.</p>
+<p><img class="alignnone size-full wp-image-15348" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/05/favorites-window-preview.png" alt="Using the favorites tool window to navigate to things that matter" width="800" height="500" data-gif-src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/05/favorites-window.gif" /></p>
+<p>Other things we&#8217;ve improved are <strong>undo and redo for refactorings</strong> and project model modifications: large-scale refactorings like moving a class to a different project can now easily be undone (or redone).</p>
+<p>Various bugfixes also went into Rider&#8217;s build system. We&#8217;ve also fixed a few UI glitches in the build tool window.</p>
+<p><strong><a href="https://www.jetbrains.com/rider/download">Download the lastest Rider EAP now!</a></strong> We welcome your feedback through the comments below!</p>
+<p>The post <a rel="nofollow" href="https://blog.jetbrains.com/dotnet/2017/05/18/rider-eap-22-xamarin-ios-unit-testing-improvements-compound-run-configurations/">Rider EAP 22: Xamarin iOS, unit testing improvements, compound run configurations and more</a> appeared first on <a rel="nofollow" href="https://blog.jetbrains.com/dotnet">.NET Tools Blog</a>.</p>
+]]></content:encoded>
+            <wfw:commentRss>
+                https://blog.jetbrains.com/dotnet/2017/05/18/rider-eap-22-xamarin-ios-unit-testing-improvements-compound-run-configurations/feed/
+            </wfw:commentRss>
+            <slash:comments>18</slash:comments>
+        </item>
+        <item>
+            <title>Local History in Rider: undo and redo on steroids</title>
+            <link>https://blog.jetbrains.com/dotnet/2017/05/17/local-history-rider-undo-redo-steroids/</link>
+            <comments>https://blog.jetbrains.com/dotnet/2017/05/17/local-history-rider-undo-redo-steroids/#comments
+            </comments>
+            <pubDate>Wed, 17 May 2017 15:29:03 +0000</pubDate>
+            <dc:creator><![CDATA[Maarten Balliauw]]></dc:creator>
+            <category><![CDATA[How-To's]]></category>
+            <category><![CDATA[EAP]]></category>
+            <category><![CDATA[editor]]></category>
+            <category><![CDATA[Local History]]></category>
+            <category><![CDATA[Rider]]></category>
+
+            <guid isPermaLink="false">http://blog.jetbrains.com/dotnet/?p=15228</guid>
+            <description><![CDATA[<p>We&#8217;ve all been there. Investigating a bug, making some code changes, then finding that these changes don&#8217;t fix the bug. Rinse, repeat, and two hours later we realize that first attempt needed just a little tweak. How can we roll &#8230; <a href="https://blog.jetbrains.com/dotnet/2017/05/17/local-history-rider-undo-redo-steroids/">Continue reading <span class="meta-nav">&#8594;</span></a></p>
+<p>The post <a rel="nofollow" href="https://blog.jetbrains.com/dotnet/2017/05/17/local-history-rider-undo-redo-steroids/">Local History in Rider: undo and redo on steroids</a> appeared first on <a rel="nofollow" href="https://blog.jetbrains.com/dotnet">.NET Tools Blog</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<p>We&#8217;ve all been there. Investigating a bug, making some code changes, then finding that these changes don&#8217;t fix the bug. Rinse, repeat, and two hours later we realize that first attempt needed just a little tweak. How can we roll back to it if we did not commit it to Git or Mercurial? How can we roll back <em>any</em> change we made to the code base between source control commits? Undo only goes so far&#8230;</p>
+<p>In <a href="https://www.jetbrains.com/rider/download/">JetBrains Rider</a>, there&#8217;s a solution to that: <strong>Local History</strong>. It&#8217;s a real-time, <em>local version control</em> that keeps track of changes we make to our code base.</p>
+<h2>What is Local History?</h2>
+<p>When we&#8217;re &#8220;in the flow&#8221;, our project and source code constantly changes. We write, refactor and debug, and when we finish a task, code is committed to a version control system (VCS) like Git or Mercurial.</p>
+<p>Unfortunately, commits to the VCS are just snapshots. If we&#8217;re lucky, changes in between commits are captured in the <em>undo</em> stack, but that disappears if we close the IDE and reopen it a later time. Undo also does not track external changes, made outside of the IDE. What&#8217;s even worse: don&#8217;t you hate it when you undo 20 times, then accidentally press the keyboard so you can&#8217;t redo anymore?</p>
+<p><span id="more-15228"></span></p>
+<p>This is where <strong>Rider&#8217;s Local History</strong> comes in: it <strong>keeps track of source code changes</strong> and file changes in our project <strong>in between VCS commits</strong>. Whenever something changes (and is persisted to disk), local history tracks the change and allows us to roll back (or forward). Accidentally deleted a folder of files that weren&#8217;t yet committed? Want to get back that class or entire namespace you wrote on the train commute home from work, was dropped a few minutes ago and never committed to source control? Local History!</p>
+<p>Local History is enabled by default and keeps track of all every save (or delete), whether explicit (<strong><kbd>Ctrl+S</kbd></strong>) or implicit (Rider auto-saves every few seconds). It tracks changes in a solution or project, folders within our solution, files, classes, &#8230; As long as the file is text-based, Local History has it covered.</p>
+<h2>Showing Local History</h2>
+<p>One place where we can view local history is under the <strong>VCS | Local History | Show History</strong> menu. It will bring up a <em>diff</em> viewer where we can see a list of changes made to the file we have open. On the left, we can see a description of the changes. On the right, a diff between the current and previous version is shown.</p>
+<p><a href="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/04/local-history.png"><img class="alignnone wp-image-15236" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/04/local-history.png" alt="Local History viewer" width="798" height="458" /></a></p>
+<p>Just like in a regular diff/merge view, we can restore lines and blocks of code, or roll back to a previous version of the file. Doing so will update the file that is open in the editor, or in the case of e.g. a solution folder, files can be restored.</p>
+<p>It&#8217;s also possible to label a specific point in time, for example right before we start a massive refactoring effort. Labels can be added using the <em><strong>VCS | Local History | Put label</strong></em> menu, and are shown in the Local History change list as well. Note that labels are solution-wide and apply to all files and folders.</p>
+<p><img class="alignnone wp-image-15237" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/04/label-local-history.png" alt="Label local history" width="294" height="213" /></p>
+<p>What with external changes? Local History tracks those, too. For example, here I dropped the folder <em>Consent</em> outside Rider. Invoking Local History on the parent folder shows us that an external change was detected and we can revert from here if we want to.</p>
+<p><img class="alignnone wp-image-15241" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/04/external-changes-revert.png" alt="External changes can be reverted using Rider" width="750" height="320" /></p>
+<p>There are a couple of entry points to Local History:</p>
+<ul>
+<li>The <em><strong>Local History</strong></em> context menu in the Solution Explorer or in the editor (<em>tip: selecting code will show Local History for just the selection</em>)</li>
+<li>The <strong><em>VCS | Local History</em></strong> menu</li>
+<li>The <strong>VCS operations popup</strong> (<strong><kbd>Ctrl+Alt+Q</kbd></strong>)</li>
+</ul>
+<p>Another entry point is the <em><strong>View | Recent Changes</strong></em> popup (<em>tip: map it to a keyboard shortcut</em>). It shows us a list of recent changes in our solution and lets us quickly open up Local History to view more details.</p>
+<p><img class="alignnone size-full wp-image-15242" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/04/recent-changes-popup.png" alt="View recent changes and jump to local history" width="1480" height="820" /></p>
+<h2>Cleaning Local History</h2>
+<p>While having Local History is a real life saver sometimes, its internal database may grow over time. Local History is cleaned when installing a new version of Rider, or when invalidating caches using the <em><strong>File | Invalidate Caches</strong> </em>menu.</p>
+<p>Keep in mind that Local History really is <em>local</em>. The history is stored locally and not shared with other developers working on the same project. Make sure to keep using proper source control as well!</p>
+<p><strong><a href="https://www.jetbrains.com/rider/download/">Download the latest Rider EAP build</a> </strong>and experience local history in action! Your feedback is appreciated.</p>
+<p>The post <a rel="nofollow" href="https://blog.jetbrains.com/dotnet/2017/05/17/local-history-rider-undo-redo-steroids/">Local History in Rider: undo and redo on steroids</a> appeared first on <a rel="nofollow" href="https://blog.jetbrains.com/dotnet">.NET Tools Blog</a>.</p>
+]]></content:encoded>
+            <wfw:commentRss>https://blog.jetbrains.com/dotnet/2017/05/17/local-history-rider-undo-redo-steroids/feed/
+            </wfw:commentRss>
+            <slash:comments>6</slash:comments>
+        </item>
+        <item>
+            <title>dotMemory Command Line Tools</title>
+            <link>https://blog.jetbrains.com/dotnet/2017/05/16/dotmemory-command-line-tools/</link>
+            <comments>https://blog.jetbrains.com/dotnet/2017/05/16/dotmemory-command-line-tools/#comments</comments>
+            <pubDate>Tue, 16 May 2017 15:57:30 +0000</pubDate>
+            <dc:creator><![CDATA[Alexey Totin]]></dc:creator>
+            <category><![CDATA[How-To's]]></category>
+            <category><![CDATA[command line]]></category>
+            <category><![CDATA[dotMemory]]></category>
+            <category><![CDATA[profiling]]></category>
+
+            <guid isPermaLink="false">http://blog.jetbrains.com/dotnet/?p=15049</guid>
+            <description><![CDATA[<p>In the 2017.1 release, dotMemory introduced a console profiler. Now, using the dotMemory.exe tool, you can perform memory profiling from the command line. Why would you? The short answer would be to automate the process of gathering memory snapshots. There &#8230; <a href="https://blog.jetbrains.com/dotnet/2017/05/16/dotmemory-command-line-tools/">Continue reading <span class="meta-nav">&#8594;</span></a></p>
+<p>The post <a rel="nofollow" href="https://blog.jetbrains.com/dotnet/2017/05/16/dotmemory-command-line-tools/">dotMemory Command Line Tools</a> appeared first on <a rel="nofollow" href="https://blog.jetbrains.com/dotnet">.NET Tools Blog</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<p>In the 2017.1 release, dotMemory introduced a console profiler. Now, using the <em>dotMemory.exe </em>tool, you can perform memory profiling from the command line. Why would you? The short answer would be to automate the process of gathering memory snapshots. There are lots of possible use cases:</p>
+<ul>
+<li>You want to<strong> speed up profiling routines</strong>, e.g. when you regularly profile the same application and do not want to start the dotMemory user interface each time.</li>
+<li>You need to <strong>profile your application on someone&#8217;s computer you don&#8217;t have access to</strong> (e.g., your client&#8217;s) but don’t want to bother him with dotMemory installation and detailed profiling instructions.</li>
+<li>Or maybe you want to <strong>include memory profiling into your continuous integration builds</strong> (though our <a href="https://www.jetbrains.com/dotmemory/unit/">dotMemory Unit framework</a> could be much handier for this purpose).</li>
+</ul>
+<p><span id="more-15049"></span></p>
+<h2>Where can I get it?</h2>
+<p>dotMemory.exe is distributed separately from dotMemory. You can download the tool on <a href="https://www.jetbrains.com/dotmemory/download/#section=command-line-profiler">the dotMemory download page</a>. Note that dotMemory.exe is <strong>free</strong> <strong>and does not require you to have the full dotMemory installed</strong>.</p>
+<p>Now let’s take a look at the most common usage scenarios.</p>
+<h2>Instantly get a snapshot</h2>
+<p>The most popular scenario is probably getting a snapshot of an already running application.</p>
+<p><code>dotMemory.exe get-snapshot 1234 --save-to-dir=C:\Snapshots</code></p>
+<p><code>1234</code> here is the process ID. Right after you run the command, dotMemory will attach to the process, take a snapshot, save it to <code>C:\Snapshots</code>, and detach from the process.<br />
+You can also specify the profiled application with its process name:</p>
+<p><code>dotMemory.exe get-snapshot MyApp --with-max-mem</code></p>
+<p>or</p>
+<p><code>dotMemory.exe get-snapshot MyApp --all</code></p>
+<p><code>--all</code> and <code>--with-max-mem</code> options let you avoid ambiguity when multiple processes with the same name are running:</p>
+<ul>
+<li><code>--with-max-mem</code> &#8211; a process that consumes most of the memory will be profiled.</li>
+<li><code>--all</code> &#8211; all processes with the specified name will be profiled. dotMemory will take snapshots of all processes (snapshot per process).</li>
+</ul>
+<h2>Get snapshots by condition</h2>
+<p>Sometimes you may need to track application memory consumption during a long time interval. In this case, you can start your application under profiling and get snapshots only in case a particular condition is satisfied:</p>
+<ul>
+<li>a periodic time interval ends (in the example, it’s 30 s):
+<p><code>dotMemory.exe start --trigger-timer=30s C:\MyApp\MyApp.exe MyAppArg1</code></li>
+<li>or memory consumption increases by a specified value (50% in the example below):
+<p><code>dotMemory.exe start --trigger-mem-inc=50% --trigger-delay=5s C:\MyApp\MyApp.exe</code></p>
+<p>(<code>--trigger-delay=5s</code> here stands for the 5s delay required to skip application startup phase)</li>
+</ul>
+<p>Note that in both examples, we use the start command to start the application. If you want to <strong>profile a ASP.NET application</strong>, you should use the <code>start-iis</code> command. In this case, IIS and all its application pools will be started under profiling. E.g.:</p>
+<p><code>dotMemory.exe start-iis --trigger-timer=30s --open-url=localhost/myapp --use-browser=Chrome</code></p>
+<p>What if the app you want to profile is already running but you still want to use triggers? Simply use the attach command:</p>
+<p><code>dotMemory attach MyApp.exe --trigger-timer=30s</code></p>
+<h2>Get snapshots using stdin messages</h2>
+<p>If you want to take direct control over the profiling process (i.e., get snapshots at some exact moment), you can do this by sending messages to stdin of dotMemory.exe:</p>
+<ul>
+<li>Get a snapshot:
+<p><code>##dotMemory["get-snapshot", {pid:1234}]</code></li>
+</ul>
+<p>If <code>pid</code> is specified, dotMemory will take a snapshot of the process with the specified PID. Otherwise, dotMemory will take snapshots of all profiled processes.</p>
+<ul>
+<li>Stop profiling and kill the profiled application:
+<p><code>##dotMemory["disconnect"]</code></li>
+</ul>
+<p>These stdin messages work for all profiling sessions started with <code>start</code>, <code>start-iis</code>, or <code>attach</code> commands.</p>
+<p>Moreover, if you want to write a profiling script, you may find it useful that dotMemory.exe is able to send service messages to stdout:</p>
+<ul>
+<li>Start of the profiling session:
+<p><code>##dotMemory["connected", {pid: 1234}]</code></li>
+<li>Saving the snapshot:
+<p><code>##dotMemory["workspace-saved", {path: "..."}]</code></li>
+</ul>
+<p>Note that messages sent to stdin must always start from a new line and end with a carriage return. Both stdin and stdout messages have the format of a JSON array.</p>
+<h2>Get snapshots using API</h2>
+<p>Of course, we don&#8217;t forget about our profiling API. If you control profiling directly from your code using the dotMemory API, run dotMemory.exe with the <code>-–use-api</code> command. E.g.:</p>
+<p><code>dotMemory.exe start --use-api C:\MyApp\MyApp.exe</code></p>
+<p>We hope you’ll find the dotMemory console profiler useful and helpful in automating your profiling routines. As usual, we invite you to <a href="https://www.jetbrains.com/dotmemory/download/#section=command-line-profiler">download the tool</a>, try it on your own and share your experience.</p>
+<p>The post <a rel="nofollow" href="https://blog.jetbrains.com/dotnet/2017/05/16/dotmemory-command-line-tools/">dotMemory Command Line Tools</a> appeared first on <a rel="nofollow" href="https://blog.jetbrains.com/dotnet">.NET Tools Blog</a>.</p>
+]]></content:encoded>
+            <wfw:commentRss>https://blog.jetbrains.com/dotnet/2017/05/16/dotmemory-command-line-tools/feed/
+            </wfw:commentRss>
+            <slash:comments>3</slash:comments>
+        </item>
+        <item>
+            <title>Working with TODO items in Rider</title>
+            <link>https://blog.jetbrains.com/dotnet/2017/05/11/working-todo-items-rider/</link>
+            <comments>https://blog.jetbrains.com/dotnet/2017/05/11/working-todo-items-rider/#comments</comments>
+            <pubDate>Thu, 11 May 2017 17:32:15 +0000</pubDate>
+            <dc:creator><![CDATA[Maarten Balliauw]]></dc:creator>
+            <category><![CDATA[How-To's]]></category>
+            <category><![CDATA[EAP]]></category>
+            <category><![CDATA[editor]]></category>
+            <category><![CDATA[navigation and search]]></category>
+            <category><![CDATA[Rider]]></category>
+            <category><![CDATA[todo]]></category>
+
+            <guid isPermaLink="false">http://blog.jetbrains.com/dotnet/?p=14773</guid>
+            <description><![CDATA[<p>Usually, coding and review tasks are logged in an issue tracker like YouTrack, JIRA or Visual Studio Team Services, all systems that can be connected to from within JetBrains&#160;Rider. But what with those typical TODO comments? Do they go into &#8230; <a href="https://blog.jetbrains.com/dotnet/2017/05/11/working-todo-items-rider/">Continue reading <span class="meta-nav">&#8594;</span></a></p>
+<p>The post <a rel="nofollow" href="https://blog.jetbrains.com/dotnet/2017/05/11/working-todo-items-rider/">Working with TODO items in Rider</a> appeared first on <a rel="nofollow" href="https://blog.jetbrains.com/dotnet">.NET Tools Blog</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<p dir="ltr">Usually, coding and review tasks are logged in an issue tracker like <a href="http://www.jetbrains.com/youtrack">YouTrack</a>, <a href="https://www.atlassian.com/software/jira">JIRA</a> or <a href="https://www.visualstudio.com/team-services/">Visual Studio Team Services</a>, all systems that can be connected to from within <a href="https://www.jetbrains.com/rider/download/">JetBrains&nbsp;Rider</a>.</p>
+<p>But what with those typical <code>TODO</code> comments? Do they go into the issue tracker? Or should we simply annotate our code with short comments?  Instead of starting a religious discussion, let&#8217;s look at how we can work with TODO&#8217;s in our code and IDE to describe these small, code-specific tasks.</p>
+<p><span id="more-14773"></span></p>
+<p dir="ltr"><em>Tip: do read up on how to <a href="https://www.jetbrains.com/help/idea/managing-tasks-and-context.html">work with tasks and contexts and integrate with issue tracking systems</a>. Rider has some excellent functionality there as well!</em></p>
+<h2 dir="ltr">Creating and navigating TODO comments</h2>
+<p>Many codebases already contain comments similar to this one:</p><pre class="crayon-plain-tag">public static string Piratize(this string boringEnglishString)
+{
+    // TODO - turn this into a non-horrible regex ;-)
+    return lowerSubstitutions.Aggregate(boringEnglishString,
+        (current, substitution) =&gt; current.Replace(substitution.Key, substitution.Value));
+}</pre><p>The <code>TODO</code> comment above describes a small task, typically related to the code at hand, which should be fixed at some point in time. In Rider we can open the TODO tool window (<kbd><strong>Alt+6</strong></kbd> or <strong>View | Tool Windows | TODO</strong>), which scans our codebase for TODO comments and displays all of them:</p>
+<p><img class="alignnone wp-image-14942" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/03/todo-tool-window-1.png" alt="Rider overview of TODO comments in code" width="800" height="369" /></p>
+<p>Whenever we write a comment that starts with the word &#8220;todo&#8221;, Rider will display it in the TODO tool window. This works for all languages supported by Rider, so we can do this in C#, VB.NET, Razor, ASP.NET, JavaScript, HTML, CSS, &#8230;</p>
+<p>From the toolbar on the left, we have several options available. For example, we can toggle <strong><em>Preview Source</em></strong> to display some additional context for a TODO item after selecting it:</p>
+<p><img class="alignnone wp-image-14943" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/03/todo-preview-source-code.png" alt="Preview TODO comments in editor" width="800" height="354" /></p>
+<p>We can navigate to a TODO comment by using the <strong>Jump to Source</strong> context menu (<kbd><strong>F4</strong></kbd>). When <em><strong>Autoscroll to Source</strong></em> is enabled from the toolbar, Rider will let us navigate the list using the keyboard and auto-opens the containing file in the editor at the exact location in source code where our comment is located.</p>
+<p><img class="alignnone wp-image-14944" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/03/scroll-to-source-preview.png" alt="Autoscroll to source from TODO tool window" width="800" height="500" data-gif-src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/03/scroll-to-source.gif" /></p>
+<h2>TODO patterns</h2>
+<p>Over the years, I&#8217;ve seen code bases that use one (or more) of these types of comments to describe tasks that should be carried out at some point, for example as part of the &#8220;<a href="http://programmer.97things.oreilly.com/wiki/index.php/The_Boy_Scout_Rule">boy scout rule</a>&#8220;:</p>
+<ul>
+<li><code>TODO</code> &#8211; a simple &#8220;todo&#8221; which should be executed on at some point (but very often stays in the codebase for years)</li>
+<li><code>REVIEW</code> &#8211; something the code reviewer should note and comment on</li>
+<li><code>NOTE </code>&#8211; explains why a certain piece of code was written and what the underlying idea is</li>
+<li><code>BUG</code> &#8211; describes a bug (which should probably be logged in the issue tracker as well&#8230;)</li>
+<li><code>HACK</code> &#8211; explains a hack in code</li>
+</ul>
+<p>By default, Rider recognizes <code>TODO</code> and <code>BUG</code> as TODO comments. To add support for other comments, we can define a new pattern. We can do this from the settings, under <strong>Editor | TODO</strong>. Pattern are created as regular expressions, and can be as simple or as complicated as we want. For example if we want to recognize <code>REVIEW</code>, we could add a regular expression that searches for that word, e.g. <code>\bREVIEW\b</code> , or a full-blown regular expression that matches more complex structures.</p>
+<p><img class="alignnone wp-image-14786" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/03/create-todo-pattern.png" alt="Create TODO pattern" width="464" height="500" /></p>
+<p>We have to specify our regular expression and can define whether it should be treated case sensitive or not. Additionally, we can pick an icon and a color that will be used to display the matching comment in the TODO tool window and editor. Here&#8217;s what things would look like after creating a pattern which emphasizes <code>HACK</code> comments:</p>
+<p><img class="alignnone wp-image-14787" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/03/custom-todo-pattern-emphasis.png" alt="Custom TODO pattern" width="700" height="500" /></p>
+<h2 dir="ltr">Filtering TODO comments</h2>
+<p>Depending on the size and age of the codebase, there may be lots of TODO comments. We can filter TODO comments, either by scope or by creating a filter. Let&#8217;s look at scopes first.</p>
+<p>From the <strong>Current File</strong> tab, we&#8217;ll see just the TODO comments in the current file active in the editor. The <strong>Scope Based</strong> tab, we can pick the places Rider should search for TODO comments. We can select the current project, or limit the search to just the <strong>files that we&#8217;re about to commit to a version control system</strong>. We could also create a custom scope, for example one which only scans through a specific folder inside our solution.</p>
+<p><img class="alignnone wp-image-14789" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/03/filter-to-scope.png" alt="Filter TODO list by scope" width="700" height="200" /></p>
+<p>In the TODO tool window, we can also apply a filter to the list of todo comments. We can add a new filter through Rider&#8217;s settings (under <strong>Editor | TODO</strong>) or <strong>Add filter</strong> toolbar button. Filters are based on a pattern, so we can easily create a new filter which would only show us only a specific type of TODO&#8217;s:</p>
+<p><img class="alignnone wp-image-14791" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/03/pattern-filter.png" alt="Filter TODO comments matching a given pattern" width="475" height="495" /></p>
+<p>A cool trick here would be to create a filter which only matches TODO&#8217;s that apply to ourselves, for example here&#8217;s a filter that would only show TODO comments that have <code>maarten</code> in the comment (regular expression: <code>\bmaarten\b</code>). If we apply this filter on our TODO list, we&#8217;ll see only the tasks that I should be working on:</p>
+<p><img class="alignnone wp-image-14792" src="https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/03/show-just-for-me.png" alt="Filter TODO comments &quot;just for me&quot;" width="700" height="270" /></p>
+<p>TODO comments are not meant to replace an issue tracker, but can be helpful in identifying code that needs some work. Rider helps navigating these types of tasks and lets us slice and dice them based on scopes or patterns.</p>
+<p><strong><a href="https://www.jetbrains.com/rider/download/">Download the latest Rider EAP build and give it a try!</a></strong> We&#8217;d love to hear your feedback!</p>
+<p>The post <a rel="nofollow" href="https://blog.jetbrains.com/dotnet/2017/05/11/working-todo-items-rider/">Working with TODO items in Rider</a> appeared first on <a rel="nofollow" href="https://blog.jetbrains.com/dotnet">.NET Tools Blog</a>.</p>
+]]></content:encoded>
+            <wfw:commentRss>https://blog.jetbrains.com/dotnet/2017/05/11/working-todo-items-rider/feed/</wfw:commentRss>
+            <slash:comments>1</slash:comments>
+        </item>
+    </channel>
+</rss>
+
+        <!-- Performance optimized by W3 Total Cache. Learn more: https://www.w3-edge.com/products/
+
+        Page Caching using disk: enhanced
+        Content Delivery Network via Amazon Web Services: CloudFront: d3nmt5vlzunoa1.cloudfront.net
+
+         Served from: blog.jetbrains.com @ 2017-07-08 08:58:42 by W3 Total Cache -->

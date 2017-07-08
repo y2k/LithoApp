@@ -22,7 +22,7 @@ object Parser {
                 Entity(
                     it.select("title").text(),
                     it.select("description").text().unescapeHtml(),
-                    it.select("link").text().let(::URL))
+                    it.select("link").first().nextSibling().toString().let(::URL))
             }
 
     fun parserSubscriptions(html: String): Subscriptions =

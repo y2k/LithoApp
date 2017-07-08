@@ -59,8 +59,8 @@ sealed class Result<out T>
 class Error(val error: Exception) : Result<Nothing>()
 class Ok<out T>(val value: T) : Result<T>()
 
-private val scheduler = Executors.newScheduledThreadPool(1)
-private val uiHandler = Handler(Looper.getMainLooper())
+private val scheduler by lazy { Executors.newScheduledThreadPool(1) }
+private val uiHandler by lazy { Handler(Looper.getMainLooper()) }
 
 suspend fun wait(time: Long) {
     return suspendCoroutine { con ->

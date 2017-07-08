@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" media="screen" href="/~d/styles/rss2full.xsl"?><?xml-stylesheet type="text/css" media="screen" href="http://feeds.feedburner.com/~d/styles/itemcontent.css"?>
+<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+     xmlns:slash="http://purl.org/rss/1.0/modules/slash/" xmlns:feedburner="http://rssnamespace.org/feedburner/ext/1.0"
+     version="2.0">
+
+    <channel>
+        <title>IntelliJ IDEA Blog</title>
+
+        <link>https://blog.jetbrains.com/idea</link>
+        <description>Tips &amp; tricks, news, how-to’s about the most intelligent Java IDE</description>
+        <lastBuildDate>Fri, 07 Jul 2017 10:01:10 +0000</lastBuildDate>
+        <language>en-US</language>
+        <sy:updatePeriod>hourly</sy:updatePeriod>
+        <sy:updateFrequency>1</sy:updateFrequency>
+        <generator>https://wordpress.org/?v=4.4.10</generator>
+        <atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="self" type="application/rss+xml"
+                     href="http://feeds.feedburner.com/jetbrains_intellijidea"/>
+        <feedburner:info uri="jetbrains_intellijidea"/>
+        <atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="hub" href="http://pubsubhubbub.appspot.com/"/>
+        <item>
+            <title>Java Annotated Monthly – July 2017</title>
+            <link>http://feedproxy.google.com/~r/jetbrains_intellijidea/~3/NZSQpe1-ZGU/</link>
+            <comments>https://blog.jetbrains.com/idea/2017/07/java-annotated-monthly-july-2017/#respond</comments>
+            <pubDate>Fri, 07 Jul 2017 10:01:10 +0000</pubDate>
+            <dc:creator><![CDATA[Trisha Gee]]></dc:creator>
+            <category><![CDATA[News & Events]]></category>
+            <category><![CDATA[java 9]]></category>
+            <category><![CDATA[Java Annotated]]></category>
+
+            <guid isPermaLink="false">http://blog.jetbrains.com/idea/?p=15528</guid>
+            <description>
+                <![CDATA[The start of June brought the disappointing news that we&#8217;d have to wait longer for Java 9, so July and August news won&#8217;t be all about the big release.  However, there&#8217;s still plenty of Java 9 news, the usual handful of &#8230; <a href="https://blog.jetbrains.com/idea/2017/07/java-annotated-monthly-july-2017/">Continue reading <span class="meta-nav">&#8594;</span></a>]]></description>
+            <content:encoded><![CDATA[<p style="text-align: justify;">The start of June brought the disappointing news that we&#8217;d have to wait longer for Java 9, so July and August news won&#8217;t be all about the big release.  However, there&#8217;s still plenty of Java 9 news, the usual handful of interesting Design and Architecture links, and this month a massive amount of Android and Kotlin news as we try to catch up with everything from Google I/O.</p>
+<p style="text-align: justify;"><img class="alignnone wp-image-14180" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2016/04/JavaAnnotatedMonthly@2x.png" alt="JavaAnnotatedMonthly@2x" width="800" height="415" /></p>
+<p><span id="more-15528"></span></p>
+<h2>Java 9</h2>
+<p>We may be disappointed that Java 9 <a href="https://www.theregister.co.uk/2017/06/01/oracle_asks_for_more_time_to_finish_java_9/">won&#8217;t be out this month</a>, but we know that it takes time to create something that&#8217;s good for everyone.  At least the <a href="https://www.jcp.org/en/jsr/results?id=6016">JCP EC has voted in favour of the updated Jigsaw spec</a>, so it&#8217;s full steam ahead to the new September release date.</p>
+<ul>
+<li><a href="http://www.infoworld.com/article/3198989/java/the-road-to-java-9-the-current-status.html">The road to Java 9: The current status</a></li>
+<li><a href="https://www.infoq.com/news/2017/06/oracle-defends-jpms">Oracle Defends the Java Module System</a></li>
+<li><a href="https://www.javacodegeeks.com/2017/06/jhsdb-new-tool-jdk-9.html">jhsdb: A New Tool for JDK 9</a></li>
+<li><a href="http://www.javaspecialists.eu/archive/Issue248.html">Immutable Collections in Java 9</a></li>
+<li><a href="https://www.oreilly.com/ideas/ben-evans-on-java-9">Ben Evans on Java 9</a> (podcast, discussing the upcoming release of Java 9, Jigsaw&#8217;s impact, and Java performance issues)</li>
+<li><a href="https://www.infoq.com/presentations/java9-flow-stream-api">Real World Java 9, QCon London</a> (video, focus on Reactive Streams) &amp; <a href="https://www.youtube.com/watch?v=watS54iWH9U">Real World Java 9, GOTO Amsterdam</a> (video, more info on Jigsaw &amp; other Java 9 features) &#8211; JetBrains&#8217; <a href="https://blog.jetbrains.com/idea/author/trishagee/">Trisha Gee</a> shows Java 9 features and how to use them in IntelliJ IDEA.</li>
+</ul>
+<h2>Java In General</h2>
+<ul>
+<li><a href="https://dzone.com/guides/java-development-and-evolution">Java: Development and Evolution</a> (DZone&#8217;s latest guide, featuring a short article on Java 8 features from me, <a href="https://blog.jetbrains.com/idea/author/trishagee/">Trisha</a>)</li>
+<li><a href="https://www.marcobehler.com/series/1-spring-boot-from-zero-to-rest">Spring Boot: From Zero to REST</a> (video series)</li>
+<li><a href="https://shipilev.net/jvm-anatomy-park/">JVM Anatomy Park</a> (blog series exploring the JVM under the covers)</li>
+<li><a href="https://www.infoq.com/presentations/tecniques-parallelism-java">From Concurrent to Parallel</a> (video: excellent presentation from Brian Goetz going into details about programming for performance in Java)</li>
+<li><a href="https://dzone.com/articles/concurrency-in-action-using-javas-completable-futu">Concurrency in Action: Using Java&#8217;s CompletableFuture With Work Manager</a></li>
+<li><a href="https://programmingmitra.blogspot.com.es/2017/02/automatic-spring-data-jpa-auditing-saving-CreatedBy-createddate-lastmodifiedby-lastmodifieddate-automatically.html?1">Spring Data JPA Auditing</a></li>
+<li><a href="http://www.pavel.cool/javaee/cdi-events/?1">CDI Events overview</a></li>
+<li><a href="http://redmonk.com/sogrady/2017/06/08/language-rankings-6-17">The RedMonk Programming Language Rankings: June 2017</a> (Java is doing rather well in second place).</li>
+<li><a href="http://www.oracle.com/technetwork/articles/java/architect-benchmarking-2266277.html">Avoiding Benchmarking Pitfalls on the JVM</a> (not a new article, but the next section has a link to microbenchmarks, so this seems relevant)</li>
+</ul>
+<h2>Android (&amp; Kotlin)</h2>
+<p>This Android section always ends up being a bit Kotlin-heavy.  It might surprise you to learn this isn&#8217;t a JetBrains bias, but represents the Android news feeds that go into creating this newsletter. It always leaves me with a bit of a quandary about whether Kotlin links belong in an Android, Kotlin, or JVM section, or if it even belongs in a &#8220;Java&#8221; newsletter at all, so expect (as usual) to find the Kotlin news boiled down to a minimum and spread around a bit.</p>
+<ul>
+<li><a href="https://www.raywenderlich.com/161318/beginning-android-development-part-one-installing-android-studio">Beginning Android Development Part One: Installing Android Studio</a> (very comprehensive guide)</li>
+<li>Functional Programming for Android Developers &#8211; <a href="https://medium.freecodecamp.org/functional-programming-for-android-developers-part-1-a58d40d6e742">Part 1</a>, <a href="https://medium.freecodecamp.org/functional-programming-for-android-developers-part-2-5c0834669d1a">Part 2</a> and <a href="https://medium.com/@anupcowkur/functional-programming-for-android-developers-part-3-f9e521e96788">Part 3</a>.</li>
+<li>Exploring Kotlin’s hidden costs — <a href="https://medium.com/@BladeCoder/exploring-kotlins-hidden-costs-part-1-fbb9935d9b62">Part 1</a>, <a href="https://medium.com/@BladeCoder/exploring-kotlins-hidden-costs-part-2-324a4a50b70">Part 2</a> and <a href="https://medium.com/@BladeCoder/exploring-kotlins-hidden-costs-part-3-3bf6e0dbf0a4">Part 3</a> (written from the point of view of an Android developer, but not really Android-specific).</li>
+<li><a href="https://sites.google.com/a/athaydes.com/renato-athaydes/posts/kotlinshiddencosts-benchmarks">Kotlin&#8217;s hidden costs &#8211; Benchmarks</a> (a set of <a href="http://openjdk.java.net/projects/code-tools/jmh/">JMH</a> benchmarks to look at the impact of the hidden costs &#8211; some surprising results, but <a href="http://daniel.mitterdorfer.name/articles/2014/benchmarking-flaws/">always be wary of microbenchmarks</a>).</li>
+<li><a href="https://android.jlelse.eu/a-first-walk-into-kotlin-coroutines-on-android-fe4a6e25f46a">A first walk into Kotlin coroutines on Android</a></li>
+<li><a href="https://medium.com/google-developers/lessons-learned-while-converting-to-kotlin-with-android-studio-f0a3cb41669">Lessons learned while converting to Kotlin with Android Studio</a></li>
+<li><a href="https://m.signalvnoise.com/kotlin-its-the-little-things-8c0f501bc6ea">Kotlin: It’s the little things</a></li>
+<li><a href="https://medium.com/@andrew.kelly/rxjava-the-first-3-patterns-4c112a85b689">RxJava — The first 3 patterns</a></li>
+<li><a href="http://hannesdorfmann.com/android/arch-components-purist">Architecture Components &#8211; I&#8217;m Not a Purist But&#8230;</a></li>
+<li><a href="https://tengio.com/blog/android-things-for-beginners/">Android Things for beginners</a></li>
+<li><a href="https://medium.com/@bherbst/understanding-the-gradle-wrapper-a62f35662ab7">Understanding the Gradle Wrapper</a> (not just applicable to Android developers)</li>
+<li>(Gradle) <a href="https://jeroenmols.com/blog/2017/06/14/androidstudio3/">Implementation vs API dependency</a></li>
+<li><a href="https://android.jlelse.eu/how-to-speed-up-your-slow-gradle-builds-5d9a9545f91a">How to speed up your slow Gradle builds</a> (Android-specific)</li>
+<li><a href="https://medium.com/@arturogdg/using-gradle-script-kotlin-for-android-d6cd58c80d60">Using Gradle Script Kotlin for Android</a></li>
+<li><a href="https://commonsware.com/blog/2017/06/08/random-musings-o-developer-preview-3.html">Random Musings on the O Developer Preview 3</a></li>
+<li><a href="https://blog.stylingandroid.com/downloadable-fonts">Downloadable Fonts</a></li>
+</ul>
+<h2>Other JVM News &amp; Links</h2>
+<p>There&#8217;s still some fallout from the Google I/O Kotlin announcement which I wanted to share, but to vaguely attempt to reduce the JetBrains-language-bias, I&#8217;ve specifically looked for and shared other interesting non-Java news.</p>
+<ul>
+<li><a href="https://redmonk.com/sogrady/2017/05/24/kotlin/">Five Things That Make Kotlin Interesting</a></li>
+<li><a href="https://www.bignerdranch.com/blog/what-first-party-kotlin-support-means-for-your-business/">What First-Party Kotlin Support Means for Your Business</a></li>
+<li><a href="https://medium.com/@enriquelopezmanas/on-strategies-to-apply-kotlin-to-existing-java-code-6317974717ec?imm_mid=0f4065&amp;cmp=em-prog-na-na-newsltr_20170701">On Strategies to apply Kotlin to existing Java code</a></li>
+<li><a href="https://blog.playframework.com/play-2-6-0-released/">Play 2.6.0 released</a></li>
+<li><a href="https://github.com/gradle/gradle/releases/tag/v4.1.0-milestone-1">Gradle 4.1 milestone 1 is available</a> (includes runtime compatibility with Java 9, and I can&#8217;t wait to try it out).</li>
+<li><a href="http://guides.grails.org/grails-codenarc/guide/index.html">Static code analysis in a Grails app with CodeNarc</a> (I highly recommend using CodeNarc with your Groovy code, particularly if you&#8217;re new to Groovy).</li>
+<li><a href="http://mrhaki.blogspot.com.es/2013/08/spocklight-using-old-method.html">Spocklight: Using the Old Method</a> (old() is an awesome feature of Spock I wasn&#8217;t aware of, here&#8217;s <a href="http://blog.freeside.co/2012/02/15/spock-killer-features-the-old-method">how it works under the hood</a>).</li>
+<li><a href="https://www.infoq.com/presentations/panel-languages-future">Panel: What&#8217;s Next for Our Programming Languages?</a> (video, very well received panel at QCon London earlier this year).</li>
+</ul>
+<h2>Design and Architecture</h2>
+<ul>
+<li><a href="http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html">TDD Harms Architecture</a> (by Bob Martin. Spoiler: the clickbait title is not necessarily the conclusion of the article).</li>
+<li><a href="https://www.infoq.com/articles/scs-microservices-done-right">Self Contained Systems (SCS): Microservices Done Right</a></li>
+<li><a href="https://genehughson.wordpress.com/2017/03/31/microservices-monoliths-and-modularity/">Microservices, Monoliths, and Modularity</a></li>
+<li><a href="https://www.oreilly.com/ideas/the-evolution-of-scalable-microservices">The Evolution of Scalable Microservices</a></li>
+<li><a href="https://www.infoq.com/presentations/latency-sensitive-microservices">Latency Sensitive Microservices</a> (video)</li>
+<li><a href="https://developers.redhat.com/blog/2017/03/16/naming-matters/">Naming Matters</a></li>
+<li><a href="http://tidyjava.com/strange-relationship-duplication-coupling/">The Strange Relationship between Duplication and Coupling</a></li>
+<li><a href="http://blog.jessitron.com/2017/06/the-most-productive-circumstances-for.html">Hyperproductive development</a> (or: one explanation for the so-called 10x developer, and how to work in an environment that has one).</li>
+<li><a href="https://spin.atomicobject.com/2017/06/01/how-to-read-code/?imm_mid=0f25b0&amp;cmp=em-prog-na-na-newsltr_20170603">How to Read Code (Eight Things to Remember)</a> (great advice)</li>
+<li><a href="https://dev.to/lovis/gang-of-four-patterns-in-kotlin">Gang of Four Patterns in Kotlin</a></li>
+</ul>
+<h2>Events</h2>
+<p>It&#8217;s summertime! We&#8217;re not going to be at any more conferences in July and August.  Keep an eye out for the September conference rush.</p>
+<h2>And Finally</h2>
+<ul>
+<li>The <a href="https://blog.jetbrains.com/idea/2017/06/intellij-idea-2017-2-public-preview/">2017.2 Public Preview is available</a>.</li>
+<li>Check out our new <a href="https://youtu.be/JwPYjnhah3g">Working with Gradle in IntelliJ IDEA</a> video.</li>
+<li><a href="https://blog.jetbrains.com/kotlin/2017/06/kotlinnative-v0-3-is-out/">Kotlin native 0.3 is out</a>.</li>
+<li>Our friends at RebelLabs are running their annual <a href="https://rebellabs.typeform.com/to/IrpKbp">Java Tools and Technologies Survey</a>, feel free to take part (not that I&#8217;m suggesting we overwhelm it with IntelliJ IDEA users&#8230;)</li>
+</ul>
+<p align="center"><a class="jb-download-button" title="Complete this form and get Java Annotated Monthly delivered fresh to your email" href="http://info.jetbrains.com/Java-Annotated-Subscription.html"><i class="download-icon"></i>Subscribe to Java Annotated</a></p>
+<a id="post_footer_banner" href="https://kotlinconf.com" style="border:0; padding:0; margin:0px;"><img  src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/07/KotlinConf_blog_banner2.png" width="800" style="margin: 0 0 20px 0; padding: 0; border: solid 1px #ccc;"/></a><img src="http://feeds.feedburner.com/~r/jetbrains_intellijidea/~4/NZSQpe1-ZGU" height="1" width="1" alt=""/>]]></content:encoded>
+            <wfw:commentRss>https://blog.jetbrains.com/idea/2017/07/java-annotated-monthly-july-2017/feed/
+            </wfw:commentRss>
+            <slash:comments>0</slash:comments>
+            <feedburner:origLink>https://blog.jetbrains.com/idea/2017/07/java-annotated-monthly-july-2017/
+            </feedburner:origLink>
+        </item>
+        <item>
+            <title>IntelliJ IDEA 2017.2 Public Preview</title>
+            <link>http://feedproxy.google.com/~r/jetbrains_intellijidea/~3/c9oY3e77J1w/</link>
+            <comments>https://blog.jetbrains.com/idea/2017/06/intellij-idea-2017-2-public-preview/#comments</comments>
+            <pubDate>Wed, 21 Jun 2017 16:27:59 +0000</pubDate>
+            <dc:creator><![CDATA[Andrey Cheptsov]]></dc:creator>
+            <category><![CDATA[EAP Releases]]></category>
+            <category><![CDATA[New Features]]></category>
+            <category><![CDATA[2017]]></category>
+            <category><![CDATA[2017.2]]></category>
+
+            <guid isPermaLink="false">http://blog.jetbrains.com/idea/?p=15469</guid>
+            <description>
+                <![CDATA[The last couple of months have been a lot of fun as we’ve been working on IntelliJ IDEA 2017.2 which is due out this summer. We appreciate the contributions from all EAP participants and the feedback they’ve shared on the &#8230; <a href="https://blog.jetbrains.com/idea/2017/06/intellij-idea-2017-2-public-preview/">Continue reading <span class="meta-nav">&#8594;</span></a>]]></description>
+            <content:encoded><![CDATA[<p>The last couple of months have been a lot of fun as we’ve been working on IntelliJ IDEA 2017.2 which is due out this summer. We appreciate the contributions from all EAP participants and the feedback they’ve shared on the new features. We reached a feature-freeze two weeks ago, and today, with roughly a month before the release, we’re happy to give you a detailed glimpse of what’s noteworthy in the upcoming IntelliJ IDEA 2017.2.</p>
+<p><img class="alignnone wp-image-15513" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/IntelliJIDEA20172_PP_blog.png" alt="" width="640" height="400" /></p>
+<p>If you can’t wait, <a href="https://www.jetbrains.com/idea/nextversion/" target="_blank">download</a> the public preview build right away and try it on your own. Otherwise read on and learn about the major changes.<span id="more-15469"></span></p>
+<h3>Java</h3>
+<p><strong>Chain completion</strong></p>
+<p><em>Chain Completion</em>, which was available on the second call of <em>Smart Completion</em>, gets even better. Now the suggestions are displayed after the first call of <em>Smart Completion</em>, and they’re sorted by how frequently they’re used in the project:</p>
+<p><img class="alignnone wp-image-15470" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image9.png" alt="" width="750" height="300" /></p>
+<p>When any of these method calls takes an argument not yet available in the context, after you select it, the IDE defines a local variable of the required type:</p>
+<p><img class="alignnone wp-image-15471" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image2.gif" alt="" width="751" height="302" /></p>
+<p>Note that this feature works only for Java and requires the project to be built with the IDE’s (not Gradle’s) compiler.</p>
+<p>The old behavior of <em>Chain Completion</em> is still available via the second call of <em>Smart Completion</em>.</p>
+<p><strong>Control flow analysis</strong></p>
+<p>Control flow analysis has become much smarter and now detects a wider variety of problems in the code.</p>
+<p>For example, if <em>Collection#isEmpty()</em> returns true, the IDE understands that there are no elements in that collection to iterate over:</p>
+<p><img class="alignnone wp-image-15472" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image12.png" alt="" width="749" height="298" /></p>
+<p>The IDE also understands that <em>String#charAt(int index)</em> throws an exception when called on an empty string, or when the index exceeds the value returned by the <em>String#length()</em> method.</p>
+<p>The same intelligence applies to: <em>String#isEmpty()</em>, <em>String#charAt(int index)</em>, <em>List#get(int index)</em>, <em>Set#contains(Object item)</em>, <em>Map#containsKey(Object key)</em>, <em>Map#containsValue(Object value)</em>, and many other methods.</p>
+<p><img class="alignnone wp-image-15473" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image19.png" alt="" width="750" height="300" /></p>
+<p>The IDE also gains a better understanding of reporting nullability issues, in particular when it comes to working with <em>Collection</em> and <em>Map</em> type parameters:</p>
+<p><img class="alignnone wp-image-15474" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image6.png" alt="" width="750" height="300" /></p>
+<p><strong>Extracting an expression as a map operation</strong></p>
+<p>Now, when you call <em>Extract Variable</em> inside a Stream API map call, the IDE offers extracting it as a separate <em>map()</em> expression:</p>
+<p><img class="alignnone wp-image-15475" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image29.gif" alt="" width="750" height="300" /></p>
+<p><strong>Extracting a functional variable</strong></p>
+<p>Embracing Java 8 in one of the earlier releases, we introduced <em>Extract Functional Parameter</em>. With this preview we’re going further and introducing <em>Extract Functional Variable</em>:</p>
+<p><img class="alignnone wp-image-15476" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image30.gif" alt="" width="749" height="300" /></p>
+<p><strong>Extracting a lambda to a method reference</strong></p>
+<p>IntelliJ IDEA now offers you a quick-fix that replaces a lambda expression with a method reference. This combines <em>Extract Method</em> and <em>Replace Lambda with Method Reference</em>:</p>
+<p><img class="alignnone wp-image-15477" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image1.gif" alt="" width="747" height="300" /></p>
+<p><strong>Replacing multiple equals with <em>Set.contains</em></strong></p>
+<p>When you are checking whether an expression is equal to one of several literals, the IDE now offers you to replace these checks with a <em>Set#contains(Object key)</em> call:</p>
+<p><img class="alignnone wp-image-15478" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image10.gif" alt="" width="749" height="300" /></p>
+<p><strong>Java 9: suggesting <em>Thread#onSpinWait</em></strong></p>
+<p>If you’re using Java 9, the IDE finds the loops spinning on a volatile field and suggests calling <em>Thread#onSpinWait()</em> inside such a loop. This call may significantly improve the performance of your code:</p>
+<p><img class="alignnone wp-image-15479" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image38.png" alt="" width="750" height="300" /></p>
+<p><strong>Java 9: suggesting <em>Set.of</em></strong></p>
+<p>When you’re using Java 9, the IDE finds the code where you construct sets and pre-fill them with data, and suggests replacing it with <em>Set#of(String…items)</em> where possible:</p>
+<p><img class="alignnone wp-image-15480" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image3.gif" alt="" width="750" height="300" /></p>
+<p><strong>Debugger: filtering arrays &amp; collections</strong></p>
+<p>The debugger now allows you to filter arrays and collections in <em>Variables</em>, <em>Watches</em>, <em>Evaluate Expression</em> and other similar views:</p>
+<p><img class="alignnone wp-image-15481" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image27.gif" alt="" width="746" height="300" /></p>
+<p>Out of the EAP scope, but you may also find it interesting to know that recently we introduced a new plugin called <a href="https://www.google.com/url?q=https://plugins.jetbrains.com/plugin/9696-java-stream-debugger&amp;sa=D&amp;ust=1497862836399000&amp;usg=AFQjCNEqP8LnMehdRzuWnn7aWXPob-0fxg" target="_blank">Java Stream Debugger</a>. This plugin provides visualization of Java Stream operations:</p>
+<p><img class="alignnone wp-image-15482" src="https://raw.githubusercontent.com/Roenke/static/master/screen_shot_2017-05-11_at_15.07.27.gif" alt="" width="750" height="371" /></p>
+<p>You can use the plugin if you’re running IntelliJ IDEA 2017.1 or newer.</p>
+<p><strong>Java 9: module diagrams</strong></p>
+<p>Embracing Java 9 and its new module system, the preview introduces <em>Module Diagrams</em>. Use them to see the dependencies between the selected modules. To see the diagram, invoke <em>Diagrams</em> | <em>Show Diagram</em> (<em>Ctrl+Alt+Shift+U</em> or <em>Cmd+Alt+Shift+U</em> for macOS), and then choose <em>Java Modules Diagram</em>:</p>
+<p><img class="alignnone wp-image-15483" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image5.png" alt="" width="750" height="300" /></p>
+<p>If a diagram is too big, press <em>Ctrl+F</em> (<em>Cmd+F</em> for macOS) to quickly locate a module:</p>
+<p><img class="alignnone wp-image-15484" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image26.png" alt="" width="750" height="300" /></p>
+<p>To see usages for the selected modules, use the good old Show Usages via <em>Alt+Ctrl+F7</em> (<em>Alt+Cmd+F7</em> for macOS).</p>
+<p>The diagram works for JRE modules as well:</p>
+<p><img class="alignnone wp-image-15485" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image34.png" alt="" width="750" height="300" /></p>
+<p><strong>Smart completion: builder classes</strong></p>
+<p><em>Smart Completion</em> is now aware of builder classes in the project and suggests their usage where relevant:</p>
+<p><img class="alignnone wp-image-15486" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image33.gif" alt="" width="750" height="300" /></p>
+<p><strong>JUnit 5 M4: parameterized and repeated tests</strong></p>
+<p>Following the recent JUnit 5 changes, the IDE adds dedicated coding assistance for <a href="http://junit.org/junit5/docs/current/user-guide/#writing-tests-parameterized-tests" target="_blank">Parameterized Tests</a> and <a href="http://junit.org/junit5/docs/current/user-guide/#writing-tests-repeated-tests" target="_blank">Repeated Tests</a>.</p>
+<p><img class="alignnone wp-image-15487" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image16.png" alt="" width="748" height="300" /></p>
+<p>If you haven’t specified the source of arguments for your test, the IDE will alert you. It will validate that the argument values match the method signature, and will report suspicious use of both <em>Test</em> and <em>ParameterizedTest</em> annotations together.</p>
+<p><strong>Reflection API</strong></p>
+<p>Coding assistance for Reflection has gotten better:</p>
+<p><img class="alignnone wp-image-15488" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image7.png" alt="" width="750" height="300" /></p>
+<p>We’ve introduced similar coding assistance for <a href="http://openjdk.java.net/jeps/274" target="_blank">Method Handlers</a> and <a href="http://openjdk.java.net/jeps/193" target="_blank">Variable Handlers</a>:</p>
+<p><img class="alignnone wp-image-15489" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image21.png" alt="" width="750" height="300" /></p>
+<p>IntelliJ IDEA provides code completion for method and field names as well as their signatures.</p>
+<p><img class="alignnone wp-image-15490" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image11.gif" alt="" width="747" height="300" /></p>
+<p><strong>Spring Boot: dashboard &amp; actuator endpoints</strong></p>
+<p>For Spring Boot applications, the traditional <em>Run</em> tool window has been replaced with <em>Run Dashboard</em>. This dashboard lets you manage <em>Run</em> configurations and see their application-specific information on the right:</p>
+<p><img class="alignnone wp-image-15491" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image14.gif" alt="" width="749" height="300" /></p>
+<p>Also, the <em>Run</em>/<em>Debug</em> tool window now has a tab called <em>Endpoints</em>. This tab shows information about the <em>Health</em> and <em>Beans</em> endpoints:</p>
+<p><img class="alignnone wp-image-15492" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image28.gif" alt="" width="749" height="300" /></p>
+<p>IMPORTANT: Because it’s still work in progress, you need to explicitly enable it via VM property <strong><em>-Dide.run.dashboard=true</em></strong>, or through the <i>Registry</i>.</p>
+<p><strong>Groovy</strong></p>
+<p>The update brings support for the new features introduced with Groovy 2.5.0: <em>@groovy.transform.builder.Builder#includeSuperProperties</em>, <em>@groovy.transform.AutoImplement</em>, and <em>@groovy.lang.Delegate</em> for methods:</p>
+<p><img class="alignnone wp-image-15515" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/Screen-Shot-2017-06-20-at-11.35.59.png" alt="" width="750" height="300" /></p>
+<p><strong>Gradle</strong></p>
+<p>When Gradle is downloading a wrapper distributive, the IDE now displays the progress bar in both the <em>Console</em> tool window and the <em>Background Tasks</em> popup:</p>
+<p><img class="alignnone wp-image-15493" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image32.png" alt="" width="750" height="300" /></p>
+<p>When you run a Gradle task via a <em>Run Configuration</em>, you can now specify and/or override environment variables:</p>
+<p><img class="alignnone wp-image-15494" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image36.png" alt="" width="750" height="300" /></p>
+<p>On macOS, the Gradle build is now consistent with the command line behavior because the IDE now respects environment variables defined on the system level.</p>
+<h3>VCS</h3>
+<p><strong>Reverting and rewording commits</strong></p>
+<p>The Git <em>Log</em> now provides two new actions: <em>Revert</em> and <em>Reword</em>. The first one lets you revert selected commits:</p>
+<p><img class="alignnone wp-image-15495" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image20.jpg" alt="" width="750" height="300" /></p>
+<p>The second one lets you change the commit message for any commits that have not been pushed yet.</p>
+<p><img class="alignnone wp-image-15496" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image23.png" alt="" width="750" height="300" /></p>
+<p><strong>Formatting commit messages</strong></p>
+<p>The settings related to the <em>Commit</em> dialog have been reworked and moved to a separate page called <em>Commit Dialog</em>:</p>
+<p><img class="alignnone wp-image-15497" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image13.png" alt="" width="750" height="300" /></p>
+<p>The new settings let you customize the rules applied to commit messages: a blank line between the subject and the body, and the maximum length. Also, now the IDE offers a quick fix and the <em>Reformat</em> action inside <em>Commit Message</em>:</p>
+<p><img class="alignnone wp-image-15498" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image37.png" alt="" width="750" height="300" /></p>
+<p><strong>Shelf</strong></p>
+<p>The <em>Shelf</em> tab has been reworked for better performance and ergonomics. Now it has a <em>Preview</em> panel and provides a new action to compare the “shelved” version of a file with its local version:</p>
+<p><img class="alignnone wp-image-15499" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image15.png" alt="" width="750" height="300" /></p>
+<h3>User Interface</h3>
+<p><strong>Find in Path: gutter icons, local change markers, focus</strong></p>
+<p>The Preview panel in Find in Path now has a “gutter” – a left-side pane like that in the editor – with line numbers, navigation icons and local change markers.</p>
+<p><img class="alignnone wp-image-15500" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image8.png" alt="" width="750" height="300" /></p>
+<p>Search results from the same lines are now merged together:</p>
+<p><img class="alignnone wp-image-15501" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image25.png" alt="" width="750" height="300" /></p>
+<p><strong>Better HiDPI support: per-monitor, auto-adjusted font-sizes</strong></p>
+<p>The IDE used to scale its UI based on the global settings of the primary display. This scale factor was applied even to non-primary monitors. Now it scales its UI based on the scale factor for the monitor the UI is shown on. This improvement has a limitation: it works only for Windows and doesn’t support fractional values.</p>
+<p>The font settings are now automatically adjusted based on the display resolution.</p>
+<h3>JavaScript and TypeScript</h3>
+<p><strong>Breadcrumbs</strong></p>
+<p>The Breadcrumbs earlier introduced for Java and some other languages are now available for JavaScript and TypeScript as well.</p>
+<p><strong>TypeScript: parameter hints</strong></p>
+<p>Parameter Hints are now available for TypeScript as well:</p>
+<p><img class="alignnone wp-image-15502" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image24.png" alt="" width="750" height="299" /></p>
+<p><strong>ES6 modules: moving symbols</strong></p>
+<p>Now, if you’re using ES6 modules, the <em>Move</em> refactoring is available for any top-level symbols.</p>
+<p><strong>Code rearranging</strong></p>
+<p><em>Rearrange Code</em>, earlier available for Java and several other languages, is now available for JavaScript and TypeScript as well. The arrangement rules can be adjusted in <em>Settings</em> | <em>Editor</em> | <em>Code Style</em> | <em>JavaScript</em> (or <em>TypeScript</em>) | <em>Arrangement</em>:</p>
+<p><img class="alignnone wp-image-15503" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image4.png" alt="" width="750" height="300" /></p>
+<p><strong>Converting module.exports to export default</strong></p>
+<p>The <em>“module.exports”</em> statement can now be converted via a quick-fix into <em>“export default”</em>. In the same way, the IDE helps convert <em>“exports.”</em> into <em>“export”</em> where possible.</p>
+<p><strong>Auto imports in JavaScript</strong></p>
+<p>Now, when you select a symbol suggested by code completion, the IDE automatically adds a proper <em>import</em> statement when needed.</p>
+<p><strong>React: completion and auto-imports for stateless components</strong></p>
+<p>Earlier we added auto-imports and code completion for stateful React components. Now similar support is available for stateless components as well.</p>
+<p><strong>Angular</strong></p>
+<p>The preview brings code completion and navigation for <a href="https://material.angular.io/" target="_blank">Angular Material</a> attributes.<br />
+Also, the IDE offers a quick-fix to create an unresolved Angular template.</p>
+<p><strong>Webpack: module resolution</strong></p>
+<p>The Webpack integration has been updated with support for <a href="https://webpack.js.org/concepts/module-resolution/" target="_blank">module resolution</a> and <a href="https://webpack.js.org/configuration/resolve/" target="_blank">resolve aliases</a>:</p>
+<p><img class="alignnone wp-image-15506" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image35-1.png" alt="" width="750" height="300" /></p>
+<p><strong>Code coverage for Mocha</strong></p>
+<p>Now, if you run Mocha tests via Run with Coverage, the IDE collects coverage data and displays it in a dedicated tool window as well as within the editor.</p>
+<p><strong>CSS modules</strong></p>
+<p>Now, when you import a <a href="https://github.com/css-modules/css-modules" target="_blank">CSS Module</a> in a JavaScript file, you get code completion and navigation to definition for classes defined with the imported module.</p>
+<h3>Performance</h3>
+<p><strong>Unloading modules</strong></p>
+<p>The preview brings a new experimental feature called <em>Unloaded Modules</em>. This feature gives you the ability to select which modules you are going to work on in your project. Those you are not working with at the moment are marked as <em>Unloaded</em>. The IDE will not index or otherwise touch any files in <em>Unloaded Modules</em>. This helps conserve CPU and memory resources when dealing with large codebases.</p>
+<p>To access the feature, invoke the <em>Project</em> tree context menu and select <em>Load/Unload Modules</em>:</p>
+<p><img class="alignnone wp-image-15507" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image31.png" alt="" width="750" height="300" /></p>
+<p>Then, if you’re are looking for usages of a symbol, or are about to refactor something, the IDE will warn that there are unloaded modules that depend on the modules you are working with, and therefore might contain code that should have been affected by the action, but won’t be:</p>
+<p><img class="alignnone wp-image-15508" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image17.png" alt="" width="750" height="300" /></p>
+<p><strong>Pausing indexing</strong></p>
+<p>Last but not least, the indexing process now can be paused, e.g. if you need your CPU power for an urgent task:</p>
+<p><img class="alignnone wp-image-15509" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/image22.png" alt="" width="750" height="50" /></p>
+<p>That was quite a list! Now it’s time to stop reading and start trying these shiny new features yourself. Please try the <a href="https://www.jetbrains.com/idea/nextversion/" target="_blank">preview build</a> and share your feedback with us.</p>
+<p>P.S: The preview is available in <a href="https://www.jetbrains.com/toolbox/app/" target="_blank">Toolbox App</a>.<br />
+P.S.S: Don’t forget to report bugs you find directly into our <a href="https://youtrack.jetbrains.com/issues/IDEA" target="_blank">issue tracker</a>.</p>
+<p><em>Develop with Pleasure!</em></p>
+<a id="post_footer_banner" href="https://kotlinconf.com" style="border:0; padding:0; margin:0px;"><img  src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/07/KotlinConf_blog_banner2.png" width="800" style="margin: 0 0 20px 0; padding: 0; border: solid 1px #ccc;"/></a><img src="http://feeds.feedburner.com/~r/jetbrains_intellijidea/~4/c9oY3e77J1w" height="1" width="1" alt=""/>]]></content:encoded>
+            <wfw:commentRss>https://blog.jetbrains.com/idea/2017/06/intellij-idea-2017-2-public-preview/feed/
+            </wfw:commentRss>
+            <slash:comments>9</slash:comments>
+            <feedburner:origLink>https://blog.jetbrains.com/idea/2017/06/intellij-idea-2017-2-public-preview/
+            </feedburner:origLink>
+        </item>
+        <item>
+            <title>IntelliJ IDEA 2017.2 EAP Introduces Unloaded Modules</title>
+            <link>http://feedproxy.google.com/~r/jetbrains_intellijidea/~3/uxSd8ugbXLQ/</link>
+            <comments>
+                https://blog.jetbrains.com/idea/2017/06/intellij-idea-2017-2-eap-introduces-unloaded-modules/#comments
+            </comments>
+            <pubDate>Wed, 14 Jun 2017 13:11:56 +0000</pubDate>
+            <dc:creator><![CDATA[Andrey Cheptsov]]></dc:creator>
+            <category><![CDATA[EAP Releases]]></category>
+            <category><![CDATA[New Features]]></category>
+            <category><![CDATA[2017]]></category>
+            <category><![CDATA[2017.2]]></category>
+
+            <guid isPermaLink="false">http://blog.jetbrains.com/idea/?p=15454</guid>
+            <description>
+                <![CDATA[Another week of work for us—something new for you to try: have a look at the fresh IntelliJ IDEA 2017.2 EAP build. In addition to bugfixes, it introduces a new, experimental feature called Unloaded Modules. This feature is supposed to help you to &#8230; <a href="https://blog.jetbrains.com/idea/2017/06/intellij-idea-2017-2-eap-introduces-unloaded-modules/">Continue reading <span class="meta-nav">&#8594;</span></a>]]></description>
+            <content:encoded><![CDATA[<p>Another week of work for us—something new for you to try: have a look at the fresh <a href="https://www.jetbrains.com/idea/nextversion/" target="_blank">IntelliJ IDEA 2017.2 EAP</a> build. In addition to <a href="https://confluence.jetbrains.com/display/IDEADEV/IntelliJ+IDEA+2017.2+172.2953.9+Release+Notes" target="_blank">bugfixes</a>, it introduces a new, experimental feature called <em>Unloaded Modules</em>.</p>
+<p>This feature is supposed to help you to deal with large codebases by giving you the ability to select what modules you are going to work on in your project. Modules that you are not working with at the moment are marked as <em>Unloaded</em> and IntelliJ IDEA will not index or otherwise touch any files in these modules, which can help to conserve CPU and memory resources.</p>
+<p>To access the feature, invoke the <em>Project</em> tree context menu and select <em>Load/Unload Modules</em>:</p>
+<p><img class="alignnone wp-image-15455" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/Screen-Shot-2017-06-13-at-15.09.42.png" alt="" width="750" height="300" /></p>
+<p>And now you just select the modules you&#8217;d like to work with at the moment.:</p>
+<p><img class="alignnone wp-image-15456" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/Screen-Shot-2017-06-13-at-15.13.18.png" alt="" width="750" height="300" /></p>
+<p>If a module you marked as loaded depends on other modules, IntelliJ IDEA will prompt you to load them as well:</p>
+<p><img class="alignnone wp-image-15457" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/Screen-Shot-2017-06-13-at-15.59.12.png" alt="" width="750" height="300" /></p>
+<p>When you&#8217;re about to refactor something, or are looking for usages of a symbol, you will be warned about the fact that there are unloaded modules that depend on the modules with which you are working, and therefore might contain code that should have been affected by the action, but won&#8217;t be:</p>
+<p><img class="alignnone wp-image-15458" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/Screen-Shot-2017-06-13-at-16.03.40.png" alt="" width="750" height="300" /></p>
+<p>It&#8217;s important to understand that when you exclude a module, consistency of changes in code that belongs to it will not be guaranteed, so be cautious when using this feature.</p>
+<p>Even though this feature is openly available, it&#8217;s still under development, so please share your feedback, including bug reports in our <a href="https://youtrack.jetbrains.com/issues/IDEA" target="_blank">issue tracker</a>.</p>
+<p><em>Develop with Pleasure!</em></p>
+<a id="post_footer_banner" href="https://kotlinconf.com" style="border:0; padding:0; margin:0px;"><img  src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/07/KotlinConf_blog_banner2.png" width="800" style="margin: 0 0 20px 0; padding: 0; border: solid 1px #ccc;"/></a><img src="http://feeds.feedburner.com/~r/jetbrains_intellijidea/~4/uxSd8ugbXLQ" height="1" width="1" alt=""/>]]></content:encoded>
+            <wfw:commentRss>
+                https://blog.jetbrains.com/idea/2017/06/intellij-idea-2017-2-eap-introduces-unloaded-modules/feed/
+            </wfw:commentRss>
+            <slash:comments>16</slash:comments>
+            <feedburner:origLink>
+                https://blog.jetbrains.com/idea/2017/06/intellij-idea-2017-2-eap-introduces-unloaded-modules/
+            </feedburner:origLink>
+        </item>
+        <item>
+            <title>IntellIJ IDEA 2017.2 EAP: Filtering Arrays and Collections in Debugger, Module Dependency Diagram for
+                Java 9, and More
+            </title>
+            <link>http://feedproxy.google.com/~r/jetbrains_intellijidea/~3/NF49yqTyN6o/</link>
+            <comments>
+                https://blog.jetbrains.com/idea/2017/06/intellij-idea-2017-2-eap-filtering-arrays-and-collections-in-debugger-module-dependency-diagram-for-java-9-and-more/#comments
+            </comments>
+            <pubDate>Thu, 08 Jun 2017 09:24:13 +0000</pubDate>
+            <dc:creator><![CDATA[Andrey Cheptsov]]></dc:creator>
+            <category><![CDATA[EAP Releases]]></category>
+            <category><![CDATA[New Features]]></category>
+            <category><![CDATA[2017]]></category>
+            <category><![CDATA[2017.2]]></category>
+            <category><![CDATA[Debugger]]></category>
+
+            <guid isPermaLink="false">http://blog.jetbrains.com/idea/?p=15435</guid>
+            <description>
+                <![CDATA[Last month we introduced Java Stream Debugger, a plugin that adds visualizatoion of Java Stream operations to IntelliJ IDEA debugger. Today, we&#8217;re taking debugger improvements one step further with this feature: filtering arrays and collections. It will be a part &#8230; <a href="https://blog.jetbrains.com/idea/2017/06/intellij-idea-2017-2-eap-filtering-arrays-and-collections-in-debugger-module-dependency-diagram-for-java-9-and-more/">Continue reading <span class="meta-nav">&#8594;</span></a>]]></description>
+            <content:encoded><![CDATA[<p>Last month we introduced <a href="https://plugins.jetbrains.com/plugin/9696-java-stream-debugger" target="_blank">Java Stream Debugger</a>, a plugin that adds visualizatoion of Java Stream operations to IntelliJ IDEA debugger. Today, we&#8217;re taking debugger improvements one step further with this feature: filtering arrays and collections.</p>
+<p><img class="alignnone wp-image-15436" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/Screen-Shot-2017-06-06-at-16.36.48.gif" alt="" width="750" height="302" /></p>
+<p>It will be a part of IntelliJ IDEA 2017.2 and is already available in the <a href="https://www.jetbrains.com/idea/nextversion/" target="_blank">just-out EAP build</a> along with many other <a href="#" target="_blank">improvements and fixes</a>.</p>
+<p>This latest EAP build also brings you module diagrams for Java 9, that are available for selected modules or projects via <em>Diagrams</em> | <em>Show Diagram </em>(<em>Ctrl</em>+<em>Alt</em>+<em>Shift</em>+<em>U</em> or<em> Cmd</em>+<em>Alt</em>+<em>Shift</em>+<em>U</em> for<em> macOS</em>), <em>Java Modules Diagram:</em></p>
+<p><img class="alignnone wp-image-15442" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/Screen-Shot-2017-06-07-at-16.07.02.png" alt="" width="750" height="300" /></p>
+<p>Diagram displays selected module dependencies. To quickly locate a module, press <em>Ctrl</em>+<em>F</em> (<em>Cmd</em>+<em>F</em> for <em>macOS</em>):</p>
+<p><img class="alignnone wp-image-15444" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/Screen-Shot-2017-06-07-at-16.43.24.png" alt="" width="750" height="300" /></p>
+<p>To see selected module usages, use the good old Show<em> Usages</em> via <em>Alt</em>+<em>Ctrl</em>+<em>F7</em> (<em>Alt</em>+<em>Ctrl</em>+<em>F7</em> for<em> macOS</em>):</p>
+<p><img class="alignnone wp-image-15445" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/Screen-Shot-2017-06-07-at-16.36.39.png" alt="" width="750" height="300" /></p>
+<p>JRE modules dependencies are displayed, too:</p>
+<p><img class="alignnone wp-image-15446" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/Screen-Shot-2017-06-07-at-16.16.47.png" alt="" width="750" height="300" /></p>
+<p>Last but not least, <em>Smart Completion</em> got even smarter and now suggests constructing an instance of the expected type with a <a href="http://www.informit.com/articles/article.aspx?p=1216151&amp;seqNum=2" target="_blank">builder class</a> available in the project:</p>
+<p><img class="alignnone wp-image-15449" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/06/Screen-Shot-2017-06-08-at-09.19.20.gif" alt="" width="750" height="300" /></p>
+<p>We hope you&#8217;ll find these small improvements useful. As always, we appreciate your feedback, so don&#8217;t forget our <a href="https://youtrack.jetbrains.com/issues/IDEA" target="_blank">issue tracker</a>.</p>
+<p><em>Develop with Pleasure!</em></p>
+<a id="post_footer_banner" href="https://kotlinconf.com" style="border:0; padding:0; margin:0px;"><img  src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/07/KotlinConf_blog_banner2.png" width="800" style="margin: 0 0 20px 0; padding: 0; border: solid 1px #ccc;"/></a><img src="http://feeds.feedburner.com/~r/jetbrains_intellijidea/~4/NF49yqTyN6o" height="1" width="1" alt=""/>]]></content:encoded>
+            <wfw:commentRss>
+                https://blog.jetbrains.com/idea/2017/06/intellij-idea-2017-2-eap-filtering-arrays-and-collections-in-debugger-module-dependency-diagram-for-java-9-and-more/feed/
+            </wfw:commentRss>
+            <slash:comments>3</slash:comments>
+            <feedburner:origLink>
+                https://blog.jetbrains.com/idea/2017/06/intellij-idea-2017-2-eap-filtering-arrays-and-collections-in-debugger-module-dependency-diagram-for-java-9-and-more/
+            </feedburner:origLink>
+        </item>
+        <item>
+            <title>End of out-of-the-box support for Visual SourceSafe and ClearCase</title>
+            <link>http://feedproxy.google.com/~r/jetbrains_intellijidea/~3/HqCeme7zJVU/</link>
+            <comments>
+                https://blog.jetbrains.com/idea/2017/06/end-of-out-of-the-box-support-for-visual-sourcesafe-and-clearcase/#comments
+            </comments>
+            <pubDate>Mon, 05 Jun 2017 15:14:33 +0000</pubDate>
+            <dc:creator><![CDATA[Kirill Likhodedov]]></dc:creator>
+            <category><![CDATA[Beta Releases]]></category>
+
+            <guid isPermaLink="false">http://blog.jetbrains.com/idea/?p=15432</guid>
+            <description>
+                <![CDATA[There are a lot of different Version Control Systems out there. Over the years, some of them have become more popular than others. While the IntelliJ platform provides Integration with various VCSs out of the box, the usage for some &#8230; <a href="https://blog.jetbrains.com/idea/2017/06/end-of-out-of-the-box-support-for-visual-sourcesafe-and-clearcase/">Continue reading <span class="meta-nav">&#8594;</span></a>]]></description>
+            <content:encoded><![CDATA[<p><span style="font-weight: 400;">There are a lot of different Version Control Systems out there. Over the years, some of them have become more popular than others.</span></p>
+<p><span style="font-weight: 400;">While the IntelliJ platform provides Integration with various VCSs out of the box, the usage for some of these have steadily declined, to the point that a few of them have very little support demand whatsoever. As such, we’ve decided to reduce the number of VCSs supported out-of-the-box and focus on improving the most popular ones.</span></p>
+<p><b>What does this mean?</b></p>
+<p><span style="font-weight: 400;">Visual SourceSafe </span><a href="https://support.microsoft.com/en-us/lifecycle/search?sort=PN&amp;alpha=sourcesafe&amp;Filter=FilterNO"><span style="font-weight: 400;">has reached</span></a><span style="font-weight: 400;"> its end-of-life, and ClearCase is </span><a href="https://www-01.ibm.com/software/support/lifecycleapp/PLCSearch.wss?q=ClearCase&amp;scope=E614055K65406P51-R996242H58167H57&amp;ibm-view-btn.x=18&amp;ibm-view-btn.y=12&amp;sort=P"><span style="font-weight: 400;">approaching</span></a><span style="font-weight: 400;"> it next year. Given this, along with the low demand and popularity for these integrations, we no longer plan to continue development on these plugins, and will be closing their support as of 2017.3 release.</span></p>
+<p><span style="font-weight: 400;">A separate announcement will follow when it happens.</span></p>
+<p><span style="font-weight: 400;">Note that plugins will stay available in the repository, and we will maintain compatibility with successive versions of the IntelliJ platform, making sure no critical regressions are introduced.</span></p>
+<a id="post_footer_banner" href="https://kotlinconf.com" style="border:0; padding:0; margin:0px;"><img  src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/07/KotlinConf_blog_banner2.png" width="800" style="margin: 0 0 20px 0; padding: 0; border: solid 1px #ccc;"/></a><img src="http://feeds.feedburner.com/~r/jetbrains_intellijidea/~4/HqCeme7zJVU" height="1" width="1" alt=""/>]]></content:encoded>
+            <wfw:commentRss>
+                https://blog.jetbrains.com/idea/2017/06/end-of-out-of-the-box-support-for-visual-sourcesafe-and-clearcase/feed/
+            </wfw:commentRss>
+            <slash:comments>3</slash:comments>
+            <feedburner:origLink>
+                https://blog.jetbrains.com/idea/2017/06/end-of-out-of-the-box-support-for-visual-sourcesafe-and-clearcase/
+            </feedburner:origLink>
+        </item>
+        <item>
+            <title>IntelliJ IDEA 2017.2 EAP: Better Code Completion and VCS Support</title>
+            <link>http://feedproxy.google.com/~r/jetbrains_intellijidea/~3/4Pu4-M-8-Z8/</link>
+            <comments>
+                https://blog.jetbrains.com/idea/2017/06/intellij-idea-2017-2-eap-better-code-completion-and-vcs-support/#comments
+            </comments>
+            <pubDate>Thu, 01 Jun 2017 07:06:32 +0000</pubDate>
+            <dc:creator><![CDATA[Andrey Cheptsov]]></dc:creator>
+            <category><![CDATA[EAP Releases]]></category>
+            <category><![CDATA[New Features]]></category>
+            <category><![CDATA[2017]]></category>
+            <category><![CDATA[2017.2]]></category>
+            <category><![CDATA[Code Completion]]></category>
+            <category><![CDATA[VCS]]></category>
+
+            <guid isPermaLink="false">http://blog.jetbrains.com/idea/?p=15410</guid>
+            <description>
+                <![CDATA[We&#8217;ve just published a new IntelliJ IDEA 2017.2 EAP build, in which you&#8217;ll find some quite interesting new features. As you probably know, the second call of Smart completion for Java, among other things, suggests chains of method calls relevant to the current &#8230; <a href="https://blog.jetbrains.com/idea/2017/06/intellij-idea-2017-2-eap-better-code-completion-and-vcs-support/">Continue reading <span class="meta-nav">&#8594;</span></a>]]></description>
+            <content:encoded><![CDATA[<p>We&#8217;ve just published a new <a href="https://www.jetbrains.com/idea/nextversion/" target="_blank">IntelliJ IDEA 2017.2 EAP</a> build, in which you&#8217;ll find some quite interesting new features.<br />
+<span id="more-15410"></span><br />
+As you probably know, the second call of <em>Smart completion</em> for <em>Java</em>, among other things, suggests chains of method calls relevant to the current context (expected types, available fields, variables, parameters). In this EAP we&#8217;re making this feature even better: all these suggestions are displayed after the first call of <em>Smart completion</em>, and what&#8217;s even better, they&#8217;re sorted by how frequently they&#8217;re used in the project.</p>
+<p><img class="alignnone size-full wp-image-15411" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/05/Screen-Shot-2017-05-29-at-14.28.43.png" alt="" width="750" /></p>
+<p>When these suggestions include method calls with arguments that aren&#8217;t yet available in the current editing context, IntelliJ IDEA will define a local variable of the required type:</p>
+<p><img class="alignnone size-full wp-image-15412" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/05/Screen-Shot-2017-05-29-at-15.41.03.gif" alt="" width="750" /></p>
+<p>These improvements are still work in progress, so there&#8217;s a number of cases when thsee suggestions are not available:</p>
+<ul>
+<li>If project hasn&#8217;t yet been built.</li>
+<li>When you deleagate build to Gradle.</li>
+<li>In languages other than Java.</li>
+</ul>
+<p>Current behaviour remains unchanged and is available via the second call of <em>Smart completion</em>.</p>
+<p>We&#8217;re also introducing some changes to VCS support. First is that settings related to the <em>Commit</em> dialog have been reworked and moved to a separate page called <em>Commit Dialog</em>:</p>
+<p><img class="alignnone size-full wp-image-15414" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/05/Screen-Shot-2017-05-29-at-16.07.00.png" alt="" width="1500" height="600" /></p>
+<p>Now you can specify whether you want IntelliJ IDEA to check if commit messages comply with certain rules: blank line between subject and body, their maximum length, etc. IntelliJ IDEA doesn&#8217;t simply check the commit message, but also offers a quick fix and <em>Reformat</em> action:</p>
+<p><img class="alignnone size-full wp-image-15415" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/05/Screen-Shot-2017-05-29-at-17.06.49.png" alt="" width="750" height="300" /></p>
+<p>The new <em>Reword</em> action lets you change the commit message for any of commits that aren&#8217;t yet pushed.</p>
+<p><img class="alignnone wp-image-15418" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/05/Screen-Shot-2017-05-30-at-09.43.36.png" alt="" width="750" height="300" /></p>
+<p>The <em>Shelf</em> tab has been redesigned and now offers better performance and ergonomics, with the <em>Preview</em> panel and the new action to compare it the with the local revision:</p>
+<p><img class="alignnone wp-image-15420" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/05/Screen-Shot-2017-05-30-at-10.14.31.png" alt="" width="750" height="300" /></p>
+<p>Last, but not least, the <em>Find in Path</em> popup now merges search results from same lines:</p>
+<p><img class="alignnone wp-image-15421" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/05/Screen-Shot-2017-05-30-at-10.25.59.png" alt="" width="750" height="300" /></p>
+<p><em>Develop with Pleasure!</em></p>
+<a id="post_footer_banner" href="https://kotlinconf.com" style="border:0; padding:0; margin:0px;"><img  src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/07/KotlinConf_blog_banner2.png" width="800" style="margin: 0 0 20px 0; padding: 0; border: solid 1px #ccc;"/></a><img src="http://feeds.feedburner.com/~r/jetbrains_intellijidea/~4/4Pu4-M-8-Z8" height="1" width="1" alt=""/>]]></content:encoded>
+            <wfw:commentRss>
+                https://blog.jetbrains.com/idea/2017/06/intellij-idea-2017-2-eap-better-code-completion-and-vcs-support/feed/
+            </wfw:commentRss>
+            <slash:comments>3</slash:comments>
+            <feedburner:origLink>
+                https://blog.jetbrains.com/idea/2017/06/intellij-idea-2017-2-eap-better-code-completion-and-vcs-support/
+            </feedburner:origLink>
+        </item>
+        <item>
+            <title>Java Annotated Monthly – June 2017</title>
+            <link>http://feedproxy.google.com/~r/jetbrains_intellijidea/~3/tGnpFjOANjk/</link>
+            <comments>https://blog.jetbrains.com/idea/2017/05/java-annotated-monthly-june-2017/#comments</comments>
+            <pubDate>Wed, 31 May 2017 07:28:52 +0000</pubDate>
+            <dc:creator><![CDATA[Trisha Gee]]></dc:creator>
+            <category><![CDATA[News & Events]]></category>
+            <category><![CDATA[Java Annotated]]></category>
+
+            <guid isPermaLink="false">http://blog.jetbrains.com/idea/?p=15402</guid>
+            <description>
+                <![CDATA[What an exciting month May was! The Java Community Process was flung into the spotlight as the Executive Committee voted against Jigsaw, raising questions like: how does this impact Java 9? What happens next? And what is the JCP anyway? Add to this the &#8230; <a href="https://blog.jetbrains.com/idea/2017/05/java-annotated-monthly-june-2017/">Continue reading <span class="meta-nav">&#8594;</span></a>]]></description>
+            <content:encoded><![CDATA[<p style="text-align: justify;">What an exciting month May was! The Java Community Process was flung into the spotlight as the Executive Committee voted against Jigsaw, raising questions like: how does this impact Java 9? What happens next? And what is the JCP anyway? Add to this the announcement of some exciting Android-related news, and we have a very full Java Annotated Monthly!</p>
+<p style="text-align: justify;"><img class="alignnone wp-image-14180" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2016/04/JavaAnnotatedMonthly@2x.png" alt="JavaAnnotatedMonthly@2x" width="800" height="415" /></p>
+<p><span id="more-15402"></span></p>
+<h2>Java 9</h2>
+<p>Well, dear reader, you probably won&#8217;t be surprised after reading the <a href="https://blog.jetbrains.com/idea/2017/05/java-annotated-monthly-may-2017/">articles covered in last month&#8217;s Java Annotated Monthly</a> that the <a href="https://jcp.org/en/home/index">Java Community Process</a> <a href="https://jcp.org/en/participation/committee">Executive Committee</a> voted <a href="https://www.jcp.org/en/jsr/results?id=5959">&#8220;no&#8221; on the Java Platform Module System</a> public review ballot. Let&#8217;s see what the aftermath is:</p>
+<ul>
+<li><a href="https://www.infoq.com/news/2017/05/jpms-rejected">JCP EC Votes against the Java Platform Module System </a>(overview of the situation  and what it means)</li>
+<li><a href="https://dzone.com/articles/ec-rejects-jigsaw">EC Rejects Jigsaw </a>(summary of the votes and EC members&#8217; comments, and a short overview of what happens next)</li>
+<li><a href="http://www.tomitribe.com/blog/2017/05/is-jigsaw-dead-not-quite/">Is Jigsaw Dead? Not quite</a> (great summary of what the &#8220;no&#8221; vote really means)</li>
+<li><a href="https://londonjavacommunity.wordpress.com/2017/05/09/explanation-of-our-no-vote-on-jsr-376-java-platform-module-system/">Explanation of our “No” vote on JSR 376 </a>(covers a number of the community concerns and makes predictions about what happens next)</li>
+<li><a href="https://www.infoq.com/podcasts/martijn-verburg">Martijn Verburg on the JCP EC “No” Vote for the Java Platform Module System</a> (podcast with written transcript)</li>
+<li><a href="http://blog.joda.org/2017/05/java-se-9-jpms-automatic-modules.html">Java SE 9 &#8211; JPMS automatic modules </a>(what they are and why they cause concern)</li>
+<li><a href="http://www.infoworld.com/article/3194785/java/oracle-proposes-modular-java-plan-change.html">Oracle rethinks modular Java plan after Red Hat’s objections</a> (specifically automatic module names)</li>
+<li><a href="http://www.infoworld.com/article/3197664/java/oracle-has-a-plan-to-make-java-9-migration-easier.html">Oracle has a plan to make Java 9 migration easier</a> (as a result of conversations with the community, there&#8217;s a proposal to <a href="http://mail.openjdk.java.net/pipermail/jigsaw-dev/2017-May/012673.html">Allow illegal reflective access by default in JDK 9</a>)</li>
+</ul>
+<p>More general news and information about Java 9:</p>
+<ul>
+<li><a href="https://mahmoudanouti.wordpress.com/2017/05/03/java-9-besides-modules/">Java 9 Besides Modules </a>(covers a <em>lot</em> of the Java 9 features)</li>
+<li><a href="https://aboullaite.me/wrapping-up-java-9-new-features/?imm_mid=0f16b7&amp;cmp=em-prog-na-na-newsltr_20170506">Wrapping up Java 9 New Features</a> (features covered overlap with the previous article)</li>
+<li><a href="https://youtu.be/GkP83hvdeMk">Real World Java 9</a> (video &#8211; modules, the reactive streams API, and a handful of &#8220;other&#8221; Java 9 features)</li>
+<li><a href="https://youtu.be/rFhhLXcOBsk">Modules in One Lesson</a> (video)</li>
+<li><a href="https://youtu.be/czhSo8rotC4">Migrating to Modules</a> (video)</li>
+<li><a href="https://www.sitepoint.com/java-9-resources/">Top Resources to Get Started with Java 9</a></li>
+</ul>
+<h2></h2>
+<h2>Java In General</h2>
+<p>This month&#8217;s General Java links include Java-specific design and architecture, plus performance.</p>
+<ul>
+<li><a href="https://javadevguy.wordpress.com/2017/05/14/the-genius-of-the-law-of-demeter/">The Genius of the Law of Demeter</a> (recommended reading: many code bases violate the Law of Demeter and it causes all sorts of mess)</li>
+<li><a href="https://abhirockzz.wordpress.com/2017/04/27/handling-state-in-java-websocket-applications/">Handling ‘state’ in Java WebSocket applications</a></li>
+<li><a href="https://www.javabullets.com/java8-methods-in-interfaces/">Java8 – Methods in Interfaces</a> (a reminder of how default methods on interfaces work)</li>
+<li><a href="https://www.stubbornjava.com/posts/java-enum-lookup-by-name-or-field-without-throwing-exceptions">Java Enum Lookup by Name or Field Without Throwing Exceptions</a></li>
+<li><a href="https://lankydanblog.com/2017/04/22/a-little-lazy-lambda-tutorial/">A Little Lazy Lambda Tutorial</a></li>
+<li><a href="https://www.infoq.com/articles/Finalize-Exiting-Java">Under The Hood with the JVM&#8217;s Automatic Resource Management</a> (Why is finalize bad? Why try-with-resources is better)</li>
+<li><a href="https://dzone.com/articles/building-packaging-and-distributing-java-ee-apps-in-2017-part-2">Building, Packaging, and Distributing Java EE Applications in 2017 (Part 2)</a> (or: how relevant is the application server today?)</li>
+<li><a href="http://www.codesod.com/2017/05/clean-code-from-trenches-validation.html">Clean Code from the trenches &#8211; Validation</a></li>
+<li><a href="https://www.infoq.com/presentations/lmax-trading-architecture">Low Latency Trading Architecture at LMAX Exchange</a> (video)</li>
+</ul>
+<h2>Android</h2>
+<p>The big Android news, at least from JetBrains&#8217; point of view, is that Kotlin is now an officially supported language for Android. For this reason, the Android section of Annotated Monthly may be a <em>tiny</em> bit heavier on Kotlin than normal.</p>
+<ul>
+<li><a href="https://youtu.be/Y2VF8tmLFHw">Google I/O Keynote</a> (video)</li>
+<li><a href="http://gizmodo.com/everything-new-about-android-from-google-i-o-1795296361">Everything New About Android From Google I/O</a></li>
+<li><a href="https://medium.com/proandroiddev/google-io-2017-useful-android-links-e756077f8895">Google I/O 2017 — Useful Android Links</a></li>
+<li><a href="https://blog.jetbrains.com/kotlin/2017/05/kotlin-on-android-now-official/">Kotlin on Android. Now official</a> (what this means and FAQs)</li>
+<li><a href="http://blog.danlew.net/2017/05/17/why-kotlin/">Why Kotlin?</a> (with a focus on &#8220;for Android&#8221;)</li>
+<li><a href="https://medium.com/@magnus.chatt/why-you-should-totally-switch-to-kotlin-c7bbde9e10d5">Why you should totally switch to Kotlin</a></li>
+<li><a href="http://steve-yegge.blogspot.com.es/2017/05/why-kotlin-is-better-than-whatever-dumb.html?imm_mid=0f1bcf&amp;cmp=em-prog-na-na-newsltr_20170520">Why Kotlin Is Better Than Whatever Language You&#8217;re Using</a></li>
+<li><a href="https://arctouch.com/2017/05/kotlin-vs-java/">Kotlin vs. Java: First Impressions Using Kotlin for a Commercial Android Project</a></li>
+<li><a href="https://medium.com/square-corner-blog/square-open-source-loves-kotlin-c57c21710a17">Square Open Source ♥s Kotlin</a></li>
+</ul>
+<p>Of course there&#8217;s more Android news than just Google I/O and Kotlin.</p>
+<ul>
+<li><a href="http://blog.israelferrer.com/post/160777825719/android-app-architecture-reloaded">Android app architecture reloaded</a> (architecture components)</li>
+<li><a href="https://medium.com/@yonatanvlevin/weighing-in-on-the-holy-architecture-war-my-take-on-architecture-components-31f7025e9c66">Weighing in on the Holy Architecture War — My take on“Architecture Components”</a></li>
+<li><a href="https://medium.freecodecamp.com/30-new-android-libraries-released-in-the-spring-of-2017-which-deserve-your-attention-faea359a1915">The 30 Coolest Android Libraries from Spring 2017</a></li>
+<li><a href="https://medium.com/contentsquare-engineering-blog/make-or-break-with-gradle-dac2e858868d">Make or break… with Gradle</a> (or: how to set up Gradle to automate code checks)</li>
+<li><a href="https://tech.fleka.me/android-shortcuts-and-tricks-to-boost-up-your-productivity-944548174582">Android shortcuts and tricks to boost up your productivity!</a></li>
+<li><a href="https://medium.com/proandroiddev/dagger-2-android-modules-e168821cfc57">Dagger 2: Android Modules</a></li>
+</ul>
+<h2>Kotlin</h2>
+<p>In recent months we&#8217;ve moved away from covering a wide range of JVM languages in Java Annotated Monthly to focus on Java-the-language (mostly because it&#8217;s impossible to cover all the news for all the JVM languages). This month I&#8217;m making an exception for Kotlin given the Google I/O news. If you feel the need to get up to speed on JetBrains&#8217; JVM language, here are some pointers.</p>
+<ul>
+<li><a href="https://youtu.be/X1RVYt2QKQE">Introduction to Kotlin</a> (video)</li>
+<li><a href="https://www.zeljko.link/2017/04/kotlin-jee-java-to-kotlin.html">Kotlin and Java EE: Part One &#8211; From Java to Kotlin</a></li>
+<li><a href="https://www.zeljko.link/2017/04/kotlin-java-ee-plugins.html">Kotlin and Java EE: Part Two &#8211; Having Fun with Plugins</a></li>
+<li><a href="http://adavis.info/2017/04/migrate-a-gradle-plugin-from-groovy-to-kotlin.html">Migrate a Gradle Plugin from Groovy to Kotlin</a></li>
+<li><a href="https://medium.com/@lukleDev/how-effective-java-may-have-influenced-the-design-of-kotlin-part-1-45fd64c2f974">How “Effective Java” may have influenced the design of Kotlin — Part 1</a></li>
+<li><a href="https://medium.com/@lukleDev/how-effective-java-may-have-influenced-the-design-of-kotlin-part-2-89844d62ddf3">How “Effective Java” may have influenced the design of Kotlin — Part 2</a></li>
+<li><a href="http://tomstechnicalblog.blogspot.ru/2016/10/kotlin-for-data-science.html">Kotlin for Data Science</a></li>
+<li><a href="https://medium.com/@quiro91/nothing-else-matters-in-kotlin-994a9ef106fc">Nothing (else) matters in Kotlin</a></li>
+<li><a href="https://medium.com/@JorgeCastilloPr/tail-recursion-and-how-to-use-it-in-kotlin-97353993e17f">Tail recursion and how to use it in Kotlin</a></li>
+</ul>
+<h2>Events</h2>
+<p>Come and say hello, ask us questions or give feedback!</p>
+<ul>
+<li>8-9 June: <a href="https://2017.geekout.ee/">GeekOut, Tallinn</a></li>
+<li>12-15 June: <a href="https://devopsconference.de/">DevOpsCon, Berlin</a></li>
+<li>13-14 June: <a href="https://gotoams.nl/2017">GOTO Amsterdam</a> (no booth, <a href="https://gotoams.nl/2017/sessions/100">Trisha</a> and <a href="https://gotoams.nl/2017/sessions/97">Hadi</a> are both presenting)</li>
+<li>14-15 June: <a href="http://wnconf.com/en#home">White Nights, St. Petersburg</a></li>
+<li>20-22 June: <a href="https://conferences.oreilly.com/velocity/vl-ca">Velocity</a> &amp; <a href="https://conferences.oreilly.com/fluent/fl-ca">Fluent</a>, San Jose</li>
+</ul>
+<h2>And Finally</h2>
+<ul>
+<li>The 2017.2 EAP has <a href="https://blog.jetbrains.com/idea/2017/05/intellij-idea-2017-2-eap-with-smarter-control-flow-analysis/">smarter control flow analysis</a> and a new <a href="https://blog.jetbrains.com/idea/2017/05/intellij-idea-2017-2-eap-run-dashboard-for-spring-boot/">Run Dashboard for Spring Boot</a></li>
+<li>Check out our new <a href="https://youtu.be/pt3uB0sd5kY">Working with Maven in IntelliJ IDEA</a> video.</li>
+</ul>
+<p align="center"><a class="jb-download-button" href="http://info.jetbrains.com/Java-Annotated-Subscription.html" title="Complete this form and get Java Annotated Monthly delivered fresh to your email"><i class="download-icon"></i>Subscribe to Java Annotated</a></p>
+<a id="post_footer_banner" href="https://kotlinconf.com" style="border:0; padding:0; margin:0px;"><img  src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/07/KotlinConf_blog_banner2.png" width="800" style="margin: 0 0 20px 0; padding: 0; border: solid 1px #ccc;"/></a><img src="http://feeds.feedburner.com/~r/jetbrains_intellijidea/~4/tGnpFjOANjk" height="1" width="1" alt=""/>]]></content:encoded>
+            <wfw:commentRss>https://blog.jetbrains.com/idea/2017/05/java-annotated-monthly-june-2017/feed/
+            </wfw:commentRss>
+            <slash:comments>2</slash:comments>
+            <feedburner:origLink>https://blog.jetbrains.com/idea/2017/05/java-annotated-monthly-june-2017/
+            </feedburner:origLink>
+        </item>
+        <item>
+            <title>Git Questions: How do I see who made certain changes?</title>
+            <link>http://feedproxy.google.com/~r/jetbrains_intellijidea/~3/4BDtzcDKlfY/</link>
+            <comments>
+                https://blog.jetbrains.com/idea/2017/05/git-questions-how-do-i-see-who-made-a-certain-changes/#respond
+            </comments>
+            <pubDate>Mon, 22 May 2017 07:49:08 +0000</pubDate>
+            <dc:creator><![CDATA[Trisha Gee]]></dc:creator>
+            <category><![CDATA[Tips & Tricks]]></category>
+            <category><![CDATA[Git]]></category>
+            <category><![CDATA[Screencasts]]></category>
+            <category><![CDATA[VCS]]></category>
+
+            <guid isPermaLink="false">http://blog.jetbrains.com/idea/?p=15081</guid>
+            <description>
+                <![CDATA[In this week&#8217;s Git video, Gary and I look at how you can Annotate your code to see who made which changes.  We also show how you can use this information to understand a bit more about the context of &#8230; <a href="https://blog.jetbrains.com/idea/2017/05/git-questions-how-do-i-see-who-made-a-certain-changes/">Continue reading <span class="meta-nav">&#8594;</span></a>]]></description>
+            <content:encoded><![CDATA[<p>In this week&#8217;s Git video, Gary and I look at how you can <a href="https://www.jetbrains.com/help/idea/2016.3/working-with-annotations.html">Annotate</a> your code to see who made which changes.  We also show how you can use this information to understand a bit more about the context of a particular change.</p>
+<p><iframe width="560" height="315" src="https://www.youtube.com/embed/R8QW8s4Ibio" frameborder="0" allowfullscreen></iframe></p>
+<a id="post_footer_banner" href="https://kotlinconf.com" style="border:0; padding:0; margin:0px;"><img  src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/07/KotlinConf_blog_banner2.png" width="800" style="margin: 0 0 20px 0; padding: 0; border: solid 1px #ccc;"/></a><img src="http://feeds.feedburner.com/~r/jetbrains_intellijidea/~4/4BDtzcDKlfY" height="1" width="1" alt=""/>]]></content:encoded>
+            <wfw:commentRss>
+                https://blog.jetbrains.com/idea/2017/05/git-questions-how-do-i-see-who-made-a-certain-changes/feed/
+            </wfw:commentRss>
+            <slash:comments>0</slash:comments>
+            <feedburner:origLink>
+                https://blog.jetbrains.com/idea/2017/05/git-questions-how-do-i-see-who-made-a-certain-changes/
+            </feedburner:origLink>
+        </item>
+        <item>
+            <title>IntelliJ IDEA 2017.2 EAP, with Smarter Control Flow Analysis</title>
+            <link>http://feedproxy.google.com/~r/jetbrains_intellijidea/~3/KMblk7jhkr4/</link>
+            <comments>
+                https://blog.jetbrains.com/idea/2017/05/intellij-idea-2017-2-eap-with-smarter-control-flow-analysis/#comments
+            </comments>
+            <pubDate>Thu, 18 May 2017 15:28:01 +0000</pubDate>
+            <dc:creator><![CDATA[Andrey Cheptsov]]></dc:creator>
+            <category><![CDATA[EAP Releases]]></category>
+            <category><![CDATA[New Features]]></category>
+            <category><![CDATA[2017]]></category>
+            <category><![CDATA[2017.2]]></category>
+            <category><![CDATA[Code Analysis]]></category>
+            <category><![CDATA[Inspections]]></category>
+            <category><![CDATA[java 9]]></category>
+
+            <guid isPermaLink="false">http://blog.jetbrains.com/idea/?p=15386</guid>
+            <description>
+                <![CDATA[Earlier we mentioned that IntelliJ IDEA 2017.2 EAP features improved control flow analysis that infers the contracts of certain methods of String, Array, Collection and Map classes. With today’s EAP build, this analysis becomes even smarter. If that sounds like &#8230; <a href="https://blog.jetbrains.com/idea/2017/05/intellij-idea-2017-2-eap-with-smarter-control-flow-analysis/">Continue reading <span class="meta-nav">&#8594;</span></a>]]></description>
+            <content:encoded><![CDATA[<p>Earlier we <a href="https://blog.jetbrains.com/idea/2017/05/intellij-idea-2017-2-eap-is-here/">mentioned</a> that IntelliJ IDEA 2017.2 EAP features improved control flow analysis that infers the contracts of certain methods of String, Array, Collection and Map classes.</p>
+<p>With today’s <a href="https://www.jetbrains.com/idea/nextversion/">EAP build</a>, this analysis becomes even smarter. If that sounds like something you might be interested in, read on and see how the new checks are going to work.</p>
+<p><span id="more-15386"></span>In our first example, <em>Collection</em><i>#isEmpty()</i> returns <i>true, </i>which means that there are no characters in that string to iterate over, and IntelliJ IDEA is here to tell us that.</p>
+<p><img class="alignnone size-full wp-image-15387" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/05/Screen-Shot-2017-05-16-at-11.11.34.png" alt="" width="750" /></p>
+<p>There’s more to this case, though. <em>String#charAt(int index)</em> will throw an exception when called on an empty string, or when <i>index </i>exceed<i>s</i> the value returned by <em>String#length()</em> method, so you can see that IntelliJ IDEA insight into that method comes handy in many cases.</p>
+<p>The same intelligence applies to: <em>String#isEmpty()</em>, <i>String#chatAt(int index)</i>, <i>List$#get(int index)</i>, <em>Set#contains(Object item)</em>, <i>Map#containsKey(Object key)</i>, <i>Map#containsValue(Object value)</i>, and many other methods.</p>
+<p><img class="alignnone size-full wp-image-15388" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/05/Screen-Shot-2017-05-16-at-11.13.39.png" alt="" width="750" /></p>
+<p>Code analysis that reports nullability issues has also been improved, in particular when it comes to working with <em>Collection</em> and <em>Map</em> type parameters.</p>
+<p>When you are trying to pass a collection that may contain null values where a collection with non-nullable items is expected, you get a warning that you probably shouldn’t:</p>
+<p><img class="alignnone size-full wp-image-15389" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/05/Screen-Shot-2017-05-16-at-12.03.54.png" alt="" width="750" /></p>
+<p>Just the same way IntelliJ IDEA will make sure you’re safe when iterating over a collection that may contain null values:</p>
+<p><img class="alignnone size-full wp-image-15390" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/05/Screen-Shot-2017-05-16-at-12.06.45.png" alt="" width="750" /></p>
+<p>When you are trying to check whether an expression is equal to one of several string literals, IntelliJ IDEA can help you to replace these checks with a <i>Set#contains(Object key)</i> call to make code more concise:</p>
+<p><img class="alignnone size-full wp-image-15391" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/05/Screen-Shot-2017-05-17-at-11.30.00.gif" alt="" width="750" /></p>
+<p>This new build has two improvements specifically aimed to help with migration to Java 9.</p>
+<p>There is already an inspection that reports when you spin in a <i>while </i>loop on a non-volatile field, but now, if you’re using Java 9, IntelliJ IDEA suggests that you called <i>Thread#onSpinWait() </i>inside such a loop:</p>
+<p><img class="alignnone size-full wp-image-15392" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/05/Screen-Shot-2017-05-16-at-12.40.37.png" alt="" width="750" /></p>
+<p>Doing so may <a href="http://openjdk.java.net/jeps/285">significantly</a> improve performance of your code.</p>
+<p>Another Java 9 inspection suggests to use <i>Set#of(String&#8230;items)</i> where possible:</p>
+<p><img class="alignnone size-full wp-image-15393" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/05/Screen-Shot-2017-05-16-at-12.40.37.gif" alt="" width="750" /></p>
+<p>Last, but not least, you can pause file indexing if you need to free CPU to do other tasks, and then resume it again when it’s appropriate:</p>
+<p><img class="alignnone size-full wp-image-15394" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/05/Screen-Shot-2017-05-16-at-12.29.29.png" alt="" width="750" /></p>
+<p>That’s it for now. We hope you’ll enjoy these improvements, and give the new build a try. You can download it right from the <a href="https://www.jetbrains.com/idea/nextversion/">website</a>, or update via <a href="https://www.jetbrains.com/toolbox/app">Toolbox App</a>. Patches for the in-product update should also be available if you’re using previous EAP build.</p>
+<p><i>Develop with Pleasure!</i></p>
+<a id="post_footer_banner" href="https://kotlinconf.com" style="border:0; padding:0; margin:0px;"><img  src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/07/KotlinConf_blog_banner2.png" width="800" style="margin: 0 0 20px 0; padding: 0; border: solid 1px #ccc;"/></a><img src="http://feeds.feedburner.com/~r/jetbrains_intellijidea/~4/KMblk7jhkr4" height="1" width="1" alt=""/>]]></content:encoded>
+            <wfw:commentRss>
+                https://blog.jetbrains.com/idea/2017/05/intellij-idea-2017-2-eap-with-smarter-control-flow-analysis/feed/
+            </wfw:commentRss>
+            <slash:comments>2</slash:comments>
+            <feedburner:origLink>
+                https://blog.jetbrains.com/idea/2017/05/intellij-idea-2017-2-eap-with-smarter-control-flow-analysis/
+            </feedburner:origLink>
+        </item>
+        <item>
+            <title>IntelliJ IDEA 2017.2 EAP: Run Dashboard for Spring Boot</title>
+            <link>http://feedproxy.google.com/~r/jetbrains_intellijidea/~3/rG-Czmtin-E/</link>
+            <comments>
+                https://blog.jetbrains.com/idea/2017/05/intellij-idea-2017-2-eap-run-dashboard-for-spring-boot/#comments
+            </comments>
+            <pubDate>Mon, 15 May 2017 13:26:44 +0000</pubDate>
+            <dc:creator><![CDATA[Andrey Cheptsov]]></dc:creator>
+            <category><![CDATA[EAP Releases]]></category>
+            <category><![CDATA[New Features]]></category>
+            <category><![CDATA[2017]]></category>
+            <category><![CDATA[2017.2]]></category>
+            <category><![CDATA[Spring Boot]]></category>
+            <category><![CDATA[UI]]></category>
+
+            <guid isPermaLink="false">http://blog.jetbrains.com/idea/?p=15378</guid>
+            <description>
+                <![CDATA[Last week we’ve published a new IntelliJ IDEA 2017.2 EAP build, which, among various bugfixes and improvements, brings a new experimental feature, we think you may find very interesting. Because it’s still work in progress, you need to explicitly enable it &#8230; <a href="https://blog.jetbrains.com/idea/2017/05/intellij-idea-2017-2-eap-run-dashboard-for-spring-boot/">Continue reading <span class="meta-nav">&#8594;</span></a>]]></description>
+            <content:encoded><![CDATA[<p>Last week we’ve published a new <a href="https://www.jetbrains.com/idea/nextversion/" target="_blank">IntelliJ IDEA 2017.2 EAP</a> build, which, among various <a href="https://confluence.jetbrains.com/display/IDEADEV/IntelliJ+IDEA+2017.2+172.2103.15+Release+Notes" target="_blank">bugfixes and improvements</a>, brings a new experimental feature, we think you may find very interesting. Because it’s still work in progress, you need to explicitly enable it via VM property <em>-Dide.run.dashboard=true</em>, or through the <i>Registry</i>.</p>
+<p>After that, you will find that the traditional <i>Run</i> tool window for Spring Boot applications was replaced with the new <i>Run Dashboard</i> (in the future we plan that replacement for other app types, too.)</p>
+<p><img class="alignnone size-full wp-image-15379" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/05/Screen-Shot-2017-05-15-at-12.36.64-1.gif" alt="" width="750" /></p>
+<p>This new dashboard lets you explore and manage multiple <em>Run</em> configurations at once, with the list of Run configurations and their status on the left, and details and application-specific information on the right. Also, you get the tool bar that is handy to issue commands like run, stop, or restart.</p>
+<p>For example, Spring Boot applications display the recently introduced <i>Endpoints</i> tab:</p>
+<p><img class="alignnone size-full wp-image-15376" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/05/Screen-Shot-2017-05-15-at-12.36.65.gif" alt="Screen Shot 2017-05-15 at 12.36.65" width="750" /></p>
+<p>If you prefer so, the new tool window can look exactly like the <i>Run</i> tool window. Just click the <i>Show Configurations</i> button on the left toolbar, and then use the tabs on top to switch between running applications:</p>
+<p><img class="alignnone size-full wp-image-15377" src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/05/Screen-Shot-2017-05-15-at-12.36.66.gif" alt="Screen Shot 2017-05-15 at 12.36.66" width="750" /></p>
+<p>We’re very excited about this new feature and believe that it can be applied not only to Spring Boot, but to many other types of applications (and maybe not only applications). This is why we’d like to ask you for your feedback. Please give this new feature a try and <a href="http://youtrack.jetbrains.com/issues/IDEA">share</a> with us both your impressions and improvement suggestions. We hope your feedback will help us better understand the possible usage scenarios and put them in IntelliJ IDEA 2017.2.</p>
+<a id="post_footer_banner" href="https://kotlinconf.com" style="border:0; padding:0; margin:0px;"><img  src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2017/07/KotlinConf_blog_banner2.png" width="800" style="margin: 0 0 20px 0; padding: 0; border: solid 1px #ccc;"/></a><img src="http://feeds.feedburner.com/~r/jetbrains_intellijidea/~4/rG-Czmtin-E" height="1" width="1" alt=""/>]]></content:encoded>
+            <wfw:commentRss>
+                https://blog.jetbrains.com/idea/2017/05/intellij-idea-2017-2-eap-run-dashboard-for-spring-boot/feed/
+            </wfw:commentRss>
+            <slash:comments>16</slash:comments>
+            <feedburner:origLink>
+                https://blog.jetbrains.com/idea/2017/05/intellij-idea-2017-2-eap-run-dashboard-for-spring-boot/
+            </feedburner:origLink>
+        </item>
+    </channel>
+</rss><!-- Performance optimized by W3 Total Cache. Learn more: https://www.w3-edge.com/products/
+
+Page Caching using disk: enhanced
+Content Delivery Network via Amazon Web Services: CloudFront: d3nmt5vlzunoa1.cloudfront.net
+
+ Served from: blog.jetbrains.com @ 2017-07-07 10:30:58 by W3 Total Cache -->
