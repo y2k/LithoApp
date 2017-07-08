@@ -1,7 +1,8 @@
 package y2k.example.litho.components
 
+import android.content.Intent
 import android.graphics.Color
-import android.widget.Toast
+import android.net.Uri
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.litho.*
 import com.facebook.litho.annotations.*
@@ -81,13 +82,14 @@ class EntityComponentSpec {
                 .child(Text.create(c)
                     .text(item.description)
                     .textSizeSp(20f))
-//                .clickHandler(ItemComponent.onItemClicked(c, item))
+                .clickHandler(EntityComponent.onItemClicked(c, item))
                 .build()
         }
 
         @OnEvent(ClickEvent::class) @JvmStatic
         fun onItemClicked(c: ComponentContext, @Param item: Entity) {
-            Toast.makeText(c, "Clicked ($item)", Toast.LENGTH_SHORT).show()
+            Intent(Intent.ACTION_VIEW, Uri.parse("" + item.url))
+                .let { c.startActivity(it) }
         }
     }
 }

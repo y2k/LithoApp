@@ -84,7 +84,7 @@ class ItemComponentSpec {
 //                    .aspectRatio(1f)
 //                    .buildWithLayout())
                 .child(Text.create(c)
-                    .text(item.url)
+                    .text("" + item.url)
                     .textSizeSp(20f))
                 .clickHandler(ItemComponent.onItemClicked(c, item))
                 .build()

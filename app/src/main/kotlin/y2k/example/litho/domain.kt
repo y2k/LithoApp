@@ -10,8 +10,8 @@ import java.net.URL
 
 typealias Entities = List<Entity>
 typealias Subscriptions = List<RssSubscription>
-data class Entity(val title: String, val description: String)
-data class RssSubscription(val title: String, val url: String, val image: String) : Serializable
+data class Entity(val title: String, val description: String, val url: URL)
+data class RssSubscription(val title: String, val url: URL, val image: String) : Serializable
 
 object Parser {
 
@@ -21,7 +21,8 @@ object Parser {
             .map {
                 Entity(
                     it.select("title").text(),
-                    it.select("description").text().unescapeHtml())
+                    it.select("description").text().unescapeHtml(),
+                    it.select("link").text().let(::URL))
             }
 
     fun parserSubscriptions(html: String): Subscriptions =
@@ -30,12 +31,16 @@ object Parser {
             .map {
                 RssSubscription(
                     title = it.text(),
-                    url = it.absUrl("href"),
+                    url = it.absUrl("href").let(::URL),
                     image = "TODO")
             }
             .map {
                 it.copy(
-                    url = it.url.replace("http:", "https:").replace("/$".toRegex(), "") + "/feed/",
+                    url = it.url.toString()
+                        .replace("http:", "https:")
+                        .replace("/$".toRegex(), "")
+                        .let { it + "/feed/" }
+                        .let(::URL),
                     title = it.title.replace(" Blog", ""))
             }
 }
@@ -46,7 +51,7 @@ object Loader {
         Net.readText(URL("https://blog.jetbrains.com/"))
             .let(Parser::parserSubscriptions)
 
-    suspend fun getEntities(url: String): Entities =
-        Net.readText(URL(url))
+    suspend fun getEntities(url: URL): Entities =
+        Net.readText(url)
             .let(Parser::parseEntities)
 }
