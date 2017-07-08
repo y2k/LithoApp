@@ -45,6 +45,7 @@ dependencies {
 //    testCompile 'junit:junit:4.12'
 
     compile 'org.jsoup:jsoup:1.10.3'
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
 
     def lithoVersion = '0.3.1'
     compile "com.facebook.litho:litho-core:$lithoVersion"

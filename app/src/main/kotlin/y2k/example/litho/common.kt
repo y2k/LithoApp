@@ -3,10 +3,14 @@ package y2k.example.litho
 import android.os.AsyncTask
 import android.os.Handler
 import android.os.Looper
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import java.io.IOException
 import java.net.URL
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.experimental.*
+
 
 /**
  * Created by y2k on 07/07/2017.
@@ -14,7 +18,16 @@ import kotlin.coroutines.experimental.*
 
 object Net {
 
-    suspend fun readText(url: URL): String = task { url.readText() }
+    private val client = OkHttpClient()
+
+    suspend fun readText(url: URL): String = task {
+        val request = Request.Builder().url(url).build()
+
+        val response = client.newCall(request).execute()
+        if (!response.isSuccessful) throw IOException("Unexpected code " + response)
+
+        response.body()!!.string()
+    }
 }
 
 private val htmlRegex = Regex("&#(\\d+);")
