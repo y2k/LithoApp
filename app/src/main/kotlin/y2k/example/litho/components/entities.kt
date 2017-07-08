@@ -67,23 +67,28 @@ class EntityComponentSpec {
 
         @OnCreateLayout @JvmStatic
         fun onCreateLayout(c: ComponentContext, @Prop item: Entity): ComponentLayout {
-            return Column.create(c)
+            val column = Column.create(c)
                 .paddingDip(YogaEdge.ALL, 16)
                 .backgroundColor(Color.WHITE)
                 .child(Text.create(c)
                     .text(item.title)
                     .textSizeSp(35f))
-                .child(FrescoImage.create(c)
-                    .controller(Fresco.newDraweeControllerBuilder()
-                        .setUri("http://img0.joyreactor.cc/pics/post/-3838584.jpeg")
-                        .build())
-                    .aspectRatio(1f)
-                    .buildWithLayout())
+            if (item.image != null) {
+                column
+                    .child(FrescoImage.create(c)
+                        .controller(Fresco.newDraweeControllerBuilder()
+                            .setUri(item.image.url.toString())
+                            .build())
+                        .aspectRatio(item.image.width.toFloat() / item.image.height)
+                        .buildWithLayout())
+            }
+            column
                 .child(Text.create(c)
                     .text(item.description)
                     .textSizeSp(20f))
                 .clickHandler(EntityComponent.onItemClicked(c, item))
-                .build()
+
+            return column.build()
         }
 
         @OnEvent(ClickEvent::class) @JvmStatic
