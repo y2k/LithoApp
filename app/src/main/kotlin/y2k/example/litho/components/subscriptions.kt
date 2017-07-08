@@ -79,7 +79,7 @@ class ItemComponentSpec {
                     .textSizeSp(35f))
                 .child(Text.create(c)
                     .text("" + item.url)
-                    .textSizeSp(20f))
+                    .textSizeSp(18f))
                 .clickHandler(ItemComponent.onItemClicked(c, item))
                 .build()
         }
