@@ -1,5 +1,6 @@
 package y2k.example.litho
 
+import android.text.Html
 import org.jsoup.Jsoup
 import java.io.Serializable
 import java.net.URL
@@ -10,7 +11,7 @@ import java.net.URL
 
 typealias Entities = List<Entity>
 typealias Subscriptions = List<RssSubscription>
-data class Entity(val title: String, val description: String, val url: URL, val image: Image?)
+data class Entity(val title: String, val description: CharSequence, val url: URL, val image: Image?)
 data class RssSubscription(val title: String, val url: URL, val image: String) : Serializable
 data class Image(val url: URL, val width: Int, val height: Int)
 
@@ -20,7 +21,10 @@ object Parser {
         Jsoup.parse(rss)
             .select("item")
             .map {
-                val desc = it.select("description").text().unescapeHtml()
+                val desc = it.select("description").text()
+                    .unescapeHtml()
+                    .let { Html.fromHtml(it) }
+                    .trim()
 
                 val content = it.text()
                 val image = "<img src=\"([^\"]+)\" alt=\"[^\"]+\" width=\"(\\d+)\" height=\"(\\d+)".toRegex()
