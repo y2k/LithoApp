@@ -33,7 +33,11 @@ object Parser {
                     url = it.absUrl("href"),
                     image = "TODO")
             }
-            .map { it.copy(title = it.title.replace(" Blog", "")) }
+            .map {
+                it.copy(
+                    url = it.url.replace("http:", "https:").replace("/$".toRegex(), "") + "/feed/",
+                    title = it.title.replace(" Blog", ""))
+            }
 }
 
 object Loader {
