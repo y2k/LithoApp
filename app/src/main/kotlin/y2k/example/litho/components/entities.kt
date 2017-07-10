@@ -1,8 +1,8 @@
 package y2k.example.litho.components
 
-import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.support.customtabs.CustomTabsIntent
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.litho.*
 import com.facebook.litho.annotations.*
@@ -13,6 +13,7 @@ import com.facebook.litho.widget.RecyclerBinder
 import com.facebook.litho.widget.Text
 import com.facebook.yoga.YogaEdge
 import y2k.example.litho.*
+
 
 /**
  * Created by y2k on 07/07/2017.
@@ -93,8 +94,9 @@ class EntityComponentSpec {
 
         @OnEvent(ClickEvent::class) @JvmStatic
         fun onItemClicked(c: ComponentContext, @Param item: Entity) {
-            Intent(Intent.ACTION_VIEW, Uri.parse("" + item.url))
-                .let { c.startActivity(it) }
+            CustomTabsIntent.Builder()
+                .build()
+                .launchUrl(c, Uri.parse("" + item.url))
         }
     }
 }
