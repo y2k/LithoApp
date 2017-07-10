@@ -4,10 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import com.facebook.litho.*
 import com.facebook.litho.annotations.*
-import com.facebook.litho.widget.Progress
-import com.facebook.litho.widget.Recycler
-import com.facebook.litho.widget.RecyclerBinder
-import com.facebook.litho.widget.Text
+import com.facebook.litho.widget.*
 import com.facebook.yoga.YogaEdge
 import y2k.example.litho.EntitiesActivity
 import y2k.example.litho.RssSubscription
@@ -48,7 +45,9 @@ class MainComponentSpec {
                             .color(Color.GRAY))
                         .build()
                 false -> {
-                    val recyclerBinder = RecyclerBinder(c)
+                    val recyclerBinder = RecyclerBinder(
+                        c, RecyclerBinder.DEFAULT_RANGE_RATIO, GridLayoutInfo(c, 2))
+
                     state.forEachIndexed { i, x ->
                         recyclerBinder.insertItemAt(i, ItemComponent.create(c)
                             .item(x)
