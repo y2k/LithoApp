@@ -16,14 +16,14 @@ class Tests {
         val actual = Parser.parseEntities(xml)
         assertEquals(
             URL("https://blog.jetbrains.com/dotnet/2017/06/29/rider-eap-24-includes-performance-fixes-f-interactive/"),
-            actual[0].url)
+            actual.value[0].url)
 
         assertEquals(
             Image(
                 URL("https://d3nmt5vlzunoa1.cloudfront.net/dotnet/files/2017/06/fsharp_interactive_and_editor.png"),
                 width = 701,
                 height = 495),
-            actual[0].image)
+            actual.value[0].image)
     }
 
     @Test
@@ -32,6 +32,6 @@ class Tests {
         val actual = Parser.parseEntities(xml)
         assertEquals(
             URL("http://feedproxy.google.com/~r/jetbrains_intellijidea/~3/NZSQpe1-ZGU/"),
-            actual[0].url)
+            actual.value[0].url)
     }
 }

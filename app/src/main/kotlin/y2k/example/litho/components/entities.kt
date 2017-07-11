@@ -26,9 +26,9 @@ class RssListComponentSpec {
         @OnCreateInitialState @JvmStatic
         fun onCreateInitialState(c: ComponentContext, state: StateValue<Entities>, @Prop subscription: Subscription) {
             launch {
-                state.set(emptyList())
+                state.set(Entities())
                 L.getCachedEntities(subscription.url)
-                    .let { RssListComponent.updateState(c, it.value) }
+                    .let { RssListComponent.updateState(c, it) }
                 L.getEntities(subscription.url)
                     .let { RssListComponent.updateState(c, it) }
             }
@@ -39,11 +39,11 @@ class RssListComponentSpec {
 
         @OnCreateLayout @JvmStatic
         fun onCreateLayout(c: ComponentContext, @State state: Entities): ComponentLayout {
-            return when (state.isEmpty()) {
+            return when (state.value.isEmpty()) {
                 true -> PlaceholderComponent.create(c).buildWithLayout()
                 false -> {
                     val recyclerBinder = RecyclerBinder(c)
-                    state.forEachIndexed { i, x ->
+                    state.value.forEachIndexed { i, x ->
                         recyclerBinder.insertItemAt(i,
                             EntityComponent.create(c).item(x).build())
                     }

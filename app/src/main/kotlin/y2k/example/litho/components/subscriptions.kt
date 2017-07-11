@@ -6,11 +6,8 @@ import com.facebook.litho.*
 import com.facebook.litho.annotations.*
 import com.facebook.litho.widget.*
 import com.facebook.yoga.YogaEdge
-import y2k.example.litho.EntitiesActivity
+import y2k.example.litho.*
 import y2k.example.litho.R
-import y2k.example.litho.Subscription
-import y2k.example.litho.Subscriptions
-import y2k.example.litho.launch
 import y2k.example.litho.Loader as L
 
 /**
@@ -29,23 +26,23 @@ class MainComponentSpec {
 
         @OnCreateInitialState @JvmStatic
         fun createInitialState(c: ComponentContext, state: StateValue<Subscriptions>) = launch {
-            state.set(emptyList())
+            state.set(Subscriptions())
 
             L.getSubscriptionsCached()
-                .let { MainComponent.reload(c, it.value) }
+                .let { MainComponent.reload(c, it) }
             L.getSubscriptions()
                 .let { MainComponent.reload(c, it) }
         }
 
         @OnCreateLayout @JvmStatic
         fun onCreateLayout(c: ComponentContext, @State state: Subscriptions): ComponentLayout {
-            return when (state.isEmpty()) {
+            return when (state.value.isEmpty()) {
                 true -> PlaceholderComponent.create(c).buildWithLayout()
                 false -> {
                     val recyclerBinder = RecyclerBinder(
                         c, RecyclerBinder.DEFAULT_RANGE_RATIO, GridLayoutInfo(c, 2))
 
-                    state.forEachIndexed { i, x ->
+                    state.value.forEachIndexed { i, x ->
                         recyclerBinder.insertItemAt(i, ItemComponent.create(c)
                             .item(x)
                             .build())

@@ -10,10 +10,9 @@ import java.net.URL
  * Created by y2k on 07/07/2017.
  **/
 
-typealias Entities = List<Entity>
-typealias Subscriptions = List<Subscription>
-class Entities_(val value: List<Entity> = emptyList()) : Serializable
-class Subscriptions_(val value: List<Subscription> = emptyList()) : Serializable
+class Entities(val value: List<Entity> = emptyList()) : Serializable
+
+class Subscriptions(val value: List<Subscription> = emptyList()) : Serializable
 data class Entity(val title: String, val description: String, val url: URL, val image: Image?) : Serializable
 data class Subscription(val title: String, val url: URL, val image: String) : Serializable
 data class Image(val url: URL, val width: Int, val height: Int) : Serializable
@@ -30,6 +29,7 @@ object Parser {
                     url = node.select("link").first().nextSibling().toString().let(::URL),
                     image = node.extractImage())
             }
+            .let(::Entities)
 
     private fun Element.extractDescription(): String =
         select("description").text()
@@ -52,6 +52,7 @@ object Parser {
                     url = node.extractRssUrl(),
                     image = "TODO")
             }
+            .let(::Subscriptions)
 
     private fun Element.extractRssUrl(): URL =
         absUrl("href")
@@ -63,19 +64,19 @@ object Parser {
 
 object Loader {
 
-    suspend fun getSubscriptionsCached(): Subscriptions_ =
-        Prefs.load(Subscriptions_())
+    suspend fun getSubscriptionsCached(): Subscriptions =
+        Prefs.load(Subscriptions())
 
     suspend fun getSubscriptions(): Subscriptions =
         Net.readText(URL("https://blog.jetbrains.com/"))
             .let(Parser::parserSubscriptions)
-            .also { Prefs.save(Subscriptions_(it)) }
+            .also { Prefs.save(it) }
 
     suspend fun getEntities(url: URL): Entities =
         Net.readText(url)
             .let(Parser::parseEntities)
-            .also { Prefs.save(Entities_(it), url.toString()) }
+            .also { Prefs.save(it, url.toString()) }
 
-    suspend fun getCachedEntities(url: URL): Entities_ =
-        Prefs.load(Entities_(), url.toString())
+    suspend fun getCachedEntities(url: URL): Entities =
+        Prefs.load(Entities(), url.toString())
 }
