@@ -2,6 +2,7 @@ package y2k.example.litho
 
 import android.text.Html
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Element
 import java.io.Serializable
 import java.net.URL
 
@@ -20,23 +21,24 @@ object Parser {
     fun parseEntities(rss: String): Entities =
         Jsoup.parse(rss)
             .select("item")
-            .map {
-                val desc = it.select("description").text()
-                    .unescapeHtml()
-                    .let(Html::fromHtml)
-                    .trim()
-
-                val content = it.text()
-                val image = "<img src=\"([^\"]+)\" alt=\"[^\"]+\" width=\"(\\d+)\" height=\"(\\d+)".toRegex()
-                    .find(content)?.groupValues
-                    ?.let { Image(URL(it[1]), it[2].toInt(), it[3].toInt()) }
-
+            .map { node ->
                 Entity(
-                    title = it.select("title").text(),
-                    description = desc,
-                    url = it.select("link").first().nextSibling().toString().let(::URL),
-                    image = image)
+                    title = node.select("title").text(),
+                    description = node.extractDescription(),
+                    url = node.select("link").first().nextSibling().toString().let(::URL),
+                    image = node.extractImage())
             }
+
+    private fun Element.extractDescription(): CharSequence =
+        select("description").text()
+            .unescapeHtml()
+            .let(Html::fromHtml)
+            .trim()
+
+    private fun Element.extractImage(): Image? =
+        "<img src=\"([^\"]+)\" alt=\"[^\"]+\" width=\"(\\d+)\" height=\"(\\d+)".toRegex()
+            .find(text())?.groupValues
+            ?.let { Image(url = URL(it[1]), width = it[2].toInt(), height = it[3].toInt()) }
 
     fun parserSubscriptions(html: String): Subscriptions =
         Jsoup.parse(html)
