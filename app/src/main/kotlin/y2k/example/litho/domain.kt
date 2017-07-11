@@ -23,7 +23,7 @@ object Parser {
             .map {
                 val desc = it.select("description").text()
                     .unescapeHtml()
-                    .let { Html.fromHtml(it) }
+                    .let(Html::fromHtml)
                     .trim()
 
                 val content = it.text()
