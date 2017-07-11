@@ -1,6 +1,5 @@
 package y2k.example.litho
 
-import android.text.Html
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.io.Serializable
@@ -34,9 +33,7 @@ object Parser {
     private fun Element.extractDescription(): String =
         select("description").text()
             .unescapeHtml()
-            .let(Html::fromHtml)
-            .toString()
-            .trim()
+            .let { Jsoup.parse(it).text() }
 
     private fun Element.extractImage(): Image? =
         "<img src=\"([^\"]+)\" alt=\"[^\"]+\" width=\"(\\d+)\" height=\"(\\d+)".toRegex()
