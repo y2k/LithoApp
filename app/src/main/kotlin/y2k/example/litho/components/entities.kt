@@ -13,6 +13,7 @@ import com.facebook.litho.widget.RecyclerBinder
 import com.facebook.litho.widget.Text
 import com.facebook.yoga.YogaEdge
 import y2k.example.litho.*
+import y2k.example.litho.R
 
 
 /**
@@ -70,7 +71,7 @@ class EntityComponentSpec {
         fun onCreateLayout(c: ComponentContext, @Prop item: Entity): ComponentLayout {
             val column = Column.create(c)
                 .paddingDip(YogaEdge.ALL, 16)
-                .backgroundColor(Color.WHITE)
+                .backgroundRes(R.drawable.sub_item_bg)
                 .child(Text.create(c)
                     .text(item.title)
                     .textSizeSp(35f))
