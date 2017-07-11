@@ -13,7 +13,6 @@ import com.facebook.yoga.YogaEdge
 import y2k.example.litho.*
 import y2k.example.litho.R
 
-
 /**
  * Created by y2k on 07/07/2017.
  **/
