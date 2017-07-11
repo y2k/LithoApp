@@ -1,20 +1,48 @@
 package y2k.example.litho
 
+import android.content.SharedPreferences
 import android.os.AsyncTask
 import android.os.Handler
 import android.os.Looper
+import android.util.Base64
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import java.io.IOException
+import java.io.*
 import java.net.URL
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.experimental.*
 
-
 /**
  * Created by y2k on 07/07/2017.
  **/
+
+object Prefs {
+
+    @Suppress("UNCHECKED_CAST")
+    suspend fun <T : Serializable> load(def: T) = task {
+        getPrefs()
+            .getString(def.javaClass.name, null)
+            ?.let { Base64.decode(it, 0) }
+            ?.let { ByteArrayInputStream(it) }
+            ?.let(::ObjectInputStream)
+            ?.let { it.readObject() as T } ?: def
+    }
+
+    suspend fun <T : Serializable> save(value: T) = task {
+        val memStream = ByteArrayOutputStream()
+        val objStream = ObjectOutputStream(memStream)
+        objStream.writeObject(value)
+        objStream.close()
+
+        memStream.toByteArray()
+            .let { Base64.encodeToString(it, 0) }
+            .let { getPrefs().edit().putString(value.javaClass.name, it).apply() }
+    }
+
+    private fun getPrefs(): SharedPreferences =
+        MainActivity.App.app.getSharedPreferences("prefs", 0)
+}
 
 object Net {
 

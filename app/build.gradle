@@ -22,7 +22,7 @@ android {
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-        main.kotlin.srcDirs += file("$buildDir/generated/source/apt/debug")
+        test.java.srcDirs += 'src/test/kotlin'
     }
 }
 

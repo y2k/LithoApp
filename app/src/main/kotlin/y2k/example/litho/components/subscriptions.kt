@@ -31,6 +31,8 @@ class MainComponentSpec {
         fun createInitialState(c: ComponentContext, state: StateValue<Subscriptions>) = launch {
             state.set(emptyList())
 
+            L.getSubscriptionsCached()
+                .let { MainComponent.reload(c, it.value) }
             L.getSubscriptions()
                 .let { MainComponent.reload(c, it) }
         }

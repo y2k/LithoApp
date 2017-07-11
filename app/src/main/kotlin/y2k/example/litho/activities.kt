@@ -28,9 +28,14 @@ class MainActivity : Activity() {
 
         override fun onCreate() {
             super.onCreate()
-
+            _app = this
             Fresco.initialize(this)
             SoLoader.init(this, false)
+        }
+
+        companion object {
+            val app: Application get() = _app
+            private lateinit var _app: Application
         }
     }
 }

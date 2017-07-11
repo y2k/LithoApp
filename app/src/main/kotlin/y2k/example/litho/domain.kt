@@ -12,6 +12,7 @@ import java.net.URL
 
 typealias Entities = List<Entity>
 typealias Subscriptions = List<Subscription>
+class Subscriptions_(val value: List<Subscription> = emptyList()) : Serializable
 data class Entity(val title: String, val description: CharSequence, val url: URL, val image: Image?)
 data class Subscription(val title: String, val url: URL, val image: String) : Serializable
 data class Image(val url: URL, val width: Int, val height: Int)
@@ -60,9 +61,13 @@ object Parser {
 
 object Loader {
 
+    suspend fun getSubscriptionsCached(): Subscriptions_ =
+        Prefs.load(Subscriptions_())
+
     suspend fun getSubscriptions(): Subscriptions =
         Net.readText(URL("https://blog.jetbrains.com/"))
             .let(Parser::parserSubscriptions)
+            .also { Prefs.save(Subscriptions_(it)) }
 
     suspend fun getEntities(url: URL): Entities =
         Net.readText(url)
