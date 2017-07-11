@@ -12,10 +12,11 @@ import java.net.URL
 
 typealias Entities = List<Entity>
 typealias Subscriptions = List<Subscription>
+class Entities_(val value: List<Entity> = emptyList()) : Serializable
 class Subscriptions_(val value: List<Subscription> = emptyList()) : Serializable
-data class Entity(val title: String, val description: CharSequence, val url: URL, val image: Image?)
+data class Entity(val title: String, val description: String, val url: URL, val image: Image?) : Serializable
 data class Subscription(val title: String, val url: URL, val image: String) : Serializable
-data class Image(val url: URL, val width: Int, val height: Int)
+data class Image(val url: URL, val width: Int, val height: Int) : Serializable
 
 object Parser {
 
@@ -30,10 +31,11 @@ object Parser {
                     image = node.extractImage())
             }
 
-    private fun Element.extractDescription(): CharSequence =
+    private fun Element.extractDescription(): String =
         select("description").text()
             .unescapeHtml()
             .let(Html::fromHtml)
+            .toString()
             .trim()
 
     private fun Element.extractImage(): Image? =
@@ -72,4 +74,8 @@ object Loader {
     suspend fun getEntities(url: URL): Entities =
         Net.readText(url)
             .let(Parser::parseEntities)
+            .also { Prefs.save(Entities_(it), url.toString()) }
+
+    suspend fun getCachedEntities(url: URL): Entities_ =
+        Prefs.load(Entities_(), url.toString())
 }

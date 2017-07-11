@@ -12,6 +12,7 @@ import com.facebook.litho.widget.Text
 import com.facebook.yoga.YogaEdge
 import y2k.example.litho.*
 import y2k.example.litho.R
+import y2k.example.litho.Loader as L
 
 /**
  * Created by y2k on 07/07/2017.
@@ -26,7 +27,9 @@ class RssListComponentSpec {
         fun onCreateInitialState(c: ComponentContext, state: StateValue<Entities>, @Prop subscription: Subscription) {
             launch {
                 state.set(emptyList())
-                Loader.getEntities(subscription.url)
+                L.getCachedEntities(subscription.url)
+                    .let { RssListComponent.updateState(c, it.value) }
+                L.getEntities(subscription.url)
                     .let { RssListComponent.updateState(c, it) }
             }
         }

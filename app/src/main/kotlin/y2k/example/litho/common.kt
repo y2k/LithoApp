@@ -20,16 +20,16 @@ import kotlin.coroutines.experimental.*
 object Prefs {
 
     @Suppress("UNCHECKED_CAST")
-    suspend fun <T : Serializable> load(def: T) = task {
+    suspend fun <T : Serializable> load(def: T, key: String? = null) = task {
         getPrefs()
-            .getString(def.javaClass.name, null)
+            .getString(key ?: def.javaClass.name, null)
             ?.let { Base64.decode(it, 0) }
             ?.let { ByteArrayInputStream(it) }
             ?.let(::ObjectInputStream)
             ?.let { it.readObject() as T } ?: def
     }
 
-    suspend fun <T : Serializable> save(value: T) = task {
+    suspend fun <T : Serializable> save(value: T, key: String? = null) = task {
         val memStream = ByteArrayOutputStream()
         val objStream = ObjectOutputStream(memStream)
         objStream.writeObject(value)
@@ -37,7 +37,7 @@ object Prefs {
 
         memStream.toByteArray()
             .let { Base64.encodeToString(it, 0) }
-            .let { getPrefs().edit().putString(value.javaClass.name, it).apply() }
+            .let { getPrefs().edit().putString(key ?: value.javaClass.name, it).apply() }
     }
 
     private fun getPrefs(): SharedPreferences =
