@@ -1,14 +1,11 @@
 package y2k.example.litho.components
 
 import android.content.Intent
-import android.graphics.Color
 import android.text.Layout
 import com.facebook.litho.*
 import com.facebook.litho.annotations.*
 import com.facebook.litho.widget.*
-import com.facebook.yoga.YogaAlign
 import com.facebook.yoga.YogaEdge
-import com.facebook.yoga.YogaJustify
 import y2k.example.litho.EntitiesActivity
 import y2k.example.litho.R
 import y2k.example.litho.Subscription
@@ -41,15 +38,7 @@ class MainComponentSpec {
         @OnCreateLayout @JvmStatic
         fun onCreateLayout(c: ComponentContext, @State state: Subscriptions): ComponentLayout {
             return when (state.isEmpty()) {
-                true ->
-                    Column.create(c)
-                        .alignItems(YogaAlign.CENTER)
-                        .justifyContent(YogaJustify.CENTER)
-                        .child(Progress.create(c)
-                            .color(Color.GRAY)
-                            .withLayout()
-                            .widthDip(50).heightDip(50))
-                        .build()
+                true -> PlaceholderComponent.create(c).buildWithLayout()
                 false -> {
                     val recyclerBinder = RecyclerBinder(
                         c, RecyclerBinder.DEFAULT_RANGE_RATIO, GridLayoutInfo(c, 2))

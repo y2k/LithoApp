@@ -1,19 +1,15 @@
 package y2k.example.litho.components
 
-import android.graphics.Color
 import android.net.Uri
 import android.support.customtabs.CustomTabsIntent
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.litho.*
 import com.facebook.litho.annotations.*
 import com.facebook.litho.fresco.FrescoImage
-import com.facebook.litho.widget.Progress
 import com.facebook.litho.widget.Recycler
 import com.facebook.litho.widget.RecyclerBinder
 import com.facebook.litho.widget.Text
-import com.facebook.yoga.YogaAlign
 import com.facebook.yoga.YogaEdge
-import com.facebook.yoga.YogaJustify
 import y2k.example.litho.*
 import y2k.example.litho.R
 
@@ -42,15 +38,7 @@ class RssListComponentSpec {
         @OnCreateLayout @JvmStatic
         fun onCreateLayout(c: ComponentContext, @State state: Entities): ComponentLayout {
             return when (state.isEmpty()) {
-                true ->
-                    Column.create(c)
-                        .alignItems(YogaAlign.CENTER)
-                        .justifyContent(YogaJustify.CENTER)
-                        .child(Progress.create(c)
-                            .color(Color.GRAY)
-                            .withLayout()
-                            .widthDip(50).heightDip(50))
-                        .build()
+                true -> PlaceholderComponent.create(c).buildWithLayout()
                 false -> {
                     val recyclerBinder = RecyclerBinder(c)
                     state.forEachIndexed { i, x ->
