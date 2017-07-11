@@ -26,7 +26,7 @@ class RssListComponentSpec {
     companion object {
 
         @OnCreateInitialState @JvmStatic
-        fun onCreateInitialState(c: ComponentContext, state: StateValue<Entities>, @Prop subscription: RssSubscription) {
+        fun onCreateInitialState(c: ComponentContext, state: StateValue<Entities>, @Prop subscription: Subscription) {
             launch {
                 state.set(emptyList())
                 Loader.getEntities(subscription.url)

@@ -11,9 +11,9 @@ import java.net.URL
  **/
 
 typealias Entities = List<Entity>
-typealias Subscriptions = List<RssSubscription>
+typealias Subscriptions = List<Subscription>
 data class Entity(val title: String, val description: CharSequence, val url: URL, val image: Image?)
-data class RssSubscription(val title: String, val url: URL, val image: String) : Serializable
+data class Subscription(val title: String, val url: URL, val image: String) : Serializable
 data class Image(val url: URL, val width: Int, val height: Int)
 
 object Parser {
@@ -43,21 +43,19 @@ object Parser {
     fun parserSubscriptions(html: String): Subscriptions =
         Jsoup.parse(html)
             .select("ul#menu-jetbrains-product-blogs a")
-            .map {
-                RssSubscription(
-                    title = it.text(),
-                    url = it.absUrl("href").let(::URL),
+            .map { node ->
+                Subscription(
+                    title = node.text().replace(" Blog", ""),
+                    url = node.extractRssUrl(),
                     image = "TODO")
             }
-            .map {
-                it.copy(
-                    url = it.url.toString()
-                        .replace("http:", "https:")
-                        .replace("/$".toRegex(), "")
-                        .let { it + "/feed/" }
-                        .let(::URL),
-                    title = it.title.replace(" Blog", ""))
-            }
+
+    private fun Element.extractRssUrl(): URL =
+        absUrl("href")
+            .replace("http:", "https:")
+            .replace("/$".toRegex(), "")
+            .let { it + "/feed/" }
+            .let(::URL)
 }
 
 object Loader {

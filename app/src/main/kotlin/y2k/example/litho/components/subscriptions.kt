@@ -9,7 +9,7 @@ import com.facebook.litho.widget.*
 import com.facebook.yoga.YogaEdge
 import y2k.example.litho.EntitiesActivity
 import y2k.example.litho.R
-import y2k.example.litho.RssSubscription
+import y2k.example.litho.Subscription
 import y2k.example.litho.Subscriptions
 import y2k.example.litho.launch
 import y2k.example.litho.Loader as L
@@ -71,7 +71,7 @@ class ItemComponentSpec {
     companion object {
 
         @JvmStatic @OnCreateLayout
-        fun onCreateLayout(c: ComponentContext, @Prop item: RssSubscription): ComponentLayout {
+        fun onCreateLayout(c: ComponentContext, @Prop item: Subscription): ComponentLayout {
             return Column.create(c)
                 .heightDip(200)
                 .paddingDip(YogaEdge.ALL, 4)
@@ -89,7 +89,7 @@ class ItemComponentSpec {
         }
 
         @OnEvent(ClickEvent::class) @JvmStatic
-        fun onItemClicked(c: ComponentContext, @Param item: RssSubscription) {
+        fun onItemClicked(c: ComponentContext, @Param item: Subscription) {
             Intent(c, EntitiesActivity::class.java)
                 .putExtra("data", item)
                 .let { c.startActivity(it) }

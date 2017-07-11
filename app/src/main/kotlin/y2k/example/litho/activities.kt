@@ -42,7 +42,7 @@ class EntitiesActivity : Activity() {
 
         val context = ComponentContext(this)
         val component = RssListComponent.create(context)
-            .subscription(intent.getSerializableExtra("data") as RssSubscription)
+            .subscription(intent.getSerializableExtra("data") as Subscription)
             .build()
         setContentView(LithoView.create(context, component))
     }
