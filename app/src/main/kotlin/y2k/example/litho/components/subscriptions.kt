@@ -2,11 +2,13 @@ package y2k.example.litho.components
 
 import android.content.Intent
 import android.graphics.Color
+import android.text.Layout
 import com.facebook.litho.*
 import com.facebook.litho.annotations.*
 import com.facebook.litho.widget.*
 import com.facebook.yoga.YogaEdge
 import y2k.example.litho.EntitiesActivity
+import y2k.example.litho.R
 import y2k.example.litho.RssSubscription
 import y2k.example.litho.Subscriptions
 import y2k.example.litho.launch
@@ -71,14 +73,17 @@ class ItemComponentSpec {
         @JvmStatic @OnCreateLayout
         fun onCreateLayout(c: ComponentContext, @Prop item: RssSubscription): ComponentLayout {
             return Column.create(c)
-                .paddingDip(YogaEdge.ALL, 16)
-                .backgroundColor(Color.WHITE)
-                .child(Text.create(c)
-                    .text(item.title)
-                    .textSizeSp(35f))
-                .child(Text.create(c)
-                    .text("" + item.url)
-                    .textSizeSp(18f))
+                .heightDip(200)
+                .paddingDip(YogaEdge.ALL, 4)
+                .backgroundRes(R.drawable.sub_item_bg)
+                .child(
+                    Text.create(c)
+                        .textAlignment(Layout.Alignment.ALIGN_CENTER)
+                        .verticalGravity(VerticalGravity.CENTER)
+                        .text(item.title)
+                        .textSizeSp(35f)
+                        .withLayout()
+                        .flexGrow(1f))
                 .clickHandler(ItemComponent.onItemClicked(c, item))
                 .build()
         }
