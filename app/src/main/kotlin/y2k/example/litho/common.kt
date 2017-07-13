@@ -80,7 +80,7 @@ suspend fun <T> task(action: () -> T): T =
                 is Ok<T> -> con.resume(result.value)
                 is Error -> con.resumeWithException(result.error)
             }
-        }.execute()
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
     }
 
 sealed class Result<out T>
