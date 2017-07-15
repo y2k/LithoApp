@@ -20,7 +20,7 @@ import kotlin.coroutines.experimental.*
 object Prefs {
 
     @Suppress("UNCHECKED_CAST")
-    suspend fun <T : Serializable> load(def: T, key: String? = null) = task {
+    suspend fun <T : Serializable> load(def: T, key: String? = null): T = task {
         getPrefs()
             .getString(key ?: def.javaClass.name, null)
             ?.let { Base64.decode(it, 0) }
