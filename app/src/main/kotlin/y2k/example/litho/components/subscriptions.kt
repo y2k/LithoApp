@@ -1,13 +1,18 @@
 package y2k.example.litho.components
 
 import android.content.Intent
+import android.graphics.Color
 import android.text.Layout
 import com.facebook.litho.*
 import com.facebook.litho.annotations.*
 import com.facebook.litho.widget.*
+import com.facebook.yoga.YogaAlign
 import com.facebook.yoga.YogaEdge
-import y2k.example.litho.*
+import com.facebook.yoga.YogaPositionType
+import y2k.example.litho.EntitiesActivity
 import y2k.example.litho.R
+import y2k.example.litho.Subscription
+import y2k.example.litho.launch
 import y2k.example.litho.Loader as L
 
 /**
@@ -20,26 +25,62 @@ class MainComponentSpec {
     companion object {
 
         @OnUpdateState @JvmStatic
-        fun reload(state: StateValue<Subscriptions>, @Param newState: Subscriptions) {
-            state.set(newState)
-        }
+        fun reload(state: StateValue<SubscriptionState>, @Param newState: SubscriptionState) = state.set(newState)
 
         @OnCreateInitialState @JvmStatic
-        fun createInitialState(c: ComponentContext, state: StateValue<Subscriptions>) = launch {
-            state.set(Subscriptions())
+        fun createInitialState(c: ComponentContext, state: StateValue<SubscriptionState>) = launch {
+            state.set(SubscriptionState.LoadFromCache)
             L.getSubscriptionsCached()
-                .let { MainComponent.reload(c, it) }
+                .let { MainComponent.reload(c, SubscriptionState.LoadFromWeb(it.value)) }
             L.getSubscriptions()
-                .let { MainComponent.reload(c, it) }
+                .let { MainComponent.reload(c, SubscriptionState.FromWeb(it.value)) }
         }
 
         @OnCreateLayout @JvmStatic
-        fun onCreateLayout(c: ComponentContext, @State state: Subscriptions): ComponentLayout =
-            when (state.value.isEmpty()) {
-                true -> PlaceholderComponent.create(c).buildWithLayout()
-                false -> SubscriptionsList.create(c).items(state).buildWithLayout()
+        fun onCreateLayout(c: ComponentContext, @State state: SubscriptionState): ComponentLayout =
+            when (state) {
+                is SubscriptionState.LoadFromCache ->
+                    PlaceholderComponent.create(c).buildWithLayout()
+                is SubscriptionState.LoadFromWeb -> loadFromWeb(c, state)
+                is SubscriptionState.FromWeb ->
+                    SubscriptionsList.create(c).items(state.subscriptions).buildWithLayout()
+                is SubscriptionState.WebError ->
+                    webError(c, state)
             }
+
+        private fun loadFromWeb(c: ComponentContext, state: SubscriptionState.LoadFromWeb): ComponentLayout =
+            Column.create(c)
+                .child(SubscriptionsList.create(c).items(state.preloaded))
+                .child(Progress.create(c)
+                    .color(Color.GRAY)
+                    .withLayout()
+                    .positionType(YogaPositionType.ABSOLUTE)
+                    .alignSelf(YogaAlign.CENTER)
+                    .widthDip(50).heightDip(50))
+                .build()
+
+        private fun webError(c: ComponentContext, state: SubscriptionState.WebError) =
+            Column.create(c)
+                .child(SubscriptionsList.create(c)
+                    .items(state.preloaded)
+                    .withLayout().flexGrow(1f))
+                .child(Column.create(c)
+                    .backgroundColor(0xFF303030L.toInt())
+                    .paddingDip(YogaEdge.ALL, 4)
+                    .child(Text.create(c)
+                        .textSizeSp(24f)
+                        .textColor(Color.WHITE)
+                        .text("ERROR")
+                        .withLayout().alignSelf(YogaAlign.FLEX_END)))
+                .build()
     }
+}
+
+sealed class SubscriptionState {
+    object LoadFromCache : SubscriptionState()
+    class LoadFromWeb(val preloaded: List<Subscription>) : SubscriptionState()
+    class FromWeb(val subscriptions: List<Subscription>) : SubscriptionState()
+    class WebError(val preloaded: List<Subscription>) : SubscriptionState()
 }
 
 @LayoutSpec
@@ -48,11 +89,11 @@ class SubscriptionsListSpec {
     companion object {
 
         @JvmStatic @OnCreateLayout
-        fun onCreateLayout(c: ComponentContext, @Prop items: Subscriptions): ComponentLayout {
+        fun onCreateLayout(c: ComponentContext, @Prop items: List<Subscription>): ComponentLayout {
             val recyclerBinder = RecyclerBinder(
                 c, RecyclerBinder.DEFAULT_RANGE_RATIO, GridLayoutInfo(c, 2))
 
-            items.value.forEachIndexed { i, x ->
+            items.forEachIndexed { i, x ->
                 recyclerBinder.insertItemAt(i, ItemComponent.create(c)
                     .item(x)
                     .build())
