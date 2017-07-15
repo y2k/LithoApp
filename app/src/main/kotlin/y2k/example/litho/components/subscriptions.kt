@@ -27,7 +27,6 @@ class MainComponentSpec {
         @OnCreateInitialState @JvmStatic
         fun createInitialState(c: ComponentContext, state: StateValue<Subscriptions>) = launch {
             state.set(Subscriptions())
-
             L.getSubscriptionsCached()
                 .let { MainComponent.reload(c, it) }
             L.getSubscriptions()
@@ -35,24 +34,33 @@ class MainComponentSpec {
         }
 
         @OnCreateLayout @JvmStatic
-        fun onCreateLayout(c: ComponentContext, @State state: Subscriptions): ComponentLayout {
-            return when (state.value.isEmpty()) {
+        fun onCreateLayout(c: ComponentContext, @State state: Subscriptions): ComponentLayout =
+            when (state.value.isEmpty()) {
                 true -> PlaceholderComponent.create(c).buildWithLayout()
-                false -> {
-                    val recyclerBinder = RecyclerBinder(
-                        c, RecyclerBinder.DEFAULT_RANGE_RATIO, GridLayoutInfo(c, 2))
-
-                    state.value.forEachIndexed { i, x ->
-                        recyclerBinder.insertItemAt(i, ItemComponent.create(c)
-                            .item(x)
-                            .build())
-                    }
-
-                    return Recycler.create(c)
-                        .binder(recyclerBinder)
-                        .buildWithLayout()
-                }
+                false -> SubscriptionsList.create(c).items(state).buildWithLayout()
             }
+    }
+}
+
+@LayoutSpec
+class SubscriptionsListSpec {
+
+    companion object {
+
+        @JvmStatic @OnCreateLayout
+        fun onCreateLayout(c: ComponentContext, @Prop items: Subscriptions): ComponentLayout {
+            val recyclerBinder = RecyclerBinder(
+                c, RecyclerBinder.DEFAULT_RANGE_RATIO, GridLayoutInfo(c, 2))
+
+            items.value.forEachIndexed { i, x ->
+                recyclerBinder.insertItemAt(i, ItemComponent.create(c)
+                    .item(x)
+                    .build())
+            }
+
+            return Recycler.create(c)
+                .binder(recyclerBinder)
+                .buildWithLayout()
         }
     }
 }
