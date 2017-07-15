@@ -4,6 +4,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.io.Serializable
 import java.net.URL
+import y2k.example.litho.PersistenceStorage as P
 
 /**
  * Created by y2k on 07/07/2017.
@@ -62,18 +63,18 @@ object Parser {
 object Loader {
 
     suspend fun getSubscriptionsCached(): Subscriptions =
-        Prefs.load(Subscriptions())
+        P.load(Subscriptions())
 
     suspend fun getSubscriptions(): Subscriptions =
         Net.readText(URL("https://blog.jetbrains.com/"))
             .let(Parser::parserSubscriptions)
-            .also { Prefs.save(it) }
+            .also { P.save(it) }
 
     suspend fun getEntities(url: URL): Entities =
         Net.readText(url)
             .let(Parser::parseEntities)
-            .also { Prefs.save(it, url.toString()) }
+            .also { P.save(it, url.toString()) }
 
     suspend fun getCachedEntities(url: URL): Entities =
-        Prefs.load(Entities(), url.toString())
+        P.load(Entities(), url.toString())
 }

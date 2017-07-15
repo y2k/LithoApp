@@ -17,7 +17,7 @@ import kotlin.coroutines.experimental.*
  * Created by y2k on 07/07/2017.
  **/
 
-object Prefs {
+object PersistenceStorage {
 
     @Suppress("UNCHECKED_CAST")
     suspend fun <T : Serializable> load(def: T, key: String? = null): T = task {
