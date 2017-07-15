@@ -37,16 +37,12 @@ class MainComponentSpec {
         }
 
         @OnCreateLayout @JvmStatic
-        fun onCreateLayout(c: ComponentContext, @State state: SubscriptionState): ComponentLayout =
-            when (state) {
-                is SubscriptionState.LoadFromCache ->
-                    PlaceholderComponent.create(c).buildWithLayout()
-                is SubscriptionState.LoadFromWeb -> loadFromWeb(c, state)
-                is SubscriptionState.FromWeb ->
-                    SubscriptionsList.create(c).items(state.subscriptions).buildWithLayout()
-                is SubscriptionState.WebError ->
-                    webError(c, state)
-            }
+        fun onCreateLayout(c: ComponentContext, @State state: SubscriptionState): ComponentLayout = when (state) {
+            is SubscriptionState.LoadFromCache -> PlaceholderComponent.create(c).buildWithLayout()
+            is SubscriptionState.LoadFromWeb -> loadFromWeb(c, state)
+            is SubscriptionState.FromWeb -> SubscriptionsList.create(c).items(state.subscriptions).buildWithLayout()
+            is SubscriptionState.WebError -> webError(c, state)
+        }
 
         private fun loadFromWeb(c: ComponentContext, state: SubscriptionState.LoadFromWeb): ComponentLayout =
             Column.create(c)
