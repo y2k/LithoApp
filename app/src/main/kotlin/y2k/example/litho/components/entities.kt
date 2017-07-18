@@ -10,8 +10,10 @@ import com.facebook.litho.widget.Recycler
 import com.facebook.litho.widget.RecyclerBinder
 import com.facebook.litho.widget.Text
 import com.facebook.yoga.YogaEdge
-import y2k.example.litho.*
+import y2k.example.litho.Entity
 import y2k.example.litho.R
+import y2k.example.litho.Subscription
+import y2k.example.litho.launch
 import y2k.example.litho.Loader as L
 
 /**
@@ -24,36 +26,54 @@ class RssListComponentSpec {
     companion object {
 
         @OnCreateInitialState @JvmStatic
-        fun onCreateInitialState(c: ComponentContext, state: StateValue<Entities>, @Prop subscription: Subscription) {
+        fun onCreateInitialState(c: ComponentContext, state: StateValue<EntitiesState>, @Prop subscription: Subscription) {
             launch {
-                state.set(Entities())
+                state.set(EntitiesState.LoadFromCache)
                 L.getCachedEntities(subscription.url)
+                    .let { EntitiesState.LoadFromWeb(it.value) }
                     .let { RssListComponent.updateState(c, it) }
                 L.getEntities(subscription.url)
+                    .let { EntitiesState.FromWeb(it.value) }
                     .let { RssListComponent.updateState(c, it) }
             }
         }
 
         @OnUpdateState @JvmStatic
-        fun updateState(state: StateValue<Entities>, @Param newState: Entities) = state.set(newState)
+        fun updateState(state: StateValue<EntitiesState>, @Param newState: EntitiesState) = state.set(newState)
 
         @OnCreateLayout @JvmStatic
-        fun onCreateLayout(c: ComponentContext, @State state: Entities): ComponentLayout {
-            return when (state.value.isEmpty()) {
-                true -> PlaceholderComponent.create(c).buildWithLayout()
-                false -> {
-                    val recyclerBinder = RecyclerBinder(c)
-                    state.value.forEachIndexed { i, x ->
-                        recyclerBinder.insertItemAt(i,
-                            EntityComponent.create(c).item(x).build())
-                    }
-                    return Recycler.create(c)
-                        .binder(recyclerBinder)
-                        .buildWithLayout()
-                }
+        fun onCreateLayout(c: ComponentContext, @State state: EntitiesState): ComponentLayout? = when (state) {
+            EntitiesState.LoadFromCache -> null
+            is EntitiesState.LoadFromWeb ->
+                Column.create(c)
+                    .child(c.listOfEntities(state.preloaded))
+                    .child(c.preloadIndicator())
+                    .build()
+            is EntitiesState.FromWeb -> c.listOfEntities(state.entities).buildWithLayout()
+            is EntitiesState.WebError ->
+                Column.create(c)
+                    .child(c.listOfEntities(state.preloaded))
+                    .build()
+        }
+
+        private fun ComponentContext.listOfEntities(items: List<Entity>): Recycler.Builder {
+            val recyclerBinder = RecyclerBinder(this)
+            items.forEachIndexed { i, x ->
+                recyclerBinder.insertItemAt(i,
+                    EntityComponent.create(this).item(x).build())
             }
+
+            return Recycler.create(this)
+                .binder(recyclerBinder)
         }
     }
+}
+
+sealed class EntitiesState {
+    object LoadFromCache : EntitiesState()
+    class LoadFromWeb(val preloaded: List<Entity>) : EntitiesState()
+    class FromWeb(val entities: List<Entity>) : EntitiesState()
+    class WebError(val preloaded: List<Entity>) : EntitiesState()
 }
 
 @LayoutSpec

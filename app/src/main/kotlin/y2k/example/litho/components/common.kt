@@ -7,8 +7,11 @@ import com.facebook.litho.ComponentLayout
 import com.facebook.litho.annotations.LayoutSpec
 import com.facebook.litho.annotations.OnCreateLayout
 import com.facebook.litho.widget.Progress
+import com.facebook.litho.widget.Text
 import com.facebook.yoga.YogaAlign
+import com.facebook.yoga.YogaEdge
 import com.facebook.yoga.YogaJustify
+import com.facebook.yoga.YogaPositionType
 
 /**
  * Created by y2k on 11/07/2017.
@@ -31,3 +34,21 @@ class PlaceholderComponentSpec {
                 .build()
     }
 }
+
+fun ComponentContext.errorIndicator(): ComponentLayout.ContainerBuilder =
+    Column.create(this)
+        .backgroundColor(0xFF303030L.toInt())
+        .paddingDip(YogaEdge.ALL, 4)
+        .child(Text.create(this)
+            .textSizeSp(24f)
+            .textColor(Color.WHITE)
+            .text("ERROR")
+            .withLayout().alignSelf(YogaAlign.FLEX_END))
+
+fun ComponentContext.preloadIndicator(): ComponentLayout.Builder =
+    Progress.create(this)
+        .color(Color.GRAY)
+        .withLayout()
+        .positionType(YogaPositionType.ABSOLUTE)
+        .alignSelf(YogaAlign.CENTER)
+        .widthDip(50).heightDip(50)

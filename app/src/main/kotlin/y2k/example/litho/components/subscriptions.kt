@@ -1,14 +1,11 @@
 package y2k.example.litho.components
 
 import android.content.Intent
-import android.graphics.Color
 import android.text.Layout
 import com.facebook.litho.*
 import com.facebook.litho.annotations.*
 import com.facebook.litho.widget.*
-import com.facebook.yoga.YogaAlign
 import com.facebook.yoga.YogaEdge
-import com.facebook.yoga.YogaPositionType
 import y2k.example.litho.EntitiesActivity
 import y2k.example.litho.R
 import y2k.example.litho.Subscription
@@ -47,12 +44,7 @@ class MainComponentSpec {
         private fun loadFromWeb(c: ComponentContext, state: SubscriptionState.LoadFromWeb): ComponentLayout =
             Column.create(c)
                 .child(SubscriptionsList.create(c).items(state.preloaded))
-                .child(Progress.create(c)
-                    .color(Color.GRAY)
-                    .withLayout()
-                    .positionType(YogaPositionType.ABSOLUTE)
-                    .alignSelf(YogaAlign.CENTER)
-                    .widthDip(50).heightDip(50))
+                .child(c.preloadIndicator())
                 .build()
 
         private fun webError(c: ComponentContext, state: SubscriptionState.WebError) =
@@ -60,14 +52,7 @@ class MainComponentSpec {
                 .child(SubscriptionsList.create(c)
                     .items(state.preloaded)
                     .withLayout().flexGrow(1f))
-                .child(Column.create(c)
-                    .backgroundColor(0xFF303030L.toInt())
-                    .paddingDip(YogaEdge.ALL, 4)
-                    .child(Text.create(c)
-                        .textSizeSp(24f)
-                        .textColor(Color.WHITE)
-                        .text("ERROR")
-                        .withLayout().alignSelf(YogaAlign.FLEX_END)))
+                .child(c.errorIndicator())
                 .build()
     }
 }
