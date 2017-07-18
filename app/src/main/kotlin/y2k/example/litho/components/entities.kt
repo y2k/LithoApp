@@ -10,10 +10,8 @@ import com.facebook.litho.widget.Recycler
 import com.facebook.litho.widget.RecyclerBinder
 import com.facebook.litho.widget.Text
 import com.facebook.yoga.YogaEdge
-import y2k.example.litho.Entity
+import y2k.example.litho.*
 import y2k.example.litho.R
-import y2k.example.litho.Subscription
-import y2k.example.litho.launch
 import y2k.example.litho.Loader as L
 
 /**
@@ -32,14 +30,16 @@ class RssListComponentSpec {
                 L.getCachedEntities(subscription.url)
                     .let { EntitiesState.LoadFromWeb(it.value) }
                     .let { RssListComponent.updateState(c, it) }
-                L.getEntities(subscription.url)
-                    .let { EntitiesState.FromWeb(it.value) }
+                L.getEntities_(subscription.url)
+                    .let {
+                        when (it) {
+                            is Ok<Entities> -> EntitiesState.FromWeb(it.value.value)
+                            is Error -> EntitiesState.WebError(L.getCachedEntities(subscription.url).value)
+                        }
+                    }
                     .let { RssListComponent.updateState(c, it) }
             }
         }
-
-        @OnUpdateState @JvmStatic
-        fun updateState(state: StateValue<EntitiesState>, @Param newState: EntitiesState) = state.set(newState)
 
         @OnCreateLayout @JvmStatic
         fun onCreateLayout(c: ComponentContext, @State state: EntitiesState): ComponentLayout? = when (state) {
@@ -53,6 +53,7 @@ class RssListComponentSpec {
             is EntitiesState.WebError ->
                 Column.create(c)
                     .child(c.listOfEntities(state.preloaded))
+                    .child(c.errorIndicator())
                     .build()
         }
 
@@ -62,10 +63,12 @@ class RssListComponentSpec {
                 recyclerBinder.insertItemAt(i,
                     EntityComponent.create(this).item(x).build())
             }
-
             return Recycler.create(this)
                 .binder(recyclerBinder)
         }
+
+        @OnUpdateState @JvmStatic
+        fun updateState(state: StateValue<EntitiesState>, @Param newState: EntitiesState) = state.set(newState)
     }
 }
 

@@ -65,16 +65,30 @@ object Loader {
     suspend fun getSubscriptionsCached(): Subscriptions =
         P.load(Subscriptions())
 
-    suspend fun getSubscriptions(): Subscriptions =
+    suspend fun getSubscriptions_(): Result<Subscriptions> =
+        try {
+            Ok(getSubscriptions())
+        } catch (e: Exception) {
+            Error(e)
+        }
+
+    private suspend fun getSubscriptions(): Subscriptions =
         Net.readText(URL("https://blog.jetbrains.com/"))
             .let(Parser::parserSubscriptions)
             .also { P.save(it) }
 
-    suspend fun getEntities(url: URL): Entities =
+    suspend fun getCachedEntities(url: URL): Entities =
+        P.load(Entities(), url.toString())
+
+    suspend fun getEntities_(url: URL): Result<Entities> =
+        try {
+            Ok(getEntities(url))
+        } catch (e: Exception) {
+            Error(e)
+        }
+
+    private suspend fun getEntities(url: URL): Entities =
         Net.readText(url)
             .let(Parser::parseEntities)
             .also { P.save(it, url.toString()) }
-
-    suspend fun getCachedEntities(url: URL): Entities =
-        P.load(Entities(), url.toString())
 }

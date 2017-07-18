@@ -6,10 +6,8 @@ import com.facebook.litho.*
 import com.facebook.litho.annotations.*
 import com.facebook.litho.widget.*
 import com.facebook.yoga.YogaEdge
-import y2k.example.litho.EntitiesActivity
+import y2k.example.litho.*
 import y2k.example.litho.R
-import y2k.example.litho.Subscription
-import y2k.example.litho.launch
 import y2k.example.litho.Loader as L
 
 /**
@@ -29,8 +27,14 @@ class MainComponentSpec {
             state.set(SubscriptionState.LoadFromCache)
             L.getSubscriptionsCached()
                 .let { MainComponent.reload(c, SubscriptionState.LoadFromWeb(it.value)) }
-            L.getSubscriptions()
-                .let { MainComponent.reload(c, SubscriptionState.FromWeb(it.value)) }
+            L.getSubscriptions_()
+                .let {
+                    when (it) {
+                        is Ok<Subscriptions> -> SubscriptionState.FromWeb(it.value.value)
+                        is Error -> SubscriptionState.WebError(L.getSubscriptionsCached().value)
+                    }
+                }
+                .let { MainComponent.reload(c, it) }
         }
 
         @OnCreateLayout @JvmStatic
