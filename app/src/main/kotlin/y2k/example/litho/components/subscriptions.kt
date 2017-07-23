@@ -19,21 +19,14 @@ class MainComponentSpec {
 
     companion object {
 
-        @OnUpdateState @JvmStatic
-        fun reload(state: StateValue<SubscriptionState>, @Param newState: SubscriptionState) = state.set(newState)
-
         @OnCreateInitialState @JvmStatic
         fun createInitialState(c: ComponentContext, state: StateValue<SubscriptionState>) = launch {
             state.set(SubscriptionState.LoadFromCache)
-            L.getSubscriptionsCached()
-                .let { MainComponent.reload(c, SubscriptionState.LoadFromWeb(it.value)) }
-            L.getSubscriptions_()
-                .let {
-                    when (it) {
-                        is Ok<Subscriptions> -> SubscriptionState.FromWeb(it.value.value)
-                        is Error -> SubscriptionState.WebError(L.getSubscriptionsCached().value)
-                    }
-                }
+
+            L.getSubscriptionsFromCache()
+                .let { MainComponent.reload(c, it) }
+
+            L.getSubscriptionsFromWeb()
                 .let { MainComponent.reload(c, it) }
         }
 
@@ -58,6 +51,10 @@ class MainComponentSpec {
                     .withLayout().flexGrow(1f))
                 .child(c.errorIndicator())
                 .build()
+
+        @OnUpdateState @JvmStatic
+        fun reload(state: StateValue<SubscriptionState>, @Param newState: SubscriptionState) =
+            state.set(newState)
     }
 }
 

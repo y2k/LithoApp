@@ -2,6 +2,7 @@ package y2k.example.litho
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
+import y2k.example.litho.components.SubscriptionState
 import java.io.Serializable
 import java.net.URL
 import y2k.example.litho.PersistenceStorage as P
@@ -62,10 +63,23 @@ object Parser {
 
 object Loader {
 
-    suspend fun getSubscriptionsCached(): Subscriptions =
+    suspend fun getSubscriptionsFromCache() =
+        getSubscriptionsFromCache__()
+            .let { SubscriptionState.LoadFromWeb(it.value) }
+
+    suspend fun getSubscriptionsFromWeb(): SubscriptionState =
+        getSubscriptions_()
+            .let {
+                when (it) {
+                    is Ok<Subscriptions> -> SubscriptionState.FromWeb(it.value.value)
+                    is Error -> SubscriptionState.WebError(Loader.getSubscriptionsFromCache__().value)
+                }
+            }
+
+    private suspend fun getSubscriptionsFromCache__(): Subscriptions =
         P.load(Subscriptions())
 
-    suspend fun getSubscriptions_(): Result<Subscriptions> =
+    private suspend fun getSubscriptions_(): Result<Subscriptions> =
         try {
             Ok(getSubscriptions())
         } catch (e: Exception) {
