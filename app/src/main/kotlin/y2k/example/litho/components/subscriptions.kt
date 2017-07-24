@@ -103,6 +103,6 @@ class ItemComponentSpec {
 
         @OnEvent(ClickEvent::class) @JvmStatic
         fun onItemClicked(c: ComponentContext, @Param item: Subscription) =
-            c.startActivityWithArgument<EntitiesActivity>(item)
+            c.startActivity<EntitiesActivity>(item)
     }
 }

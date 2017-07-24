@@ -1,5 +1,6 @@
 package y2k.example.litho
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -19,7 +20,7 @@ import kotlin.coroutines.experimental.*
  * Created by y2k on 07/07/2017.
  **/
 
-inline fun <reified T> Context.startActivityWithArgument(item: Serializable) {
+inline fun <reified T : Activity> Context.startActivity(item: Serializable) {
     Intent(this, T::class.java)
         .putExtra("data", item)
         .let { startActivity(it) }
