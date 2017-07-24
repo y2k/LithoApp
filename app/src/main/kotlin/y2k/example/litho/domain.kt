@@ -2,7 +2,6 @@ package y2k.example.litho
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
-import y2k.example.litho.components.SubscriptionState
 import java.io.Serializable
 import java.net.URL
 import y2k.example.litho.PersistenceStorage as P
@@ -10,6 +9,13 @@ import y2k.example.litho.PersistenceStorage as P
 /**
  * Created by y2k on 07/07/2017.
  **/
+
+sealed class SubscriptionState {
+    object LoadFromCache : SubscriptionState()
+    class LoadFromWeb(val preloaded: List<Subscription>) : SubscriptionState()
+    class FromWeb(val subscriptions: List<Subscription>) : SubscriptionState()
+    class WebError(val preloaded: List<Subscription>) : SubscriptionState()
+}
 
 class Entities(val value: List<Entity> = emptyList()) : Serializable
 
