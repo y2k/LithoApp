@@ -7,7 +7,7 @@ import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.litho.ComponentContext
 import com.facebook.litho.LithoView
 import com.facebook.soloader.SoLoader
-import y2k.example.litho.components.MainComponent
+import y2k.example.litho.components.MainPage
 import y2k.example.litho.components.RssListComponent
 
 /**
@@ -20,7 +20,7 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
 
         val context = ComponentContext(this)
-        val component = MainComponent.create(context).build()
+        val component = MainPage.create(context).build()
         setContentView(LithoView.create(context, component))
     }
 

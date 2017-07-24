@@ -14,7 +14,7 @@ import y2k.example.litho.Loader as L
  **/
 
 @LayoutSpec
-class MainComponentSpec {
+class MainPageSpec {
 
     companion object {
 
@@ -23,10 +23,10 @@ class MainComponentSpec {
             state.set(SubscriptionState.LoadFromCache)
 
             L.getSubscriptionsFromCache()
-                .let { MainComponent.reload(c, it) }
+                .let { MainPage.reload(c, it) }
 
             L.getSubscriptionsFromWeb()
-                .let { MainComponent.reload(c, it) }
+                .let { MainPage.reload(c, it) }
         }
 
         @OnCreateLayout @JvmStatic
