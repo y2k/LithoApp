@@ -7,93 +7,71 @@ import com.facebook.litho.widget.*
 import com.facebook.yoga.YogaEdge
 import y2k.example.litho.*
 import y2k.example.litho.R
-import y2k.example.litho.SubscriptionState.DefaultState
-import y2k.example.litho.Loader as L
-import y2k.example.litho.PersistenceStorage as P
+import y2k.example.litho.components.MainScreen.Msg.*
 
 /**
  * Created by y2k on 06/07/2017.
  **/
 
-object Domain2 {
-    suspend fun loadFromCache(): Subscriptions = P.load(Subscriptions())
-    suspend fun loadFromWeb(): Subscriptions = L.getSubscriptions()
-}
-
-interface Cmd<out T> {
-
-    suspend fun handle(): T?
-
-    companion object {
-        fun <T> none(): Cmd<T> =
-            object : Cmd<T> {
-                suspend override fun handle(): T? = null
-            }
-
-        fun <R, T> fromSuspend(f: suspend () -> R, fOk: (R) -> T): Cmd<T> =
-            object : Cmd<T> {
-                suspend override fun handle(): T = fOk(f())
-            }
-
-        fun <R, T> fromSuspend(f: suspend () -> R, fOk: (R) -> T, fError: () -> T): Cmd<T> =
-            object : Cmd<T> {
-                suspend override fun handle(): T =
-                    try {
-                        fOk(f())
-                    } catch (e: Exception) {
-                        fError()
-                    }
-            }
+class MainScreen(private val context: ComponentContext) {
+    sealed class Msg {
+        class LoadedFromCache(val value: Subscriptions) : Msg()
+        class LoadedFromWeb(val value: Subscriptions) : Msg()
+        class LoadedFromWebError : Msg()
     }
-}
 
-sealed class Msg
-class LoadedFromCache(val value: Subscriptions) : Msg()
-class LoadedFromWeb(val value: Subscriptions) : Msg()
-class LoadedFromWebError : Msg()
+    data class Model(
+        val error: Boolean,
+        val loading: Boolean,
+        val recyclerBinder: RecyclerBinder,
+        val cached: List<Subscription>)
 
-data class Model(val items: List<Subscription>, val error: Boolean, val loading: Boolean)
-
-class MainScreen(private val c: ComponentContext) {
-
-    fun init(): Pair<Model, Cmd<Msg>> =
-        Model(items = emptyList(), error = false, loading = true) to
+    fun init(): Pair<Model, Cmd<Msg>> {
+        val binder = RecyclerBinder.Builder()
+            .layoutInfo(GridLayoutInfo(context, 2))
+            .build(context)
+        return Model(false, true, binder, emptyList()) to
             Cmd.fromSuspend({ Domain2.loadFromCache() }, ::LoadedFromCache)
+    }
 
     fun update(model: Model, msg: Msg): Pair<Model, Cmd<Msg>> = when (msg) {
         is LoadedFromCache ->
-            model.copy(items = msg.value.value) to
+            model.updateItems(msg.value.value) to
                 Cmd.fromSuspend({ Domain2.loadFromWeb() }, ::LoadedFromWeb, ::LoadedFromWebError)
         is LoadedFromWeb ->
-            model.copy(items = msg.value.value, loading = false) to Cmd.none()
+            model.updateItems(msg.value.value).copy(loading = false) to Cmd.none()
         is LoadedFromWebError ->
             model.copy(error = true, loading = false) to Cmd.none()
     }
 
-    fun view(model: Model): ComponentLayout =
-        when {
-            model.loading -> viewWebLoading(model.items)
-            model.error -> viewError(model.items)
-            else -> viewLoaded(model.items)
-        }
+    private fun Model.updateItems(newItems: List<Subscription>): Model {
+        recyclerBinder.applyDiff(cached, newItems,
+            { ItemComponent.create(context).item(it).build() }, { l, r -> l.url == r.url })
+        return copy(cached = newItems)
+    }
 
-    private fun viewWebLoading(items: List<Subscription>) =
-        Column.create(c)
-            .child(SubscriptionsList.create(c).items(items))
-            .child(c.preloadIndicator())
+    fun view(model: Model): ComponentLayout = when {
+        model.loading -> viewWebLoading(model.recyclerBinder)
+        model.error -> viewError(model.recyclerBinder)
+        else -> viewLoaded(model.recyclerBinder)
+    }
+
+    private fun viewWebLoading(items: RecyclerBinder): ComponentLayout =
+        Column.create(context)
+            .child(Recycler.create(context).binder(items))
+            .child(context.preloadIndicator())
             .build()
 
-    private fun viewLoaded(items: List<Subscription>) =
-        SubscriptionsList.create(c).items(items).buildWithLayout()
+    private fun viewLoaded(items: RecyclerBinder): ComponentLayout =
+        Recycler.create(context).binder(items).buildWithLayout()
 
-    private fun viewError(items: List<Subscription>) =
-        Column.create(c)
-            .child(SubscriptionsList.create(c)
-                .items(items)
+    private fun viewError(items: RecyclerBinder): ComponentLayout =
+        Column.create(context)
+            .child(Recycler.create(context)
+                .binder(items)
                 .withLayout().flexGrow(1f))
-            .child(c.errorIndicator())
+            .child(context.errorIndicator())
             .build()
-
 }
 
 @LayoutSpec
@@ -103,79 +81,22 @@ class MainPageSpec {
 
         @OnCreateInitialState
         @JvmStatic
-        fun createInitialState(c: ComponentContext, state: StateValue<SubscriptionState>) = launch {
-            //            state.set(SubscriptionState.LoadFromCache)
-            //            L.getSubscriptionsFromCache().let { MainPage.reload(c, it) }
-            //            L.getSubscriptionsFromWeb().let { MainPage.reload(c, it) }
-
+        fun createInitialState(c: ComponentContext, state: StateValue<SubscriptionState>) {
             val screen = MainScreen(c)
-            val (model, cmd) = screen.init()
-
-            state.set(DefaultState(model))
-
-            val msg = cmd.handle() ?: return@launch
-            val (model2, cmd2) = screen.update(model, msg)
-            MainPage.reload(c, DefaultState(model2))
-
-            val msg2 = cmd2.handle() ?: return@launch
-            val (model3, _) = screen.update(model, msg2)
-            MainPage.reload(c, DefaultState(model3))
+            state.set(DefaultState(screen.init().first))
+            Elmish.handle(screen::init, screen::update, { MainPage.reload(c, DefaultState(it)) })
         }
 
         @OnCreateLayout
         @JvmStatic
         fun onCreateLayout(c: ComponentContext, @State state: SubscriptionState): ComponentLayout? = when (state) {
             is DefaultState -> MainScreen(c).view(state.model)
-            else -> TODO("")
-//            is SubscriptionState.LoadFromCache -> null
-//            is SubscriptionState.LoadFromWeb -> loadFromWeb(c, state)
-//            is SubscriptionState.FromWeb -> SubscriptionsList.create(c).items(state.subscriptions).buildWithLayout()
-//            is SubscriptionState.WebError -> webError(c, state)
         }
-
-//        private fun loadFromWeb(c: ComponentContext, state: SubscriptionState.LoadFromWeb): ComponentLayout =
-//            Column.create(c)
-//                .child(SubscriptionsList.create(c).items(state.preloaded))
-//                .child(c.preloadIndicator())
-//                .build()
-//
-//        private fun webError(c: ComponentContext, state: SubscriptionState.WebError) =
-//            Column.create(c)
-//                .child(SubscriptionsList.create(c)
-//                    .items(state.preloaded)
-//                    .withLayout().flexGrow(1f))
-//                .child(c.errorIndicator())
-//                .build()
 
         @OnUpdateState
         @JvmStatic
         fun reload(state: StateValue<SubscriptionState>, @Param newState: SubscriptionState) =
             state.set(newState)
-    }
-}
-
-@LayoutSpec
-class SubscriptionsListSpec {
-
-    companion object {
-
-        @JvmStatic
-        @OnCreateLayout
-        fun onCreateLayout(c: ComponentContext, @Prop items: List<Subscription>): ComponentLayout {
-            val recyclerBinder = RecyclerBinder.Builder()
-                .layoutInfo(GridLayoutInfo(c, 2))
-                .build(c)
-
-            items.forEachIndexed { i, x ->
-                recyclerBinder.insertItemAt(i, ItemComponent.create(c)
-                    .item(x)
-                    .build())
-            }
-
-            return Recycler.create(c)
-                .binder(recyclerBinder)
-                .buildWithLayout()
-        }
     }
 }
 

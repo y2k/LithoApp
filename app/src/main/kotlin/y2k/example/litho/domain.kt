@@ -10,13 +10,9 @@ import y2k.example.litho.PersistenceStorage as P
  * Created by y2k on 07/07/2017.
  **/
 
-sealed class SubscriptionState {
-    object LoadFromCache : SubscriptionState()
-    class LoadFromWeb(val preloaded: List<Subscription>) : SubscriptionState()
-    class FromWeb(val subscriptions: List<Subscription>) : SubscriptionState()
-    class WebError(val preloaded: List<Subscription>) : SubscriptionState()
-    class DefaultState(val model: y2k.example.litho.components.Model) : SubscriptionState()
-}
+sealed class SubscriptionState
+
+class DefaultState(val model: y2k.example.litho.components.MainScreen.Model) : SubscriptionState()
 
 class Entities(val value: List<Entity> = emptyList()) : Serializable
 
@@ -24,6 +20,11 @@ class Subscriptions(val value: List<Subscription> = emptyList()) : Serializable
 data class Entity(val title: String, val description: String, val url: URL, val image: Image?) : Serializable
 data class Subscription(val title: String, val url: URL, val image: String) : Serializable
 data class Image(val url: URL, val width: Int, val height: Int) : Serializable
+
+object Domain2 {
+    suspend fun loadFromCache(): Subscriptions = P.load(Subscriptions())
+    suspend fun loadFromWeb(): Subscriptions = Loader.getSubscriptions()
+}
 
 object Parser {
 
@@ -70,29 +71,6 @@ object Parser {
 
 object Loader {
 
-    suspend fun getSubscriptionsFromCache() =
-        getSubscriptionsFromCache__()
-            .let { SubscriptionState.LoadFromWeb(it.value) }
-
-    suspend fun getSubscriptionsFromWeb(): SubscriptionState =
-        getSubscriptions_()
-            .let {
-                when (it) {
-                    is Ok<Subscriptions> -> SubscriptionState.FromWeb(it.value.value)
-                    is Error -> SubscriptionState.WebError(Loader.getSubscriptionsFromCache__().value)
-                }
-            }
-
-    private suspend fun getSubscriptionsFromCache__(): Subscriptions =
-        P.load(Subscriptions())
-
-    private suspend fun getSubscriptions_(): Result<Subscriptions> =
-        try {
-            Ok(getSubscriptions())
-        } catch (e: Exception) {
-            Error(e)
-        }
-
     suspend fun getSubscriptions(): Subscriptions =
         Net.readText(URL("https://blog.jetbrains.com/"))
             .let(Parser::parserSubscriptions)
@@ -101,6 +79,7 @@ object Loader {
     suspend fun getCachedEntities(url: URL): Entities =
         P.load(Entities(), url.toString())
 
+    @Deprecated("")
     suspend fun getEntities_(url: URL): Result<Entities> =
         try {
             Ok(getEntities(url))
@@ -108,7 +87,7 @@ object Loader {
             Error(e)
         }
 
-    private suspend fun getEntities(url: URL): Entities =
+    suspend fun getEntities(url: URL): Entities =
         Net.readText(url)
             .let(Parser::parseEntities)
             .also { P.save(it, url.toString()) }

@@ -1,13 +1,14 @@
 package y2k.example.litho.components
 
 import android.graphics.Color
+import android.support.v7.util.DiffUtil
 import com.facebook.litho.Column
+import com.facebook.litho.Component
 import com.facebook.litho.ComponentContext
 import com.facebook.litho.ComponentLayout
 import com.facebook.litho.annotations.LayoutSpec
 import com.facebook.litho.annotations.OnCreateLayout
-import com.facebook.litho.widget.Progress
-import com.facebook.litho.widget.Text
+import com.facebook.litho.widget.*
 import com.facebook.yoga.YogaAlign
 import com.facebook.yoga.YogaEdge
 import com.facebook.yoga.YogaJustify
@@ -22,7 +23,8 @@ class PlaceholderComponentSpec {
 
     companion object {
 
-        @OnCreateLayout @JvmStatic
+        @OnCreateLayout
+        @JvmStatic
         fun onCreateLayout(c: ComponentContext): ComponentLayout =
             Column.create(c)
                 .alignItems(YogaAlign.CENTER)
@@ -52,3 +54,25 @@ fun ComponentContext.preloadIndicator(): ComponentLayout.Builder =
         .positionType(YogaPositionType.ABSOLUTE)
         .alignSelf(YogaAlign.CENTER)
         .widthDip(50).heightDip(50)
+
+fun <T> RecyclerBinder.applyDiff(
+    old: List<T>, newItems: List<T>,
+    func: (T) -> Component<*>, compareIds: (T, T) -> Boolean) {
+    val renderer = RecyclerBinderUpdateCallback.ComponentRenderer<T> { x, _ ->
+        ComponentRenderInfo.create().component(func(x)).build()
+    }
+    val diffResult = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+        override fun getOldListSize(): Int = old.size
+        override fun getNewListSize(): Int = newItems.size
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            compareIds(old[oldItemPosition], newItems[newItemPosition])
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            old[oldItemPosition] == newItems[newItemPosition]
+    })
+    val callback = RecyclerBinderUpdateCallback.acquire(
+        old.size, newItems, renderer, this)
+    diffResult.dispatchUpdatesTo(callback)
+    callback.applyChangeset()
+    RecyclerBinderUpdateCallback.release(callback)
+}

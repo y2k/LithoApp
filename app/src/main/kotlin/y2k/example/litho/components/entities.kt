@@ -12,71 +12,102 @@ import com.facebook.litho.widget.Text
 import com.facebook.yoga.YogaEdge
 import y2k.example.litho.*
 import y2k.example.litho.R
+import y2k.example.litho.components.RssScreen.Msg.*
+import java.net.URL
 import y2k.example.litho.Loader as L
 
 /**
  * Created by y2k on 07/07/2017.
  **/
 
+class RssScreen(private val c: ComponentContext) {
+    data class Model(
+        val url: URL,
+        val error: Boolean,
+        val loading: Boolean,
+        val recyclerBinder: RecyclerBinder,
+        val cached: List<Entity>)
+
+    sealed class Msg {
+        class LoadedFromCache(val items: Entities) : Msg()
+        class FromWebMsg(val items: Entities) : Msg()
+        class ErrorMsg : Msg()
+    }
+
+    fun init(url: URL): Pair<Model, Cmd<Msg>> {
+        val binder = RecyclerBinder.Builder().build(c)
+        return Model(url, false, true, binder, emptyList()) to
+            Cmd.fromSuspend({ L.getCachedEntities(url) }, ::LoadedFromCache)
+    }
+
+    fun update(model: Model, msg: Msg): Pair<Model, Cmd<Msg>> = when (msg) {
+        is LoadedFromCache ->
+            model.update(msg.items.value) to
+                Cmd.fromSuspend({ L.getCachedEntities(model.url) }, ::FromWebMsg, ::ErrorMsg)
+        is RssScreen.Msg.FromWebMsg ->
+            model.update(msg.items.value).copy(loading = false) to Cmd.none()
+        is RssScreen.Msg.ErrorMsg ->
+            model.copy(error = true, loading = false) to Cmd.none()
+    }
+
+    private fun RssScreen.Model.update(newItems: List<Entity>): RssScreen.Model {
+        recyclerBinder.applyDiff(cached, newItems,
+            { EntityComponent.create(c).item(it).build() }, { l, r -> l.url == r.url })
+        return copy(cached = newItems)
+    }
+
+    fun view(model: Model): ComponentLayout = when {
+        model.loading -> viewCached(model.recyclerBinder)
+        model.error -> viewError(model.recyclerBinder)
+        else -> viewFromWeb(model.recyclerBinder)
+    }
+
+    private fun viewCached(items: RecyclerBinder): ComponentLayout =
+        Column.create(c)
+            .child(Recycler.create(c).binder(items))
+            .child(c.preloadIndicator())
+            .build()
+
+    private fun viewFromWeb(items: RecyclerBinder): ComponentLayout =
+        Recycler.create(c).binder(items).buildWithLayout()
+
+    private fun viewError(items: RecyclerBinder): ComponentLayout =
+        Column.create(c)
+            .child(Recycler.create(c).binder(items))
+            .child(c.errorIndicator())
+            .build()
+}
+
 @LayoutSpec
 class RssListComponentSpec {
 
     companion object {
 
-        @OnCreateInitialState @JvmStatic
+        @OnCreateInitialState
+        @JvmStatic
         fun onCreateInitialState(c: ComponentContext, state: StateValue<EntitiesState>, @Prop subscription: Subscription) {
-            launch {
-                state.set(EntitiesState.LoadFromCache)
-                L.getCachedEntities(subscription.url)
-                    .let { EntitiesState.LoadFromWeb(it.value) }
-                    .let { RssListComponent.updateState(c, it) }
-                L.getEntities_(subscription.url)
-                    .let {
-                        when (it) {
-                            is Ok<Entities> -> EntitiesState.FromWeb(it.value.value)
-                            is Error -> EntitiesState.WebError(L.getCachedEntities(subscription.url).value)
-                        }
-                    }
-                    .let { RssListComponent.updateState(c, it) }
-            }
+            val screen = RssScreen(c)
+            state.set(EntitiesState.DefaultState(screen.init(subscription.url).first))
+            Elmish.handle(
+                { screen.init(subscription.url) }, screen::update,
+                { RssListComponent.updateState(c, EntitiesState.DefaultState(it)) })
         }
 
-        @OnCreateLayout @JvmStatic
+
+        @OnCreateLayout
+        @JvmStatic
         fun onCreateLayout(c: ComponentContext, @State state: EntitiesState): ComponentLayout? = when (state) {
-            EntitiesState.LoadFromCache -> null
-            is EntitiesState.LoadFromWeb ->
-                Column.create(c)
-                    .child(c.listOfEntities(state.preloaded))
-                    .child(c.preloadIndicator())
-                    .build()
-            is EntitiesState.FromWeb -> c.listOfEntities(state.entities).buildWithLayout()
-            is EntitiesState.WebError ->
-                Column.create(c)
-                    .child(c.listOfEntities(state.preloaded))
-                    .child(c.errorIndicator())
-                    .build()
+            is EntitiesState.DefaultState -> RssScreen(c).view(state.model)
         }
 
-        private fun ComponentContext.listOfEntities(items: List<Entity>): Recycler.Builder {
-            val recyclerBinder = RecyclerBinder.Builder().build(this)
-            items.forEachIndexed { i, x ->
-                recyclerBinder.insertItemAt(i,
-                    EntityComponent.create(this).item(x).build())
-            }
-            return Recycler.create(this)
-                .binder(recyclerBinder)
-        }
-
-        @OnUpdateState @JvmStatic
+        @OnUpdateState
+        @JvmStatic
         fun updateState(state: StateValue<EntitiesState>, @Param newState: EntitiesState) = state.set(newState)
     }
 }
 
 sealed class EntitiesState {
-    object LoadFromCache : EntitiesState()
-    class LoadFromWeb(val preloaded: List<Entity>) : EntitiesState()
-    class FromWeb(val entities: List<Entity>) : EntitiesState()
-    class WebError(val preloaded: List<Entity>) : EntitiesState()
+    class DefaultState(val model: RssScreen.Model) : EntitiesState()
 }
 
 @LayoutSpec
@@ -84,7 +115,8 @@ class EntityComponentSpec {
 
     companion object {
 
-        @OnCreateLayout @JvmStatic
+        @OnCreateLayout
+        @JvmStatic
         fun onCreateLayout(c: ComponentContext, @Prop item: Entity): ComponentLayout {
             val column = Column.create(c)
                 .paddingDip(YogaEdge.ALL, 16)
@@ -110,7 +142,8 @@ class EntityComponentSpec {
             return column.build()
         }
 
-        @OnEvent(ClickEvent::class) @JvmStatic
+        @OnEvent(ClickEvent::class)
+        @JvmStatic
         fun onItemClicked(c: ComponentContext, @Param item: Entity) {
             CustomTabsIntent.Builder()
                 .build()
