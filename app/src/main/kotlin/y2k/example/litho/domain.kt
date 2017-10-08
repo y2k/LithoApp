@@ -63,7 +63,7 @@ object Parser {
         absUrl("href")
             .replace("http:", "https:")
             .replace("/$".toRegex(), "")
-            .let { it + "/feed/" }
+            .plus("/feed/")
             .let(::URL)
 }
 

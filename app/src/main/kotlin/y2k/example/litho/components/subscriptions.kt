@@ -18,7 +18,8 @@ class MainPageSpec {
 
     companion object {
 
-        @OnCreateInitialState @JvmStatic
+        @OnCreateInitialState
+        @JvmStatic
         fun createInitialState(c: ComponentContext, state: StateValue<SubscriptionState>) = launch {
             state.set(SubscriptionState.LoadFromCache)
 
@@ -29,7 +30,8 @@ class MainPageSpec {
                 .let { MainPage.reload(c, it) }
         }
 
-        @OnCreateLayout @JvmStatic
+        @OnCreateLayout
+        @JvmStatic
         fun onCreateLayout(c: ComponentContext, @State state: SubscriptionState): ComponentLayout? = when (state) {
             is SubscriptionState.LoadFromCache -> null
             is SubscriptionState.LoadFromWeb -> loadFromWeb(c, state)
@@ -51,7 +53,8 @@ class MainPageSpec {
                 .child(c.errorIndicator())
                 .build()
 
-        @OnUpdateState @JvmStatic
+        @OnUpdateState
+        @JvmStatic
         fun reload(state: StateValue<SubscriptionState>, @Param newState: SubscriptionState) =
             state.set(newState)
     }
@@ -62,10 +65,12 @@ class SubscriptionsListSpec {
 
     companion object {
 
-        @JvmStatic @OnCreateLayout
+        @JvmStatic
+        @OnCreateLayout
         fun onCreateLayout(c: ComponentContext, @Prop items: List<Subscription>): ComponentLayout {
-            val recyclerBinder = RecyclerBinder(
-                c, RecyclerBinder.DEFAULT_RANGE_RATIO, GridLayoutInfo(c, 2))
+            val recyclerBinder = RecyclerBinder.Builder()
+                .layoutInfo(GridLayoutInfo(c, 2))
+                .build(c)
 
             items.forEachIndexed { i, x ->
                 recyclerBinder.insertItemAt(i, ItemComponent.create(c)
@@ -85,7 +90,8 @@ class ItemComponentSpec {
 
     companion object {
 
-        @JvmStatic @OnCreateLayout
+        @JvmStatic
+        @OnCreateLayout
         fun onCreateLayout(c: ComponentContext, @Prop item: Subscription): ComponentLayout =
             Column.create(c)
                 .heightDip(200)
@@ -101,7 +107,8 @@ class ItemComponentSpec {
                 .clickHandler(ItemComponent.onItemClicked(c, item))
                 .build()
 
-        @OnEvent(ClickEvent::class) @JvmStatic
+        @OnEvent(ClickEvent::class)
+        @JvmStatic
         fun onItemClicked(c: ComponentContext, @Param item: Subscription) =
             c.startActivity<EntitiesActivity>(item)
     }

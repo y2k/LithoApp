@@ -4,7 +4,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "y2k.example.litho"
         minSdkVersion 15
@@ -42,7 +42,7 @@ dependencies {
 //        exclude group: 'com.android.support', module: 'support-annotations'
 //    })
 //    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
-//    testCompile 'junit:junit:4.12'
+    testCompile 'junit:junit:4.12'
 
     compile 'org.jsoup:jsoup:1.10.3'
     compile 'com.squareup.okhttp3:okhttp:3.8.1'
@@ -50,7 +50,7 @@ dependencies {
     //noinspection GradleCompatible
     compile 'com.android.support:customtabs:25.3.1'
 
-    def lithoVersion = '0.3.1'
+    def lithoVersion = '0.6.1'
     compile "com.facebook.litho:litho-core:$lithoVersion"
     compile "com.facebook.litho:litho-widget:$lithoVersion"
     provided "com.facebook.litho:litho-annotations:$lithoVersion"
@@ -59,12 +59,8 @@ dependencies {
     // SoLoader
     compile 'com.facebook.soloader:soloader:0.2.0'
     // Optional
-    // For debugging
-    debugCompile "com.facebook.litho:litho-stetho:$lithoVersion"
     // For integration with Fresco
     compile "com.facebook.litho:litho-fresco:$lithoVersion"
-    // For testing
-    testCompile "com.facebook.litho:litho-testing:$lithoVersion"
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }

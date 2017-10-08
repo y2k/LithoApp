@@ -11,7 +11,17 @@ import java.net.URL
 class Tests {
 
     @Test
-    fun parser_dotnet_blog() {
+    fun `parse subscription is success`() {
+        val html = Tests::class.java.getResource("blogs.html").readText()
+        val actual = Parser.parserSubscriptions(html)
+
+        assertEquals(
+            URL("https://blog.jetbrains.com/idea/feed/"),
+            actual.value[0].url)
+    }
+
+    @Test
+    fun `parser dotnet blog`() {
         val xml = Tests::class.java.getResource("dotnet.xml").readText()
         val actual = Parser.parseEntities(xml)
         assertEquals(
@@ -27,7 +37,7 @@ class Tests {
     }
 
     @Test
-    fun parser_idea_blog() {
+    fun `parser idea blog`() {
         val xml = Tests::class.java.getResource("idea.xml").readText()
         val actual = Parser.parseEntities(xml)
         assertEquals(

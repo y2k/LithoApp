@@ -58,7 +58,7 @@ class RssListComponentSpec {
         }
 
         private fun ComponentContext.listOfEntities(items: List<Entity>): Recycler.Builder {
-            val recyclerBinder = RecyclerBinder(this)
+            val recyclerBinder = RecyclerBinder.Builder().build(this)
             items.forEachIndexed { i, x ->
                 recyclerBinder.insertItemAt(i,
                     EntityComponent.create(this).item(x).build())
