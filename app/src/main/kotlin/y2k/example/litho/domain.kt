@@ -15,6 +15,7 @@ sealed class SubscriptionState {
     class LoadFromWeb(val preloaded: List<Subscription>) : SubscriptionState()
     class FromWeb(val subscriptions: List<Subscription>) : SubscriptionState()
     class WebError(val preloaded: List<Subscription>) : SubscriptionState()
+    class DefaultState(val model: y2k.example.litho.components.Model) : SubscriptionState()
 }
 
 class Entities(val value: List<Entity> = emptyList()) : Serializable
@@ -92,7 +93,7 @@ object Loader {
             Error(e)
         }
 
-    private suspend fun getSubscriptions(): Subscriptions =
+    suspend fun getSubscriptions(): Subscriptions =
         Net.readText(URL("https://blog.jetbrains.com/"))
             .let(Parser::parserSubscriptions)
             .also { P.save(it) }
