@@ -2,17 +2,17 @@ package y2k.example.litho
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
+import y2k.example.litho.common.Net
+import y2k.example.litho.common.unescapeHtml
 import java.io.Serializable
 import java.net.URL
-import y2k.example.litho.PersistenceStorage as P
+import y2k.example.litho.common.PersistenceStorage as P
 
 /**
  * Created by y2k on 07/07/2017.
  **/
 
-sealed class SubscriptionState
-
-class DefaultState(val model: y2k.example.litho.components.MainScreen.Model) : SubscriptionState()
+enum class Status { InProgress, Success, Failed }
 
 class Entities(val value: List<Entity> = emptyList()) : Serializable
 
@@ -20,11 +20,6 @@ class Subscriptions(val value: List<Subscription> = emptyList()) : Serializable
 data class Entity(val title: String, val description: String, val url: URL, val image: Image?) : Serializable
 data class Subscription(val title: String, val url: URL, val image: String) : Serializable
 data class Image(val url: URL, val width: Int, val height: Int) : Serializable
-
-object Domain2 {
-    suspend fun loadFromCache(): Subscriptions = P.load(Subscriptions())
-    suspend fun loadFromWeb(): Subscriptions = Loader.getSubscriptions()
-}
 
 object Parser {
 
@@ -71,24 +66,19 @@ object Parser {
 
 object Loader {
 
+    suspend fun getCachedSubscriptions(): Subscriptions =
+        P.load(Subscriptions())
+
     suspend fun getSubscriptions(): Subscriptions =
         Net.readText(URL("https://blog.jetbrains.com/"))
             .let(Parser::parserSubscriptions)
             .also { P.save(it) }
 
     suspend fun getCachedEntities(url: URL): Entities =
-        P.load(Entities(), url.toString())
-
-    @Deprecated("")
-    suspend fun getEntities_(url: URL): Result<Entities> =
-        try {
-            Ok(getEntities(url))
-        } catch (e: Exception) {
-            Error(e)
-        }
+        P.load(Entities(), P.toKey(url))
 
     suspend fun getEntities(url: URL): Entities =
         Net.readText(url)
             .let(Parser::parseEntities)
-            .also { P.save(it, url.toString()) }
+            .also { P.save(it, P.toKey(url)) }
 }

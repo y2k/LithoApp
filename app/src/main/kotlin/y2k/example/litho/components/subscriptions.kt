@@ -7,7 +7,12 @@ import com.facebook.litho.widget.*
 import com.facebook.yoga.YogaEdge
 import y2k.example.litho.*
 import y2k.example.litho.R
+import y2k.example.litho.Status.*
+import y2k.example.litho.common.Cmd
+import y2k.example.litho.common.Elmish
+import y2k.example.litho.common.startActivity
 import y2k.example.litho.components.MainScreen.Msg.*
+import y2k.example.litho.Loader as L
 
 /**
  * Created by y2k on 06/07/2017.
@@ -21,39 +26,38 @@ class MainScreen(private val context: ComponentContext) {
     }
 
     data class Model(
-        val error: Boolean,
-        val loading: Boolean,
-        val recyclerBinder: RecyclerBinder,
+        val status: Status,
+        val binder: RecyclerBinder,
         val cached: List<Subscription>)
 
     fun init(): Pair<Model, Cmd<Msg>> {
         val binder = RecyclerBinder.Builder()
             .layoutInfo(GridLayoutInfo(context, 2))
             .build(context)
-        return Model(false, true, binder, emptyList()) to
-            Cmd.fromSuspend({ Domain2.loadFromCache() }, ::LoadedFromCache)
+        return Model(InProgress, binder, emptyList()) to
+            Cmd.fromSuspend({ L.getCachedSubscriptions() }, ::LoadedFromCache)
     }
 
     fun update(model: Model, msg: Msg): Pair<Model, Cmd<Msg>> = when (msg) {
         is LoadedFromCache ->
             model.updateItems(msg.value.value) to
-                Cmd.fromSuspend({ Domain2.loadFromWeb() }, ::LoadedFromWeb, ::LoadedFromWebError)
+                Cmd.fromSuspend({ L.getSubscriptions() }, ::LoadedFromWeb, ::LoadedFromWebError)
         is LoadedFromWeb ->
-            model.updateItems(msg.value.value).copy(loading = false) to Cmd.none()
+            model.updateItems(msg.value.value).copy(status = Success) to Cmd.none()
         is LoadedFromWebError ->
-            model.copy(error = true, loading = false) to Cmd.none()
+            model.copy(status = Failed) to Cmd.none()
     }
 
     private fun Model.updateItems(newItems: List<Subscription>): Model {
-        recyclerBinder.applyDiff(cached, newItems,
+        binder.applyDiff(cached, newItems,
             { ItemComponent.create(context).item(it).build() }, { l, r -> l.url == r.url })
         return copy(cached = newItems)
     }
 
-    fun view(model: Model): ComponentLayout = when {
-        model.loading -> viewWebLoading(model.recyclerBinder)
-        model.error -> viewError(model.recyclerBinder)
-        else -> viewLoaded(model.recyclerBinder)
+    fun view(model: Model): ComponentLayout = when (model.status) {
+        InProgress -> viewWebLoading(model.binder)
+        Success -> viewLoaded(model.binder)
+        Failed -> viewError(model.binder)
     }
 
     private fun viewWebLoading(items: RecyclerBinder): ComponentLayout =
@@ -76,26 +80,24 @@ class MainScreen(private val context: ComponentContext) {
 
 @LayoutSpec
 class MainPageSpec {
-
     companion object {
 
         @OnCreateInitialState
         @JvmStatic
-        fun createInitialState(c: ComponentContext, state: StateValue<SubscriptionState>) {
+        fun createInitialState(c: ComponentContext, state: StateValue<MainScreen.Model>) {
             val screen = MainScreen(c)
-            state.set(DefaultState(screen.init().first))
-            Elmish.handle(screen::init, screen::update, { MainPage.reload(c, DefaultState(it)) })
+            state.set(screen.init().first)
+            Elmish.handle(screen::init, screen::update, { MainPage.reload(c, it) })
         }
 
         @OnCreateLayout
         @JvmStatic
-        fun onCreateLayout(c: ComponentContext, @State state: SubscriptionState): ComponentLayout? = when (state) {
-            is DefaultState -> MainScreen(c).view(state.model)
-        }
+        fun onCreateLayout(c: ComponentContext, @State state: MainScreen.Model): ComponentLayout? =
+            MainScreen(c).view(state)
 
         @OnUpdateState
         @JvmStatic
-        fun reload(state: StateValue<SubscriptionState>, @Param newState: SubscriptionState) =
+        fun reload(state: StateValue<MainScreen.Model>, @Param newState: MainScreen.Model) =
             state.set(newState)
     }
 }

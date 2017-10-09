@@ -1,6 +1,7 @@
-package y2k.example.litho.components
+package y2k.example.litho.common
 
-import y2k.example.litho.launch
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 
 interface Cmd<out T> {
 
@@ -23,6 +24,7 @@ interface Cmd<out T> {
                     try {
                         fOk(f())
                     } catch (e: Exception) {
+                        e.printStackTrace()
                         fError()
                     }
             }
@@ -33,21 +35,17 @@ object Elmish {
 
     fun <TMsg, TModel> handle(init: () -> Pair<TModel, Cmd<TMsg>>,
                               update: (TModel, TMsg) -> Pair<TModel, Cmd<TMsg>>,
-                              reload: (TModel) -> Unit
-    ) = launch {
+                              reload: (TModel) -> Unit) = launch(UI) {
         val (model, cmd) = init()
 
-//        state.set(DefaultState(model))
         reload(model)
 
         val msg = cmd.handle() ?: return@launch
         val (model2, cmd2) = update(model, msg)
-//        MainPage.reload(c, DefaultState(model2))
         reload(model2)
 
         val msg2 = cmd2.handle() ?: return@launch
         val (model3, _) = update(model2, msg2)
-//        MainPage.reload(c, DefaultState(model3))
         reload(model3)
     }
 }

@@ -12,6 +12,9 @@ import com.facebook.litho.widget.Text
 import com.facebook.yoga.YogaEdge
 import y2k.example.litho.*
 import y2k.example.litho.R
+import y2k.example.litho.Status.*
+import y2k.example.litho.common.Cmd
+import y2k.example.litho.common.Elmish
 import y2k.example.litho.components.RssScreen.Msg.*
 import java.net.URL
 import y2k.example.litho.Loader as L
@@ -20,12 +23,11 @@ import y2k.example.litho.Loader as L
  * Created by y2k on 07/07/2017.
  **/
 
-class RssScreen(private val c: ComponentContext) {
+class RssScreen(private val context: ComponentContext) {
     data class Model(
         val url: URL,
-        val error: Boolean,
-        val loading: Boolean,
-        val recyclerBinder: RecyclerBinder,
+        val status: Status,
+        val binder: RecyclerBinder,
         val cached: List<Entity>)
 
     sealed class Msg {
@@ -35,79 +37,73 @@ class RssScreen(private val c: ComponentContext) {
     }
 
     fun init(url: URL): Pair<Model, Cmd<Msg>> {
-        val binder = RecyclerBinder.Builder().build(c)
-        return Model(url, false, true, binder, emptyList()) to
+        val binder = RecyclerBinder.Builder().build(context)
+        return Model(url, InProgress, binder, emptyList()) to
             Cmd.fromSuspend({ L.getCachedEntities(url) }, ::LoadedFromCache)
     }
 
     fun update(model: Model, msg: Msg): Pair<Model, Cmd<Msg>> = when (msg) {
         is LoadedFromCache ->
             model.update(msg.items.value) to
-                Cmd.fromSuspend({ L.getCachedEntities(model.url) }, ::FromWebMsg, ::ErrorMsg)
+                Cmd.fromSuspend({ L.getEntities(model.url) }, ::FromWebMsg, ::ErrorMsg)
         is RssScreen.Msg.FromWebMsg ->
-            model.update(msg.items.value).copy(loading = false) to Cmd.none()
+            model.update(msg.items.value).copy(status = Success) to Cmd.none()
         is RssScreen.Msg.ErrorMsg ->
-            model.copy(error = true, loading = false) to Cmd.none()
+            model.copy(status = Failed) to Cmd.none()
     }
 
     private fun RssScreen.Model.update(newItems: List<Entity>): RssScreen.Model {
-        recyclerBinder.applyDiff(cached, newItems,
-            { EntityComponent.create(c).item(it).build() }, { l, r -> l.url == r.url })
+        binder.applyDiff(cached, newItems,
+            { EntityComponent.create(context).item(it).build() }, { l, r -> l.url == r.url })
         return copy(cached = newItems)
     }
 
-    fun view(model: Model): ComponentLayout = when {
-        model.loading -> viewCached(model.recyclerBinder)
-        model.error -> viewError(model.recyclerBinder)
-        else -> viewFromWeb(model.recyclerBinder)
+    fun view(model: Model): ComponentLayout = when (model.status) {
+        InProgress -> viewCached(model.binder)
+        Success -> viewFromWeb(model.binder)
+        Failed -> viewError(model.binder)
     }
 
     private fun viewCached(items: RecyclerBinder): ComponentLayout =
-        Column.create(c)
-            .child(Recycler.create(c).binder(items))
-            .child(c.preloadIndicator())
+        Column.create(context)
+            .child(Recycler.create(context).binder(items))
+            .child(context.preloadIndicator())
             .build()
 
     private fun viewFromWeb(items: RecyclerBinder): ComponentLayout =
-        Recycler.create(c).binder(items).buildWithLayout()
+        Recycler.create(context).binder(items).buildWithLayout()
 
     private fun viewError(items: RecyclerBinder): ComponentLayout =
-        Column.create(c)
-            .child(Recycler.create(c).binder(items))
-            .child(c.errorIndicator())
+        Column.create(context)
+            .child(Recycler.create(context).binder(items))
+            .child(context.errorIndicator())
             .build()
 }
 
 @LayoutSpec
 class RssListComponentSpec {
-
     companion object {
 
         @OnCreateInitialState
         @JvmStatic
-        fun onCreateInitialState(c: ComponentContext, state: StateValue<EntitiesState>, @Prop subscription: Subscription) {
+        fun onCreateInitialState(c: ComponentContext, state: StateValue<RssScreen.Model>, @Prop subscription: Subscription) {
             val screen = RssScreen(c)
-            state.set(EntitiesState.DefaultState(screen.init(subscription.url).first))
+            state.set(screen.init(subscription.url).first)
             Elmish.handle(
                 { screen.init(subscription.url) }, screen::update,
-                { RssListComponent.updateState(c, EntitiesState.DefaultState(it)) })
+                { RssListComponent.updateState(c, it) })
         }
-
 
         @OnCreateLayout
         @JvmStatic
-        fun onCreateLayout(c: ComponentContext, @State state: EntitiesState): ComponentLayout? = when (state) {
-            is EntitiesState.DefaultState -> RssScreen(c).view(state.model)
-        }
+        fun onCreateLayout(c: ComponentContext, @State state: RssScreen.Model): ComponentLayout =
+            RssScreen(c).view(state)
 
         @OnUpdateState
         @JvmStatic
-        fun updateState(state: StateValue<EntitiesState>, @Param newState: EntitiesState) = state.set(newState)
+        fun updateState(state: StateValue<RssScreen.Model>, @Param newState: RssScreen.Model) =
+            state.set(newState)
     }
-}
-
-sealed class EntitiesState {
-    class DefaultState(val model: RssScreen.Model) : EntitiesState()
 }
 
 @LayoutSpec
