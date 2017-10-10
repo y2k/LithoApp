@@ -10,6 +10,7 @@ import y2k.example.litho.R
 import y2k.example.litho.Status.*
 import y2k.example.litho.common.Cmd
 import y2k.example.litho.common.Elmish
+import y2k.example.litho.common.applyDiff
 import y2k.example.litho.common.startActivity
 import y2k.example.litho.components.MainScreen.Msg.*
 import y2k.example.litho.Loader as L
@@ -56,26 +57,24 @@ class MainScreen(private val context: ComponentContext) {
 
     fun view(model: Model): ComponentLayout = when (model.status) {
         InProgress -> viewWebLoading(model.binder)
-        Success -> viewLoaded(model.binder)
+        Success -> viewList(model.binder).buildWithLayout()
         Failed -> viewError(model.binder)
     }
 
     private fun viewWebLoading(items: RecyclerBinder): ComponentLayout =
         Column.create(context)
-            .child(Recycler.create(context).binder(items))
+            .child(viewList(items))
             .child(context.preloadIndicator())
             .build()
 
-    private fun viewLoaded(items: RecyclerBinder): ComponentLayout =
-        Recycler.create(context).binder(items).buildWithLayout()
-
     private fun viewError(items: RecyclerBinder): ComponentLayout =
         Column.create(context)
-            .child(Recycler.create(context)
-                .binder(items)
-                .withLayout().flexGrow(1f))
+            .child(viewList(items).withLayout().flexGrow(1f))
             .child(context.errorIndicator())
             .build()
+
+    private fun viewList(items: RecyclerBinder) =
+        Recycler.create(context).binder(items)
 }
 
 @LayoutSpec
@@ -104,7 +103,6 @@ class MainPageSpec {
 
 @LayoutSpec
 class ItemComponentSpec {
-
     companion object {
 
         @JvmStatic

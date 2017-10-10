@@ -15,6 +15,7 @@ import y2k.example.litho.R
 import y2k.example.litho.Status.*
 import y2k.example.litho.common.Cmd
 import y2k.example.litho.common.Elmish
+import y2k.example.litho.common.applyDiff
 import y2k.example.litho.components.RssScreen.Msg.*
 import java.net.URL
 import y2k.example.litho.Loader as L
