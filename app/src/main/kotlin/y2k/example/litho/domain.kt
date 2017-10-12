@@ -2,7 +2,10 @@ package y2k.example.litho
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
+import y2k.example.litho.common.Error
 import y2k.example.litho.common.Net
+import y2k.example.litho.common.Ok
+import y2k.example.litho.common.Result
 import y2k.example.litho.common.unescapeHtml
 import java.io.Serializable
 import java.net.URL
@@ -20,6 +23,9 @@ class Subscriptions(val value: List<Subscription> = emptyList()) : Serializable
 data class Entity(val title: String, val description: String, val url: URL, val image: Image?) : Serializable
 data class Subscription(val title: String, val url: URL, val image: String) : Serializable
 data class Image(val url: URL, val width: Int, val height: Int) : Serializable
+
+fun fastCompare(l: Subscription, r: Subscription) = l.url == r.url
+fun fastCompare(l: Entity, r: Entity) = l.url == r.url
 
 object Parser {
 
@@ -73,6 +79,16 @@ object Loader {
         Net.readText(URL("https://blog.jetbrains.com/"))
             .let(Parser::parserSubscriptions)
             .also { P.save(it) }
+
+    suspend fun getSubscriptionsResult(): Result<Subscriptions, Exception> =
+        try {
+            Net.readText(URL("https://blog.jetbrains.com/"))
+                .let(Parser::parserSubscriptions)
+                .also { P.save(it) }
+                .let(::Ok)
+        } catch (e: Exception) {
+            Error(e)
+        }
 
     suspend fun getCachedEntities(url: URL): Entities =
         P.load(Entities(), P.toKey(url))

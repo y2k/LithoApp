@@ -4,11 +4,9 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import com.facebook.drawee.backends.pipeline.Fresco
-import com.facebook.litho.ComponentContext
-import com.facebook.litho.LithoView
-import com.facebook.soloader.SoLoader
-import y2k.example.litho.components.MainPage
-import y2k.example.litho.components.RssListComponent
+import y2k.example.litho.components.EntitiesScreen
+import y2k.example.litho.components.SubscriptionsScreen
+import y2k.litho.elmish.program
 
 /**
  * Created by y2k on 07/07/2017.
@@ -18,10 +16,9 @@ class MainActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val context = ComponentContext(this)
-        val component = MainPage.create(context).build()
-        setContentView(LithoView.create(context, component))
+        program(SubscriptionsScreen)
+//        program(EntitiesScreen(Subscription(
+//            "", URL("http://feeds.feedburner.com/kotlin"), ""))) // FIXME:
     }
 
     class App : Application() {
@@ -30,7 +27,7 @@ class MainActivity : Activity() {
             super.onCreate()
             _app = this
             Fresco.initialize(this)
-            SoLoader.init(this, false)
+            com.facebook.soloader.SoLoader.init(this, false)
         }
 
         companion object {
@@ -44,11 +41,6 @@ class EntitiesActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val context = ComponentContext(this)
-        val component = RssListComponent.create(context)
-            .subscription(intent.getSerializableExtra("data") as Subscription)
-            .build()
-        setContentView(LithoView.create(context, component))
+        program(EntitiesScreen(intent.getSerializableExtra("data") as Subscription))
     }
 }

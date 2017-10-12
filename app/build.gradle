@@ -28,6 +28,7 @@ android {
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 kotlin {
@@ -67,4 +68,7 @@ dependencies {
     def coroutinesVersion = '0.19.1'
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+
+    // Elmish
+    compile 'com.github.y2k:litho-elmish:2aeef9e922'
 }
