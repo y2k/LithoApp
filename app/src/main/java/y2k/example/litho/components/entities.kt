@@ -30,7 +30,7 @@ class EntitiesScreen(private val sub: Subscription) : ElmFunctions<Model, Msg> {
 
     override fun init(): Pair<Model, Cmd<Msg>> {
         val binder = ContextualRecyclerBinder(
-            {}, this::viewItem, ::fastCompare)
+            this::viewItem, ::fastCompare)
 
         return Model(InProgress, binder, emptyList()) to
             Cmd.fromSuspend({ L.getCachedEntities(sub.url) }, ::LoadedFromCache)
@@ -60,22 +60,22 @@ class EntitiesScreen(private val sub: Subscription) : ElmFunctions<Model, Msg> {
     private fun viewCached(model: Model) =
         column {
             children(
-                recyclerView_ {
-                    binder_(model.binder)
+                recyclerView {
+                    binder(model.binder)
                 },
                 preloadIndicator())
         }
 
     private fun viewFromWeb(model: Model) =
-        recyclerView_ {
-            binder_(model.binder)
+        recyclerView {
+            binder(model.binder)
         }
 
     private fun viewError(model: Model) =
         column {
             children(
-                recyclerView_ {
-                    binder_(model.binder)
+                recyclerView {
+                    binder(model.binder)
                 },
                 errorIndicator())
         }

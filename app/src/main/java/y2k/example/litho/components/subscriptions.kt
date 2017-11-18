@@ -10,6 +10,7 @@ import y2k.example.litho.Status.*
 import y2k.example.litho.common.Error
 import y2k.example.litho.common.Ok
 import y2k.example.litho.common.Result
+import y2k.example.litho.common.startActivityWithData
 import y2k.example.litho.components.SubscriptionsScreen.Model
 import y2k.example.litho.components.SubscriptionsScreen.Msg
 import y2k.example.litho.components.SubscriptionsScreen.Msg.*
@@ -28,16 +29,18 @@ object SubscriptionsScreen : ElmFunctions<Model, Msg> {
     }
 
     override fun init(): Pair<Model, Cmd<Msg>> {
-        val binder = ContextualRecyclerBinder(
-            { layoutInfo(GridLayoutInfo(null, 2)) },
-            this::viewItem, ::fastCompare)
+        val binder = ContextualRecyclerBinder(this::viewItem, ::fastCompare) {
+            layoutInfo(GridLayoutInfo(null, 2))
+        }
 
         return Model(InProgress, binder) to
             Cmd.fromSuspend({ L.getCachedSubscriptions() }, ::FromCacheMsg)
     }
 
     override fun update(model: Model, msg: Msg): Pair<Model, Cmd<Msg>> = when (msg) {
-        is OpenMsg -> model to Cmd.none() // FIXME:
+        is OpenMsg -> model to Cmd.fromContext {
+            startActivityWithData<EntitiesActivity>(msg.item)
+        }
         is FromCacheMsg -> model to
             Cmd.fromSuspend({ L.getSubscriptionsResult() }, ::FromWebMsg)
         is FromWebMsg -> when (msg.value) {
@@ -50,8 +53,8 @@ object SubscriptionsScreen : ElmFunctions<Model, Msg> {
 
     override fun view(model: Model) =
         column {
-            child(recyclerView_ {
-                binder_(model.binder)
+            child(recyclerView {
+                binder(model.binder)
             })
             if (model.status == InProgress)
                 child(preloadIndicator())
@@ -64,12 +67,12 @@ object SubscriptionsScreen : ElmFunctions<Model, Msg> {
             heightDip(200)
             paddingDip(YogaEdge.ALL, 4)
             backgroundRes(R.drawable.sub_item_bg)
+            onClick(OpenMsg(item))
             childText { layout ->
                 textAlignment(Layout.Alignment.ALIGN_CENTER)
                 verticalGravity(VerticalGravity.CENTER)
                 text(item.title)
                 textSizeSp(35f)
-                onClick(layout, OpenMsg(item))
                 layout {
                     flexGrow(1f)
                 }
