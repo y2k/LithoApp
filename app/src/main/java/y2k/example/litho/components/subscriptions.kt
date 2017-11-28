@@ -29,7 +29,7 @@ object SubscriptionsScreen : ElmFunctions<Model, Msg> {
     }
 
     override fun init(): Pair<Model, Cmd<Msg>> {
-        val binder = ContextualRecyclerBinder(this::viewItem, ::fastCompare) {
+        val binder = ContextualRecyclerBinder(::viewItem, ::fastCompare) {
             layoutInfo(GridLayoutInfo(null, 2))
         }
 
