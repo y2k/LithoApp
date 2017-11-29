@@ -40,7 +40,7 @@ dependencies {
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
 
     // Elmish
-    compile 'com.github.y2k:litho-elmish:7c902b3666'
+    compile 'com.github.y2k:litho-elmish:ed35598257'
 
     testCompile 'junit:junit:4.12'
 }

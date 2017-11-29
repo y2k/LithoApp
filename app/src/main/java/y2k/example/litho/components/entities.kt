@@ -93,24 +93,23 @@ class EntitiesScreen(private val sub: Subscription) : ElmFunctions<Model, Msg> {
             backgroundRes(R.drawable.sub_item_bg)
             onClick(Open(item.url))
 
-            child(text {
-                text(item.title)
-                textSizeSp(35f)
-            })
-
-            if (item.image != null) {
-                child(
+            children(
+                text {
+                    text(item.title)
+                    textSizeSp(35f)
+                },
+                item.image?.let { image ->
                     fresco {
                         controller(Fresco.newDraweeControllerBuilder()
-                            .setUri(item.image.url.toString())
+                            .setUri(image.url.toString())
                             .build())
                         aspectRatio(item.image.width.toFloat() / item.image.height)
-                    })
-            }
-
-            child(text {
-                text(item.description)
-                textSizeSp(20f)
-            })
+                    }
+                },
+                text {
+                    text(item.description)
+                    textSizeSp(20f)
+                }
+            )
         }
 }

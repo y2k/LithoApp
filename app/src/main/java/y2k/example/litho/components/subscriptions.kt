@@ -52,13 +52,14 @@ object SubscriptionsScreen : ElmFunctions<Model, Msg> {
 
     override fun view(model: Model) =
         column {
-            child(recyclerView {
-                binder(model.binder)
-            })
-            if (model.status == InProgress)
-                child(preloadIndicator())
-            if (model.status == Failed)
-                child(errorIndicator())
+            children(
+                recyclerView {
+                    binder(model.binder)
+                },
+                preloadIndicator()
+                    .takeIf { model.status == InProgress },
+                errorIndicator()
+                    .takeIf { model.status == Failed })
         }
 
     private fun viewItem(item: Subscription) =
