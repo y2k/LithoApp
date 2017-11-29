@@ -1,14 +1,16 @@
 package y2k.example.litho.components
 
+import android.support.customtabs.CustomTabsIntent
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.yoga.YogaEdge
 import y2k.example.litho.*
-import y2k.example.litho.R
 import y2k.example.litho.Status.*
+import y2k.example.litho.common.toUri
 import y2k.example.litho.components.EntitiesScreen.Model
 import y2k.example.litho.components.EntitiesScreen.Msg
 import y2k.example.litho.components.EntitiesScreen.Msg.*
-import y2k.litho.elmish.*
+import y2k.litho.elmish.experimental.*
+import java.net.URL
 import y2k.example.litho.Loader as L
 
 /**
@@ -25,7 +27,7 @@ class EntitiesScreen(private val sub: Subscription) : ElmFunctions<Model, Msg> {
         class LoadedFromCache(val items: Entities) : Msg()
         class FromWebMsg(val items: Entities) : Msg()
         class ErrorMsg : Msg()
-        class Open : Msg()
+        class Open(val url: URL) : Msg()
     }
 
     override fun init(): Pair<Model, Cmd<Msg>> {
@@ -48,7 +50,12 @@ class EntitiesScreen(private val sub: Subscription) : ElmFunctions<Model, Msg> {
                 Cmd.none()
         is ErrorMsg ->
             model.copy(status = Failed) to Cmd.none()
-        is Open -> TODO()
+        is Open ->
+            model to Cmd.fromContext {
+                CustomTabsIntent.Builder()
+                    .build()
+                    .launchUrl(this, msg.url.toUri())
+            }
     }
 
     override fun view(model: Model) = when (model.status) {
@@ -82,8 +89,9 @@ class EntitiesScreen(private val sub: Subscription) : ElmFunctions<Model, Msg> {
 
     private fun viewItem(item: Entity) =
         column {
-            paddingDip(YogaEdge.ALL, 16)
+            paddingDip(YogaEdge.ALL, 16f)
             backgroundRes(R.drawable.sub_item_bg)
+            onClick(Open(item.url))
 
             child(text {
                 text(item.title)
@@ -104,11 +112,5 @@ class EntitiesScreen(private val sub: Subscription) : ElmFunctions<Model, Msg> {
                 text(item.description)
                 textSizeSp(20f)
             })
-//                .clickHandler(EntityComponent.onItemClicked(c, item))
-//fun onItemClicked(c: ComponentContext, @Param item: Entity) {
-//    CustomTabsIntent.Builder()
-//        .build()
-//        .launchUrl(c, Uri.parse("" + item.url))
-//}
         }
 }

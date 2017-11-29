@@ -6,7 +6,7 @@ import android.os.Bundle
 import com.facebook.drawee.backends.pipeline.Fresco
 import y2k.example.litho.components.EntitiesScreen
 import y2k.example.litho.components.SubscriptionsScreen
-import y2k.litho.elmish.program
+import y2k.litho.elmish.experimental.program
 
 /**
  * Created by y2k on 07/07/2017.

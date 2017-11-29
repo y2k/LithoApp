@@ -3,6 +3,7 @@ package y2k.example.litho.common
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.AsyncTask
 import android.support.v7.util.DiffUtil
 import com.facebook.litho.Component
@@ -12,10 +13,13 @@ import com.facebook.litho.widget.RecyclerBinderUpdateCallback
 import kotlinx.coroutines.experimental.asCoroutineDispatcher
 import kotlinx.coroutines.experimental.run
 import java.io.Serializable
+import java.net.URL
 
 /**
  * Created by y2k on 07/07/2017.
  **/
+
+fun URL.toUri(): Uri = Uri.parse("" + this)
 
 fun <T> RecyclerBinder.applyDiff(
     old: List<T>, newItems: List<T>,

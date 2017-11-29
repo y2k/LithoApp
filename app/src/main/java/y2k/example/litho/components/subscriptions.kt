@@ -5,7 +5,6 @@ import com.facebook.litho.widget.GridLayoutInfo
 import com.facebook.litho.widget.VerticalGravity
 import com.facebook.yoga.YogaEdge
 import y2k.example.litho.*
-import y2k.example.litho.R
 import y2k.example.litho.Status.*
 import y2k.example.litho.common.Error
 import y2k.example.litho.common.Ok
@@ -14,7 +13,7 @@ import y2k.example.litho.common.startActivityWithData
 import y2k.example.litho.components.SubscriptionsScreen.Model
 import y2k.example.litho.components.SubscriptionsScreen.Msg
 import y2k.example.litho.components.SubscriptionsScreen.Msg.*
-import y2k.litho.elmish.*
+import y2k.litho.elmish.experimental.*
 import y2k.example.litho.Loader as L
 
 object SubscriptionsScreen : ElmFunctions<Model, Msg> {
@@ -64,8 +63,8 @@ object SubscriptionsScreen : ElmFunctions<Model, Msg> {
 
     private fun viewItem(item: Subscription) =
         column {
-            heightDip(200)
-            paddingDip(YogaEdge.ALL, 4)
+            heightDip(200f)
+            paddingDip(YogaEdge.ALL, 4f)
             backgroundRes(R.drawable.sub_item_bg)
             onClick(OpenMsg(item))
             childText { layout ->
