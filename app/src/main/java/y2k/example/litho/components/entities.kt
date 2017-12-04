@@ -1,6 +1,7 @@
 package y2k.example.litho.components
 
 import android.support.customtabs.CustomTabsIntent
+import com.facebook.litho.ComponentLayout.ContainerBuilder
 import com.facebook.yoga.YogaEdge
 import y2k.example.litho.*
 import y2k.example.litho.Status.*
@@ -10,7 +11,6 @@ import y2k.example.litho.components.EntitiesScreen.Msg
 import y2k.example.litho.components.EntitiesScreen.Msg.*
 import y2k.litho.elmish.experimental.*
 import y2k.litho.elmish.experimental.Views.column
-import y2k.litho.elmish.experimental.Views.recyclerView
 import java.net.URL
 import y2k.example.litho.Loader as L
 
@@ -59,13 +59,16 @@ class EntitiesScreen(private val sub: Subscription) : ElmFunctions<Model, Msg> {
             }
     }
 
-    override fun view(model: Model) = when (model.status) {
-        InProgress -> viewCached(model)
-        Success -> viewFromWeb(model)
-        Failed -> viewError(model)
-    }
+    override fun view(model: Model) =
+        column {
+            when (model.status) {
+                InProgress -> viewCached(model)
+                Success -> viewFromWeb(model)
+                Failed -> viewError(model)
+            }
+        }
 
-    private fun viewCached(model: Model) =
+    private fun ContainerBuilder.viewCached(model: Model) =
         column {
             recyclerView {
                 binder(model.binder)
@@ -73,12 +76,12 @@ class EntitiesScreen(private val sub: Subscription) : ElmFunctions<Model, Msg> {
             preloadIndicator()
         }
 
-    private fun viewFromWeb(model: Model) =
+    private fun ContainerBuilder.viewFromWeb(model: Model) =
         recyclerView {
             binder(model.binder)
         }
 
-    private fun viewError(model: Model) =
+    private fun ContainerBuilder.viewError(model: Model) =
         column {
             recyclerView {
                 binder(model.binder)
@@ -97,14 +100,13 @@ class EntitiesScreen(private val sub: Subscription) : ElmFunctions<Model, Msg> {
                 text(item.title)
                 textSizeSp(35f)
             }
-            item.image?.let { image ->
+            if (item.image != null)
                 fresco {
                     frescoController {
-                        setUri(image.url.toString())
+                        setUri(item.image.url.toString())
                     }
                     aspectRatio(item.image.width.toFloat() / item.image.height)
                 }
-            }
             text {
                 text(item.description)
                 textSizeSp(20f)
