@@ -17,8 +17,6 @@ class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         program(SubscriptionsScreen)
-//        program(EntitiesScreen(Subscription(
-//            "", URL("http://feeds.feedburner.com/kotlin"), ""))) // FIXME:
     }
 
     class App : Application() {

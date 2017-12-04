@@ -1,7 +1,6 @@
 package y2k.example.litho.components
 
 import android.support.customtabs.CustomTabsIntent
-import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.yoga.YogaEdge
 import y2k.example.litho.*
 import y2k.example.litho.Status.*
@@ -10,6 +9,8 @@ import y2k.example.litho.components.EntitiesScreen.Model
 import y2k.example.litho.components.EntitiesScreen.Msg
 import y2k.example.litho.components.EntitiesScreen.Msg.*
 import y2k.litho.elmish.experimental.*
+import y2k.litho.elmish.experimental.Views.column
+import y2k.litho.elmish.experimental.Views.recyclerView
 import java.net.URL
 import y2k.example.litho.Loader as L
 
@@ -66,11 +67,10 @@ class EntitiesScreen(private val sub: Subscription) : ElmFunctions<Model, Msg> {
 
     private fun viewCached(model: Model) =
         column {
-            children(
-                recyclerView {
-                    binder(model.binder)
-                },
-                preloadIndicator())
+            recyclerView {
+                binder(model.binder)
+            }
+            preloadIndicator()
         }
 
     private fun viewFromWeb(model: Model) =
@@ -80,36 +80,34 @@ class EntitiesScreen(private val sub: Subscription) : ElmFunctions<Model, Msg> {
 
     private fun viewError(model: Model) =
         column {
-            children(
-                recyclerView {
-                    binder(model.binder)
-                },
-                errorIndicator())
+            recyclerView {
+                binder(model.binder)
+            }
+            errorIndicator()
         }
 
     private fun viewItem(item: Entity) =
         column {
             paddingDip(YogaEdge.ALL, 16f)
             backgroundRes(R.drawable.sub_item_bg)
+
             onClick(Open(item.url))
 
-            children(
-                text {
-                    text(item.title)
-                    textSizeSp(35f)
-                },
-                item.image?.let { image ->
-                    fresco {
-                        controller(Fresco.newDraweeControllerBuilder()
-                            .setUri(image.url.toString())
-                            .build())
-                        aspectRatio(item.image.width.toFloat() / item.image.height)
+            text {
+                text(item.title)
+                textSizeSp(35f)
+            }
+            item.image?.let { image ->
+                fresco {
+                    frescoController {
+                        setUri(image.url.toString())
                     }
-                },
-                text {
-                    text(item.description)
-                    textSizeSp(20f)
+                    aspectRatio(item.image.width.toFloat() / item.image.height)
                 }
-            )
+            }
+            text {
+                text(item.description)
+                textSizeSp(20f)
+            }
         }
 }

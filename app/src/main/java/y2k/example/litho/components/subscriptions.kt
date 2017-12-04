@@ -14,6 +14,7 @@ import y2k.example.litho.components.SubscriptionsScreen.Model
 import y2k.example.litho.components.SubscriptionsScreen.Msg
 import y2k.example.litho.components.SubscriptionsScreen.Msg.*
 import y2k.litho.elmish.experimental.*
+import y2k.litho.elmish.experimental.Views.column
 import y2k.example.litho.Loader as L
 
 object SubscriptionsScreen : ElmFunctions<Model, Msg> {
@@ -52,14 +53,15 @@ object SubscriptionsScreen : ElmFunctions<Model, Msg> {
 
     override fun view(model: Model) =
         column {
-            children(
-                recyclerView {
-                    binder(model.binder)
-                },
+            recyclerView {
+                binder(model.binder)
+            }
+
+            if (model.status == InProgress)
                 preloadIndicator()
-                    .takeIf { model.status == InProgress },
+
+            if (model.status == Failed)
                 errorIndicator()
-                    .takeIf { model.status == Failed })
         }
 
     private fun viewItem(item: Subscription) =
@@ -67,15 +69,15 @@ object SubscriptionsScreen : ElmFunctions<Model, Msg> {
             heightDip(200f)
             paddingDip(YogaEdge.ALL, 4f)
             backgroundRes(R.drawable.sub_item_bg)
+
             onClick(OpenMsg(item))
-            childText { layout ->
+
+            text {
                 textAlignment(Layout.Alignment.ALIGN_CENTER)
                 verticalGravity(VerticalGravity.CENTER)
                 text(item.title)
                 textSizeSp(35f)
-                layout {
-                    flexGrow(1f)
-                }
+                flexGrow(1f)
             }
         }
 }
