@@ -1,14 +1,13 @@
 package y2k.example.litho.components
 
 import android.text.Layout
+import com.facebook.litho.ComponentLayout
 import com.facebook.litho.widget.GridLayoutInfo
 import com.facebook.litho.widget.VerticalGravity
 import com.facebook.yoga.YogaEdge
 import y2k.example.litho.*
 import y2k.example.litho.Status.*
-import y2k.example.litho.common.Error
-import y2k.example.litho.common.Ok
-import y2k.example.litho.common.Result
+import y2k.example.litho.common.Log.log
 import y2k.example.litho.common.startActivityWithData
 import y2k.example.litho.components.SubscriptionsScreen.Model
 import y2k.example.litho.components.SubscriptionsScreen.Msg
@@ -18,14 +17,16 @@ import y2k.litho.elmish.experimental.Views.column
 import y2k.example.litho.Loader as L
 
 object SubscriptionsScreen : ElmFunctions<Model, Msg> {
+
     data class Model(
         val status: Status,
         val binder: ContextualRecyclerBinder<Subscription>)
 
     sealed class Msg {
         class FromCacheMsg(val value: Subscriptions) : Msg()
-        class FromWebMsg(val value: Result<Subscriptions, Exception>) : Msg()
+        class FromWebMsg(val value: Subscriptions) : Msg()
         class OpenMsg(val item: Subscription) : Msg()
+        class ErrorMsg(val e: Exception) : Msg()
     }
 
     override fun init(): Pair<Model, Cmd<Msg>> {
@@ -34,24 +35,24 @@ object SubscriptionsScreen : ElmFunctions<Model, Msg> {
         }
 
         return Model(InProgress, binder) to
-            Cmd.fromSuspend({ L.getCachedSubscriptions() }, ::FromCacheMsg)
+            Cmd.fromSuspend({ L.getCachedSubscriptions() }, ::FromCacheMsg, ::ErrorMsg)
     }
 
     override fun update(model: Model, msg: Msg): Pair<Model, Cmd<Msg>> = when (msg) {
-        is OpenMsg -> model to Cmd.fromContext {
-            startActivityWithData<EntitiesActivity>(msg.item)
+        is OpenMsg -> model to Cmd.fromContext { context ->
+            startActivityWithData<EntitiesActivity>(context, msg.item)
         }
-        is FromCacheMsg -> model to
-            Cmd.fromSuspend({ L.getSubscriptionsResult() }, ::FromWebMsg)
-        is FromWebMsg -> when (msg.value) {
-            is Ok -> model.copy(
+        is FromCacheMsg ->
+            model.copy(binder = model.binder.copy(msg.value.value)) to
+                Cmd.fromContext({ L.getSubscriptions() }, ::FromWebMsg, ::ErrorMsg)
+        is FromWebMsg ->
+            model.copy(
                 status = Success,
-                binder = model.binder.copy(msg.value.value.value)) to Cmd.none()
-            is Error -> model.copy(status = Failed) to Cmd.none()
-        }
+                binder = model.binder.copy(msg.value.value)) to Cmd.none()
+        is ErrorMsg -> log(msg.e, model.copy(status = Failed)) to Cmd.none()
     }
 
-    override fun view(model: Model) =
+    override fun ComponentLayout.ContainerBuilder.view(model: Model) =
         column {
             recyclerView {
                 binder(model.binder)

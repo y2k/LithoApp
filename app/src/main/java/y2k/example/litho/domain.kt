@@ -2,10 +2,7 @@ package y2k.example.litho
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
-import y2k.example.litho.common.Error
 import y2k.example.litho.common.Net
-import y2k.example.litho.common.Ok
-import y2k.example.litho.common.Result
 import y2k.example.litho.common.unescapeHtml
 import java.io.Serializable
 import java.net.URL
@@ -79,16 +76,6 @@ object Loader {
         Net.readText(URL("https://blog.jetbrains.com/"))
             .let(Parser::parserSubscriptions)
             .also { P.save(it) }
-
-    suspend fun getSubscriptionsResult(): Result<Subscriptions, Exception> =
-        try {
-            Net.readText(URL("https://blog.jetbrains.com/"))
-                .let(Parser::parserSubscriptions)
-                .also { P.save(it) }
-                .let(::Ok)
-        } catch (e: Exception) {
-            Error(e)
-        }
 
     suspend fun getCachedEntities(url: URL): Entities =
         P.load(Entities(), P.toKey(url))

@@ -5,6 +5,7 @@ import com.facebook.litho.ComponentLayout.ContainerBuilder
 import com.facebook.yoga.YogaEdge
 import y2k.example.litho.*
 import y2k.example.litho.Status.*
+import y2k.example.litho.common.Log.log
 import y2k.example.litho.common.toUri
 import y2k.example.litho.components.EntitiesScreen.Model
 import y2k.example.litho.components.EntitiesScreen.Msg
@@ -19,6 +20,7 @@ import y2k.example.litho.Loader as L
  **/
 
 class EntitiesScreen(private val sub: Subscription) : ElmFunctions<Model, Msg> {
+
     data class Model(
         val status: Status,
         val binder: ContextualRecyclerBinder<Entity>,
@@ -27,7 +29,7 @@ class EntitiesScreen(private val sub: Subscription) : ElmFunctions<Model, Msg> {
     sealed class Msg {
         class LoadedFromCache(val items: Entities) : Msg()
         class FromWebMsg(val items: Entities) : Msg()
-        class ErrorMsg : Msg()
+        class ErrorMsg(val e: Exception) : Msg()
         class Open(val url: URL) : Msg()
     }
 
@@ -36,13 +38,12 @@ class EntitiesScreen(private val sub: Subscription) : ElmFunctions<Model, Msg> {
             ::viewItem, ::fastCompare)
 
         return Model(InProgress, binder, emptyList()) to
-            Cmd.fromSuspend({ L.getCachedEntities(sub.url) }, ::LoadedFromCache)
+            Cmd.fromSuspend({ L.getCachedEntities(sub.url) }, ::LoadedFromCache, ::ErrorMsg)
     }
 
     override fun update(model: Model, msg: Msg): Pair<Model, Cmd<Msg>> = when (msg) {
         is LoadedFromCache ->
-            model.copy(
-                binder = model.binder.copy(msg.items.value)) to
+            model.copy(binder = model.binder.copy(msg.items.value)) to
                 Cmd.fromSuspend({ L.getEntities(sub.url) }, ::FromWebMsg, ::ErrorMsg)
         is FromWebMsg ->
             model.copy(
@@ -50,16 +51,16 @@ class EntitiesScreen(private val sub: Subscription) : ElmFunctions<Model, Msg> {
                 binder = model.binder.copy(msg.items.value)) to
                 Cmd.none()
         is ErrorMsg ->
-            model.copy(status = Failed) to Cmd.none()
+            log(msg.e, model.copy(status = Failed)) to Cmd.none()
         is Open ->
-            model to Cmd.fromContext {
+            model to Cmd.fromContext { context ->
                 CustomTabsIntent.Builder()
                     .build()
-                    .launchUrl(this, msg.url.toUri())
+                    .launchUrl(context, msg.url.toUri())
             }
     }
 
-    override fun view(model: Model) =
+    override fun ContainerBuilder.view(model: Model) =
         column {
             when (model.status) {
                 InProgress -> viewCached(model)
